@@ -6,6 +6,12 @@ import { IStorageGateway } from '../interfaces/storage-gateway';
 
 export class FileSystemStorageGateway implements IStorageGateway {
 
+    constructor(
+        protected basePath: string,
+    ) {
+
+    }
+
     public async append(buffer: Buffer, fileName: string, offset: number): Promise<void> {
         const directory: string = path.dirname(fileName);
 

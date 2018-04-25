@@ -4,4 +4,6 @@ export interface IUserRepository {
 
     find(emailAddress: string): Promise<User>;
 
+    findById(id: string): Promise<User>;
+
 }

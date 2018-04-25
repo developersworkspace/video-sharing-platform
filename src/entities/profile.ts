@@ -7,9 +7,10 @@ export class Profile {
         public address: Address,
         public contactDetails: ContactDetails,
         public description: string,
-        public id: number,
+        public id: string,
         public message: string,
         public name: string,
+        public userId: string,
     ) {
 
     }
