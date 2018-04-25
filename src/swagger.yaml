@@ -1,0 +1,122 @@
+swagger: "2.0"
+info:
+  description: "Video Sharing Platform"
+  version: "1.0.0"
+  title: "Video Sharing Platform API"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "developersworkspace@gmail.com"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+host: "localhost:3000"
+basePath: "/api"
+schemes:
+- "http"
+paths:
+  /profile:
+    get:
+      summary: "Find Profile"
+      description: ""
+      operationId: "findProfile"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "id"
+        description: "Customer Id"
+        required: true
+        type: "string"
+      responses:
+        200:
+            description: "Customer"
+            schema:
+                $ref: "#/definitions/Customer"
+        400:
+          description: "Invalid Customer Id"
+  /customer/search:
+    get:
+      summary: "Search customers"
+      description: ""
+      operationId: "searchCustomers"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "city"
+        description: "City"
+        required: false
+        type: "string"
+      - in: "query"
+        name: "emailAddress"
+        description: "Email Address"
+        required: false
+        type: "string"
+      - in: "query"
+        name: "firstName"
+        description: "First Name"
+        required: false
+        type: "string"
+      - in: "query"
+        name: "identificationNumber"
+        description: "Identification Number"
+        required: false
+        type: "string"
+      - in: "query"
+        name: "lastName"
+        description: "Last Name"
+        required: false
+        type: "string"
+      - in: "query"
+        name: "phoneNumber"
+        description: "Phone Number"
+        required: false
+        type: "string"
+      responses:
+        200:
+            description: "Customers"
+            schema:
+              type: "array"
+              items:
+                $ref: "#/definitions/Customer"
+        400:
+          description: "Invalid Customer Id"
+definitions:
+  Customer:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      contactInformation:
+        $ref: "#/definitions/ContactInformation"
+      firstName:
+        type: "string"
+      identificationNumber:
+        type: "string"
+      lastName:
+        type: "string"
+  ContactInformation:
+    type: "object"
+    properties:
+      address:
+         $ref: "#/definitions/Address"
+      emailAddress:
+        type: "string"
+      phoneNumber:
+        type: "string"
+  Address:
+    type: "object"
+    properties:
+      city:
+        type: "string"
+      country:
+        type: "string"
+      line1:
+        type: "string"
+      line2:
+        type: "string"
+      postalCode:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

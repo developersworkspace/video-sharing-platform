@@ -9,6 +9,7 @@ import * as winston from 'winston';
 import * as yargs from 'yargs';
 import { AuthRouter } from './routes/auth';
 import { ProfileRouter } from './routes/profile';
+import { SubscriptionRouter } from './routes/subscription';
 import { UserRouter } from './routes/user';
 
 winston.add(winston.transports.File, { filename: 'video-sharing-platform.log' });
@@ -22,13 +23,24 @@ app.use(cors());
 app.route('/api/auth/github')
     .get(AuthRouter.github);
 
-app.use(jwt({ secret: 'video-sharing-platform' }));
+// app.use(jwt({ secret: 'video-sharing-platform' }));
+
+app.use((req: express.Request, response: express.Response, next: express.NextFunction) => {
+    req['user'] = {
+        emailAddress: 'chris@leslingshot.com',
+    };
+
+    next();
+});
 
 // const swaggerDocument = fs.readFileSync(path.join(__dirname, '..', 'swagger.json'), 'utf8');
 // app.use('/api/docs', swagger.serve, swagger.setup(JSON.parse(swaggerDocument), { explore: true }));
 
 app.route('/api/profile')
     .get(ProfileRouter.get);
+
+app.route('/api/subscription')
+    .get(SubscriptionRouter.get);
 
 app.route('/api/user')
     .get(UserRouter.get);
