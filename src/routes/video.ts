@@ -14,7 +14,7 @@ export class VideoRouter extends BaseRouter {
 
             res.json(result);
         } catch (err) {
-            UserRouter.sendErrorResponse(err, res);
+            VideoRouter.sendErrorResponse(err, res);
         }
     }
 
