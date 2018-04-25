@@ -4,9 +4,9 @@ import { container } from '../ioc';
 import { UserService } from '../services/user';
 import { BaseRouter } from './base';
 
-export class UserRouter extends BaseRouter {
+export class VideoRouter extends BaseRouter {
 
-    public static async get(req: express.Request, res: express.Response) {
+    public static async startUpload(req: express.Request, res: express.Response) {
         try {
             const userService: UserService = container.get<UserService>('UserService');
 

@@ -4,7 +4,7 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc & node ./dist/app.js"
   },
   "repository": {
     "type": "git",
@@ -17,10 +17,16 @@
   },
   "homepage": "https://github.com/developersworkspace/video-sharing-platform#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.3",
+    "express-jwt": "^5.3.1",
+    "fs-extra": "^5.0.0",
+    "inversify": "^4.13.0",
+    "jsonwebtoken": "^8.2.1",
     "majuro": "^1.1.8",
+    "reflect-metadata": "^0.1.12",
     "swagger-ui-express": "^3.0.8",
     "winston": "^2.4.2",
     "yargs": "^11.0.0"
