@@ -18,4 +18,16 @@ export class SubscriptionRouter extends BaseRouter {
         }
     }
 
+    public static async isPaid(req: express.Request, res: express.Response) {
+        try {
+            const subscriptionService: SubscriptionService = container.get<SubscriptionService>('SubscriptionService');
+
+            const result: boolean = await subscriptionService.isPaid(req['user'].emailAddress);
+
+            res.json(result);
+        } catch (err) {
+            SubscriptionRouter.sendErrorResponse(err, res);
+        }
+    }
+
 }

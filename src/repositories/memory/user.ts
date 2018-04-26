@@ -1,6 +1,8 @@
+import { injectable } from 'inversify';
 import { User } from '../../entities/user';
 import { IUserRepository } from '../../interfaces/user-repository';
 
+@injectable()
 export class UserRepository implements IUserRepository {
 
     protected users: User[] = null;

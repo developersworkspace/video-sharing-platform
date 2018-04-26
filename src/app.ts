@@ -11,6 +11,7 @@ import { AuthRouter } from './routes/auth';
 import { ProfileRouter } from './routes/profile';
 import { SubscriptionRouter } from './routes/subscription';
 import { UserRouter } from './routes/user';
+import { VideoRouter } from './routes/video';
 
 winston.add(winston.transports.File, { filename: 'video-sharing-platform.log' });
 
@@ -20,8 +21,8 @@ const app = express();
 app.use(bodyParser.json({}));
 app.use(cors());
 
-app.route('/api/auth/github')
-    .get(AuthRouter.github);
+app.route('/api/auth/auth0')
+    .get(AuthRouter.auth0);
 
 // app.use(jwt({ secret: 'video-sharing-platform' }));
 
@@ -42,11 +43,40 @@ app.route('/api/profile')
 app.route('/api/subscription')
     .get(SubscriptionRouter.get);
 
+app.route('/api/subscription/isPaid')
+    .get(SubscriptionRouter.isPaid);
+
 app.route('/api/user')
     .get(UserRouter.get);
+
+app.route('/api/video/append')
+    .post(VideoRouter.appendUploadForVideo);
+
+app.route('/api/video/end')
+    .post(VideoRouter.endUploadForVideo);
+
+app.route('/api/video/start')
+    .post(VideoRouter.startUploadForVideo);
+
+app.route('/api/video/stream')
+    .get(VideoRouter.getStreamForVideo);
+
+app.route('/api/video/thumbnail/append')
+    .post(VideoRouter.appendUploadForThumbnail);
+
+app.route('/api/video/thumbnail/end')
+    .post(VideoRouter.endUploadForThumbnail);
+
+app.route('/api/video/thumbnail/start')
+    .post(VideoRouter.startUploadForThumbnail);
+
+app.route('/api/video/thumbnail/stream')
+    .get(VideoRouter.getStreamForThumbnail);
 
 app.listen(argv.port || process.env.PORT || 3000, () => {
     winston.info(`listening on port ${argv.port || process.env.PORT || 3000}`);
 });
 
-// https://github.com/login/oauth/authorize?response_type=code&client_id=7f03dc607fcb590df9da&redirect_uri=http://localhost:3000/api/auth/github&scope=user:email
+// https://developersworkspace.auth0.com/authorize?response_type=token&client_id=CZ5i4EtEMua0Myv08pZlen35d4aiE7n0&redirect_uri=http://localhost:4200/callback
+
+// https://developersworkspace.auth0.com/authorize?response_type=token&client_id=CZ5i4EtEMua0Myv08pZlen35d4aiE7n0&redirect_uri=http://localhost:3000/api/auth/auth0
