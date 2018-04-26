@@ -10,9 +10,17 @@ export class ProfileRouter extends BaseRouter {
         try {
             const profileService: ProfileService = container.get<ProfileService>('ProfileService');
 
-            const result: Profile = await profileService.find(req['user'].emailAddress);
+            if (req.query.name) {
+                const resultFindByName: Profile = await profileService.findByName(req.query.name);
 
-            res.json(result);
+                res.json(resultFindByName);
+
+                return;
+            }
+
+            const resultFind: Profile = await profileService.find(req['user'].emailAddress);
+
+            res.json(resultFind);
         } catch (err) {
             ProfileRouter.sendErrorResponse(err, res);
         }

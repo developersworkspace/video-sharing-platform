@@ -1,4 +1,4 @@
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { User } from '../entities/user';
 import { IUserRepository } from '../interfaces/user-repository';
 
@@ -6,6 +6,7 @@ import { IUserRepository } from '../interfaces/user-repository';
 export class UserService {
 
     constructor(
+        @inject('IUserRepository')
         protected userRepository: IUserRepository,
     ) {
 
@@ -13,6 +14,10 @@ export class UserService {
 
     public async find(emailAddress: string): Promise<User> {
         return this.userRepository.find(emailAddress);
+    }
+
+    public async findById(id: string): Promise<User> {
+        return this.userRepository.findById(id);
     }
 
 }

@@ -1,4 +1,4 @@
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { Profile } from '../entities/profile';
 import { IProfileRepository } from '../interfaces/profile-repository';
 
@@ -6,6 +6,7 @@ import { IProfileRepository } from '../interfaces/profile-repository';
 export class ProfileService {
 
     constructor(
+        @inject('IProfileRepository')
         protected profileRepository: IProfileRepository,
     ) {
 
