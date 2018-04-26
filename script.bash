@@ -1,4 +1,4 @@
-git filter-branch --env-filter '
+git filter-branch -f --env-filter '
 WRONG_EMAIL="develoeprsworkspace@gmail.com""
 NEW_NAME="Barend Erasmus"
 NEW_EMAIL="developersworkspace@gmail.com"
