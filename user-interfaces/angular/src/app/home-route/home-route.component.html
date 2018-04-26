@@ -1,0 +1,175 @@
+<!-- Wrapper -->
+<div id="wrapper" *ngIf="profile && user">
+  <!-- Main -->
+  <div id="main">
+    <div class="inner">
+      <!-- Header -->
+      <header id="header">
+        <a href="/" class="logo">
+          <strong>{{ user.firstName }} {{ user.lastName }}</strong> at The Video Sharing Platform</a>
+        <ul class="icons">
+          <li>
+            <a href="#" class="icon fa-facebook">
+              <span class="label">Facebook</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/chrisramsay52/" class="icon fa-instagram">
+              <span class="label">Instagram</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://twitter.com/chrisramsay52" class="icon fa-twitter">
+              <span class="label">Twitter</span>
+            </a>
+          </li>
+        </ul>
+      </header>
+      <!-- Banner -->
+      <section id="banner">
+        <div class="content">
+          <header>
+            <h1>Hi, I’m {{ user.firstName }} {{ user.lastName }}</h1>
+            <p>Welcome to my platform</p>
+          </header>
+          <p>
+            {{ profile.description }}
+          </p>
+          <ul class="actions">
+            <li>
+              <a href="video.html" class="button big">Watch Now</a>
+            </li>
+          </ul>
+        </div>
+        <span class="image object">
+          <img *ngIf="latestVideo" src="{{ apiUri }}/video/thumbnail/stream?id={{ latestVideo.id }}" alt="" />
+        </span>
+      </section>
+      <!-- Section -->
+      <!-- <section>
+        <header class="major">
+          <h2>About</h2>
+        </header>
+        <div class="features">
+          <article>
+            <span class="icon fa-users"></span>
+            <div class="content">
+              <h3>820k Subscribers</h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum fringilla neque at tristique
+              </p>
+            </div>
+          </article>
+          <article>
+            <span class="icon fa-file"></span>
+            <div class="content">
+              <h3>321 Videos</h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum fringilla neque at tristique
+              </p>
+            </div>
+          </article>
+          <article>
+            <span class="icon fa-eye"></span>
+            <div class="content">
+              <h3>85 Million Views</h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum fringilla neque at tristique
+              </p>
+            </div>
+          </article>
+          <article>
+            <span class="icon fa-calendar"></span>
+            <div class="content">
+              <h3>Member Since 15th December 2011</h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum fringilla neque at tristique
+              </p>
+            </div>
+          </article>
+        </div>
+      </section> -->
+      <!-- Section -->
+      <section>
+        <header class="major">
+          <h2>My Videos</h2>
+        </header>
+        <div class="posts">
+          <article *ngFor="let video of videos">
+            <a href="video.html" class="image">
+              <img src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}" alt="" />
+            </a>
+            <h3>{{ video.title }}</h3>
+            <p>
+             {{ video.shortDescription }}
+            </p>
+            <ul class="actions">
+              <li>
+                <a href="video.html" class="button">Watch Now</a>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </div>
+  </div>
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <div class="inner">
+      <!-- Search -->
+      <section id="search" class="alt">
+        <form method="post" action="#">
+          <input type="text" name="query" id="query" placeholder="Search" />
+        </form>
+      </section>
+      <!-- Menu -->
+      <nav id="menu">
+        <header class="major">
+          <h2>Menu</h2>
+        </header>
+        <ul>
+          <li>
+            <a href="#">My Profile</a>
+          </li>
+          <li>
+            <a href="#">Explore</a>
+          </li>
+        </ul>
+      </nav>
+      <!-- Section -->
+      <section>
+        <header class="major">
+          <h2>Recent Videos</h2>
+        </header>
+        <div class="mini-posts">
+          <article *ngFor="let video of recentVideos">
+            <a href="video.html" class="image">
+              <img src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}" alt="" />
+            </a>
+            <p>{{ video.title }}</p>
+          </article>
+        </div>
+      </section>
+      <!-- Section -->
+      <section>
+        <header class="major">
+          <h2>Get in touch</h2>
+        </header>
+        <p>
+          {{ profile.message }}
+        </p>
+        <ul class="contact">
+          <li class="fa-envelope-o">
+            <a href="#">{{ profile.contactDetails.emailAddress }}</a>
+          </li>
+          <li class="fa-phone">{{ profile.contactDetails.phoneNumber }}</li>
+          <li class="fa-home">{{ profile.address.city }}, {{ profile.address.country }}</li>
+        </ul>
+      </section>
+      <!-- Footer -->
+      <footer id="footer">
+        <p class="copyright">&copy; {{ user.firstName }} {{ user.lastName }}. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+</div>
