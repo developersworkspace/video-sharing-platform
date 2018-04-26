@@ -4,13 +4,13 @@
     <h2>Get in touch</h2>
   </header>
   <p>
-    {{ profile.message }}
+    {{ profile?.message }}
   </p>
   <ul class="contact">
     <li class="fa-envelope-o">
-      <a href="#">{{ profile.contactDetails.emailAddress }}</a>
+      <a href="#">{{ profile?.contactDetails.emailAddress }}</a>
     </li>
-    <li class="fa-phone">{{ profile.contactDetails.phoneNumber }}</li>
-    <li class="fa-home">{{ profile.address.city }}, {{ profile.address.country }}</li>
+    <li class="fa-phone">{{ profile?.contactDetails.phoneNumber }}</li>
+    <li class="fa-home">{{ profile?.address.city }}, {{ profile?.address.country }}</li>
   </ul>
 </section>

@@ -8,6 +8,9 @@ import { HeaderComponent } from './header/header.component';
 import { RecentVideosComponent } from './recent-videos/recent-videos.component';
 import { FooterComponent } from './footer/footer.component';
 import { GetInTouchComponent } from './get-in-touch/get-in-touch.component';
+import { WatchRouteComponent } from './watch-route/watch-route.component';
+import { AuthGuard } from './auth.guard';
+import { CallbackRouteComponent } from './callback-route/callback-route.component';
 
 @NgModule({
   declarations: [
@@ -17,13 +20,17 @@ import { GetInTouchComponent } from './get-in-touch/get-in-touch.component';
     RecentVideosComponent,
     FooterComponent,
     GetInTouchComponent,
+    WatchRouteComponent,
+    CallbackRouteComponent,
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,72 @@
+<!-- Wrapper -->
+<div id="wrapper">
+  <!-- Main -->
+  <div id="main">
+    <div class="inner">
+      <app-header></app-header>
+      <!-- Section -->
+      <section>
+        <div>
+          <video *ngIf="video && subscriptionPaid" style="height: auto; width: 100%" src="{{ apiUri }}/video/stream?id={{ video.id }}" controls></video>
+          <img *ngIf="video && !subscriptionPaid" style="height: auto; width: 100%" src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}" alt="" />
+          <h2>
+            {{ video?.title }}
+          </h2>
+          <p>
+            {{ video?.longDescription }}
+          </p>
+        </div>
+      </section>
+      <!-- Section -->
+      <section>
+        <header class="major">
+          <h2>My Videos</h2>
+        </header>
+        <div class="posts">
+          <article *ngFor="let video of videos">
+            <a [routerLink]="['/', profile.name, 'watch', video.id]" class="image">
+              <img src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}" alt="" />
+            </a>
+            <h3>{{ video.title }}</h3>
+            <p>
+              {{ video.shortDescription }}
+            </p>
+            <ul class="actions">
+              <li>
+                <a [routerLink]="['/', profile.name, 'watch', video.id]" class="button">Watch Now</a>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </div>
+  </div>
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <div class="inner">
+      <!-- Search -->
+      <section id="search" class="alt">
+        <form method="post" action="#">
+          <input type="text" name="query" id="query" placeholder="Search" />
+        </form>
+      </section>
+      <!-- Menu -->
+      <nav id="menu">
+        <header class="major">
+          <h2>Menu</h2>
+        </header>
+        <ul>
+          <li>
+            <a href="#">My Profile</a>
+          </li>
+          <li>
+            <a href="#">Explore</a>
+          </li>
+        </ul>
+      </nav>
+      <app-recent-videos></app-recent-videos>
+      <app-get-in-touch></app-get-in-touch>
+      <app-footer></app-footer>
+    </div>
+  </div>
+</div>

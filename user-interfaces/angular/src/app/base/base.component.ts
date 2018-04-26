@@ -7,7 +7,12 @@ export abstract class BaseComponent {
 
   public apiUri = 'http://localhost:3000/api';
 
+  public authenticated = false;
+
   public profile: Profile = null;
+
+  // TODO: Set from Service
+  public subscriptionPaid = false;
 
   public user: User = null;
 
@@ -16,6 +21,8 @@ export abstract class BaseComponent {
     protected http: HttpClient,
   ) {
     this.loadProfile();
+
+    this.authenticated = localStorage.getItem('jwt') ? true : false;
   }
 
   public abstract onLoad(): void;
