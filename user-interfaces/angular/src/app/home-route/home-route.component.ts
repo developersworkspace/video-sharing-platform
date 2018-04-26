@@ -4,30 +4,27 @@ import { Profile } from '../entities/profile';
 import { User } from '../entities/user';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { BaseComponent } from '../base/base.component';
 
 @Component({
   selector: 'app-home-route',
   templateUrl: './home-route.component.html',
   styleUrls: ['./home-route.component.css']
 })
-export class HomeRouteComponent implements OnInit {
-
-  public apiUri = 'http://localhost:3000/api';
+export class HomeRouteComponent extends BaseComponent implements OnInit {
 
   public latestVideo: Video = null;
 
-  public profile: Profile = null;
-
   public recentVideos: Video[] = null;
-
-  public user: User = null;
 
   public videos: Video[] = null;
 
   constructor(
-    protected activatedRoute: ActivatedRoute,
-    protected http: HttpClient,
+    activatedRoute: ActivatedRoute,
+    http: HttpClient,
   ) {
+    super(activatedRoute, http);
+
     this.recentVideos = [];
 
     this.videos = [];
@@ -37,20 +34,8 @@ export class HomeRouteComponent implements OnInit {
     this.loadProfile();
   }
 
-  protected loadProfile(): void {
-    this.http.get(`${this.apiUri}/profile?name=${this.activatedRoute.snapshot.params.profileName}`).subscribe((profile: Profile) => {
-      this.profile = profile;
-
-      this.loadUser();
-
-      this.loadVideos();
-    });
-  }
-
-  protected loadUser(): void {
-    this.http.get(`${this.apiUri}/user?id=${this.profile.userId}`).subscribe((user: User) => {
-      this.user = user;
-    });
+  public onLoad(): void {
+    this.loadVideos();
   }
 
   protected loadVideos(): void {
