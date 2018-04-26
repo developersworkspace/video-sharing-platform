@@ -1,7 +1,7 @@
 import * as fs from 'fs';
+import { inject, injectable } from 'inversify';
 import { OperationResult } from 'majuro';
 import * as path from 'path';
-import { Stream } from 'stream';
 import { Profile } from '../entities/profile';
 import { User } from '../entities/user';
 import { Video } from '../entities/video';
@@ -11,13 +11,19 @@ import { IUserRepository } from '../interfaces/user-repository';
 import { IVideoRepository } from '../interfaces/video-repository';
 import { SubscriptionService } from './subscription';
 
+@injectable()
 export class VideoService {
 
     constructor(
+        @inject('IProfileRepository')
         protected profileRepository: IProfileRepository,
+        @inject('IStorageGateway')
         protected storageGateway: IStorageGateway,
+        @inject('SubscriptionService')
         protected subscriptionService: SubscriptionService,
+        @inject('IUserRepository')
         protected userRepository: IUserRepository,
+        @inject('IVideoRepository')
         protected videoRepository: IVideoRepository,
     ) {
 
@@ -29,21 +35,21 @@ export class VideoService {
         const video: Video = await this.videoRepository.find(id);
 
         if (!video) {
-            operationResult.addMessage('video_not_found', null, `Video with id ${id} not found`);
+            operationResult.addMessage('video_not_found', null, `Video with id '${id}' not found`);
             return operationResult;
         }
 
         const profile: Profile = await this.profileRepository.findByName(video.profileName);
 
         if (!profile) {
-            operationResult.addMessage('profile_not_found', null, `Profile with name ${video.profileName} not found`);
+            operationResult.addMessage('profile_not_found', null, `Profile with name '${video.profileName}' not found`);
             return operationResult;
         }
 
         const user: User = await this.userRepository.find(profile.userId);
 
         if (!user) {
-            operationResult.addMessage('user_not_found', null, `Profile with id ${profile.userId} not found`);
+            operationResult.addMessage('user_not_found', null, `Profile with id '${profile.userId}' not found`);
             return operationResult;
         }
 
@@ -65,21 +71,21 @@ export class VideoService {
         const video: Video = await this.videoRepository.find(id);
 
         if (!video) {
-            operationResult.addMessage('video_not_found', null, `Video with id ${id} not found`);
+            operationResult.addMessage('video_not_found', null, `Video with id '${id}' not found`);
             return operationResult;
         }
 
         const profile: Profile = await this.profileRepository.findByName(video.profileName);
 
         if (!profile) {
-            operationResult.addMessage('profile_not_found', null, `Profile with name ${video.profileName} not found`);
+            operationResult.addMessage('profile_not_found', null, `Profile with name '${video.profileName}' not found`);
             return operationResult;
         }
 
         const user: User = await this.userRepository.find(profile.userId);
 
         if (!user) {
-            operationResult.addMessage('user_not_found', null, `Profile with id ${profile.userId} not found`);
+            operationResult.addMessage('user_not_found', null, `Profile with id '${profile.userId}' not found`);
             return operationResult;
         }
 
@@ -101,98 +107,6 @@ export class VideoService {
         await this.storageGateway.append(buffer, video.blobLocation, offset);
 
         operationResult.setResult(true);
-
-        return operationResult;
-    }
-
-    public async get(emailAddress: string, id: string): Promise<OperationResult<Video>> {
-        const operationResult: OperationResult<Video> = new OperationResult(null);
-
-        const video: Video = await this.videoRepository.find(id);
-
-        if (!video) {
-            operationResult.addMessage('video_not_found', null, `Video with id ${id} not found`);
-            return operationResult;
-        }
-
-        const profile: Profile = await this.profileRepository.findByName(video.profileName);
-
-        if (!profile) {
-            operationResult.addMessage('profile_not_found', null, `Profile with name ${video.profileName} not found`);
-            return operationResult;
-        }
-
-        const user: User = await this.userRepository.find(profile.userId);
-
-        if (!user) {
-            operationResult.addMessage('user_not_found', null, `Profile with id ${profile.userId} not found`);
-            return operationResult;
-        }
-
-        if (emailAddress === user.emailAddress) {
-            operationResult.setResult(video);
-
-            return operationResult;
-        }
-
-        const isSubcriptionPaid: boolean = await this.subscriptionService.isPaid(emailAddress);
-
-        if (!isSubcriptionPaid) {
-            operationResult.addMessage('unathorized', null, `Subscription not paid for ${emailAddress}`);
-
-            return operationResult;
-        }
-
-        operationResult.setResult(video);
-
-        return operationResult;
-    }
-
-    public async getStream(emailAddress: string, end: number, id: string, start: number): Promise<OperationResult<Stream>> {
-        const operationResult: OperationResult<Stream> = new OperationResult(null);
-
-        const video: Video = await this.videoRepository.find(id);
-
-        if (!video) {
-            operationResult.addMessage('video_not_found', null, `Video with id ${id} not found`);
-            return operationResult;
-        }
-
-        const profile: Profile = await this.profileRepository.findByName(video.profileName);
-
-        if (!profile) {
-            operationResult.addMessage('profile_not_found', null, `Profile with name ${video.profileName} not found`);
-            return operationResult;
-        }
-
-        const user: User = await this.userRepository.find(profile.userId);
-
-        if (!user) {
-            operationResult.addMessage('user_not_found', null, `Profile with id ${profile.userId} not found`);
-            return operationResult;
-        }
-
-        let stream: Stream = null;
-
-        if (emailAddress === user.emailAddress) {
-            stream = await this.storageGateway.getStream(end, video.blobLocation, start);
-
-            operationResult.setResult(stream);
-
-            return operationResult;
-        }
-
-        const isSubcriptionPaid: boolean = await this.subscriptionService.isPaid(emailAddress);
-
-        if (!isSubcriptionPaid) {
-            operationResult.addMessage('unathorized', null, `Subscription not paid for ${emailAddress}`);
-
-            return operationResult;
-        }
-
-        stream = await this.storageGateway.getStream(end, video.blobLocation, start);
-
-        operationResult.setResult(stream);
 
         return operationResult;
     }
@@ -247,6 +161,59 @@ export class VideoService {
         }
 
         return true;
+    }
+
+    public async get(anonymous: boolean, emailAddress: string, id: string): Promise<OperationResult<Video>> {
+        const operationResult: OperationResult<Video> = new OperationResult(null);
+
+        const video: Video = await this.videoRepository.find(id);
+
+        if (!video) {
+            operationResult.addMessage('video_not_found', null, `Video with id '${id}' not found`);
+            return operationResult;
+        }
+
+        const profile: Profile = await this.profileRepository.findByName(video.profileName);
+
+        if (!profile) {
+            operationResult.addMessage('profile_not_found', null, `Profile with name '${video.profileName}' not found`);
+            return operationResult;
+        }
+
+        const user: User = await this.userRepository.findById(profile.userId);
+
+        if (!user) {
+            operationResult.addMessage('user_not_found', null, `User with id '${profile.userId}' not found`);
+            return operationResult;
+        }
+
+        if (emailAddress === user.emailAddress) {
+            operationResult.setResult(video);
+
+            return operationResult;
+        }
+
+        if (anonymous) {
+            operationResult.setResult(video);
+
+            return operationResult;
+        }
+
+        const isSubscriptionPaid: boolean = await this.subscriptionService.isPaid(emailAddress);
+
+        if (!isSubscriptionPaid) {
+            operationResult.addMessage('unathorized', null, `Subscription not paid for '${emailAddress}'`);
+
+            return operationResult;
+        }
+
+        operationResult.setResult(video);
+
+        return operationResult;
+    }
+
+    public async list(emailAddress: string, profileName: string): Promise<Video[]> {
+        return this.videoRepository.list(profileName);
     }
 
     public async startUploadForThumbnail(emailAddress: string, id: string): Promise<boolean> {
