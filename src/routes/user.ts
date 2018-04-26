@@ -10,9 +10,17 @@ export class UserRouter extends BaseRouter {
         try {
             const userService: UserService = container.get<UserService>('UserService');
 
-            const result: User = await userService.find(req['user'].emailAddress);
+            if (req.query.id) {
+                const resultFindById: User = await userService.findById(req.query.id);
 
-            res.json(result);
+                res.json(resultFindById);
+
+                return;
+            }
+
+            const resultFind: User = await userService.find(req['user'].emailAddress);
+
+            res.json(resultFind);
         } catch (err) {
             UserRouter.sendErrorResponse(err, res);
         }

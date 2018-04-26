@@ -67,12 +67,16 @@ export class VideoRouter extends BaseRouter {
                 const resultGet: OperationResult<Video> = await videoService.get(true, req['user'].emailAddress, req.query.id);
 
                 VideoRouter.sendOperationResult(res, resultGet);
+
+                return;
             }
 
             if (req.query.profileName) {
                 const resultList: Video[] = await videoService.list(req['user'].emailAddress, req.query.profileName);
 
                 res.json(resultList);
+
+                return;
             }
         } catch (err) {
             VideoRouter.sendErrorResponse(err, res);
