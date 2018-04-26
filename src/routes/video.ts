@@ -1,16 +1,143 @@
 import * as express from 'express';
-import { User } from '../entities/user';
+import * as fs from 'fs';
+import { ExpressJSVideoHelper, OperationResult } from 'majuro';
+import * as path from 'path';
+import { Stream } from 'stream';
+import { config } from '../config';
+import { Video } from '../entities/video';
 import { container } from '../ioc';
-import { UserService } from '../services/user';
+import { VideoService } from '../services/video';
 import { BaseRouter } from './base';
 
 export class VideoRouter extends BaseRouter {
 
-    public static async startUpload(req: express.Request, res: express.Response) {
+    public static async appendUploadForThumbnail(req: express.Request, res: express.Response) {
         try {
-            const userService: UserService = container.get<UserService>('UserService');
+            const videoService: VideoService = container.get<VideoService>('VideoService');
 
-            const result: User = await userService.find(req['user'].emailAddress);
+            const result: OperationResult<boolean> = await videoService.appendUploadForThumbnail(req.body, req['user'].emailAddress, req.query.id, req.query.offset);
+
+            VideoRouter.sendOperationResult(res, result);
+        } catch (err) {
+            VideoRouter.sendErrorResponse(err, res);
+        }
+    }
+
+    public static async appendUploadForVideo(req: express.Request, res: express.Response) {
+        try {
+            const videoService: VideoService = container.get<VideoService>('VideoService');
+
+            const result: OperationResult<boolean> = await videoService.appendUploadForVideo(req.body, req['user'].emailAddress, req.query.id, req.query.offset);
+
+            VideoRouter.sendOperationResult(res, result);
+        } catch (err) {
+            VideoRouter.sendErrorResponse(err, res);
+        }
+    }
+
+    public static async endUploadForThumbnail(req: express.Request, res: express.Response) {
+        try {
+            const videoService: VideoService = container.get<VideoService>('VideoService');
+
+            const result: boolean = await videoService.endUploadForThumbnail(req['user'].emailAddress, req.query.id);
+
+            res.json(result);
+        } catch (err) {
+            VideoRouter.sendErrorResponse(err, res);
+        }
+    }
+
+    public static async endUploadForVideo(req: express.Request, res: express.Response) {
+        try {
+            const videoService: VideoService = container.get<VideoService>('VideoService');
+
+            const result: boolean = await videoService.endUploadForVideo(req['user'].emailAddress, req.query.id);
+
+            res.json(result);
+        } catch (err) {
+            VideoRouter.sendErrorResponse(err, res);
+        }
+    }
+
+    public static async get(req: express.Request, res: express.Response) {
+        try {
+            const videoService: VideoService = container.get<VideoService>('VideoService');
+
+            if (req.query.id) {
+                const resultGet: OperationResult<Video> = await videoService.get(true, req['user'].emailAddress, req.query.id);
+
+                VideoRouter.sendOperationResult(res, resultGet);
+            }
+
+            if (req.query.profileName) {
+                const resultList: Video[] = await videoService.list(req['user'].emailAddress, req.query.profileName);
+
+                res.json(resultList);
+            }
+        } catch (err) {
+            VideoRouter.sendErrorResponse(err, res);
+        }
+    }
+
+    public static async getStreamForThumbnail(req: express.Request, res: express.Response) {
+        try {
+            const videoService: VideoService = container.get<VideoService>('VideoService');
+
+            const result: OperationResult<Video> = await videoService.get(true, req['user'].emailAddress, req.query.id);
+
+            if (result.hasErrors()) {
+                res.status(400).json(result.messages);
+                return;
+            }
+
+            const video: Video = result.result;
+
+            const stream: Stream = fs.createReadStream(path.join(config.paths.base, video.thumbnailLocation));
+
+            res.set('Content-Type', 'image/jpg');
+
+            stream.pipe(res);
+        } catch (err) {
+            VideoRouter.sendErrorResponse(err, res);
+        }
+    }
+
+    public static async getStreamForVideo(req: express.Request, res: express.Response) {
+        try {
+            const videoService: VideoService = container.get<VideoService>('VideoService');
+
+            const result: OperationResult<Video> = await videoService.get(false, req['user'].emailAddress, req.query.id);
+
+            if (result.hasErrors()) {
+                res.status(400).json(result.messages);
+                return;
+            }
+
+            const video: Video = result.result;
+
+            new ExpressJSVideoHelper(config.paths.base, 50000).send(video.blobLocation, req, res);
+        } catch (err) {
+            VideoRouter.sendErrorResponse(err, res);
+        }
+    }
+
+    public static async startUploadForThumbnail(req: express.Request, res: express.Response) {
+        try {
+            const videoService: VideoService = container.get<VideoService>('VideoService');
+
+            const result: boolean = await videoService.startUploadForThumbnail(req['user'].emailAddress, req.query.id);
+
+            res.json(result);
+        } catch (err) {
+            VideoRouter.sendErrorResponse(err, res);
+        }
+    }
+
+    public static async startUploadForVideo(req: express.Request, res: express.Response) {
+        try {
+            const videoService: VideoService = container.get<VideoService>('VideoService');
+
+            const result: boolean = await videoService.startUploadForVideo(req['user'].emailAddress, req.query.id);
 
             res.json(result);
         } catch (err) {

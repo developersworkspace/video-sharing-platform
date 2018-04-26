@@ -1,8 +1,10 @@
+import { injectable } from 'inversify';
 import { Profile } from '../../entities/profile';
 import { IProfileRepository } from '../../interfaces/profile-repository';
 import { Address } from '../../value-objects/address';
 import { ContactDetails } from '../../value-objects/contact-details';
 
+@injectable()
 export class ProfileRepository implements IProfileRepository {
 
     protected profiles: Profile[] = null;
