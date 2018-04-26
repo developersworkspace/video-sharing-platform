@@ -1,8 +1,8 @@
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
-import * as jwt from 'express-jwt';
 import * as fs from 'fs';
+import * as jsonwebtoken from 'jsonwebtoken';
 import * as path from 'path';
 import * as swagger from 'swagger-ui-express';
 import * as winston from 'winston';
@@ -39,7 +39,42 @@ app.route('/api/video')
 app.route('/api/video/thumbnail/stream')
     .get(VideoRouter.getStreamForThumbnail);
 
-app.use(jwt({ secret: 'video-sharing-platform' }));
+app.use((request: express.Request, response: express.Response, next: express.NextFunction) => {
+    if (!request.get('authorization') && !request.query.token) {
+        response.status(401).end();
+        return;
+    }
+
+    let token: string = null;
+
+    if (request.get('authorization')) {
+        const patternAuthorization: RegExp = new RegExp(/bearer (.*)/i);
+
+        const matchesAuthorization: RegExpExecArray = patternAuthorization.exec(request.get('authorization'));
+
+        if (!matchesAuthorization) {
+            response.status(401).end();
+            return;
+        }
+
+        token = matchesAuthorization[1];
+    }
+
+    if (request.query.token) {
+        token = request.query.token;
+    }
+
+    try {
+        const decodedJWT: any = jsonwebtoken.verify(token, 'video-sharing-platform');
+
+        request['user'] = decodedJWT;
+    } catch {
+        response.status(401).end();
+        return;
+    }
+
+    next();
+});
 
 // app.use((req: express.Request, response: express.Response, next: express.NextFunction) => {
 //     req['user'] = {
