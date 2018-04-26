@@ -1,6 +1,6 @@
 import { User } from '../entities/user';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Profile } from '../entities/profile';
 
 export abstract class BaseComponent {
@@ -12,7 +12,9 @@ export abstract class BaseComponent {
   public profile: Profile = null;
 
   // TODO: Set from Service
-  public subscriptionPaid = false;
+  public subscriptionPaid = true;
+
+  public token: string = null;
 
   public user: User = null;
 
@@ -20,12 +22,24 @@ export abstract class BaseComponent {
     protected activatedRoute: ActivatedRoute,
     protected http: HttpClient,
   ) {
-    this.loadProfile();
-
     this.authenticated = localStorage.getItem('jwt') ? true : false;
+
+    this.token = localStorage.getItem('jwt');
+
+    this.loadProfile();
   }
 
   public abstract onLoad(): void;
+
+  protected getHeaders(): HttpHeaders {
+    const token: string = localStorage.getItem('jwt');
+
+    const headers: HttpHeaders = new HttpHeaders({
+      authorization: `bearer ${token}`,
+    });
+
+    return headers;
+  }
 
   protected loadProfile(): void {
     this.http.get(`${this.apiUri}/profile?name=${this.activatedRoute.snapshot.params.profileName}`).subscribe((profile: Profile) => {

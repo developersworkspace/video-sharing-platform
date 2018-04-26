@@ -199,13 +199,13 @@ export class VideoService {
             return operationResult;
         }
 
-        const isSubscriptionPaid: boolean = await this.subscriptionService.isPaid(emailAddress);
+        // const isSubscriptionPaid: boolean = await this.subscriptionService.isPaid(emailAddress);
 
-        if (!isSubscriptionPaid) {
-            operationResult.addMessage('unathorized', null, `Subscription not paid for '${emailAddress}'`);
+        // if (!isSubscriptionPaid) {
+        //     operationResult.addMessage('unathorized', null, `Subscription not paid for '${emailAddress}'`);
 
-            return operationResult;
-        }
+        //     return operationResult;
+        // }
 
         operationResult.setResult(video);
 

@@ -34,6 +34,14 @@ export class WatchRouteComponent extends BaseComponent implements OnInit {
     this.loadProfile();
   }
 
+  public onClickSubscribe(): void {
+    this.http.get(`${this.apiUri}/subscription`, {
+      headers: this.getHeaders(),
+    }).subscribe((response: any) => {
+      window.location.href = response.uri;
+    });
+  }
+
   public onLoad(): void {
     this.loadVideo();
     this.loadVideos();
