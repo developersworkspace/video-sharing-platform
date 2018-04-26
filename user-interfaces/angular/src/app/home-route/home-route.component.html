@@ -8,15 +8,15 @@
       <section id="banner">
         <div class="content">
           <header>
-            <h1>Hi, I’m {{ user.firstName }} {{ user.lastName }}</h1>
+            <h1>Hi, I’m {{ user?.firstName }} {{ user?.lastName }}</h1>
             <p>Welcome to my platform</p>
           </header>
           <p>
-            {{ profile.description }}
+            {{ profile?.description }}
           </p>
           <ul class="actions">
             <li>
-              <a [routerLink]="['/watch/', latestVideo.id]" class="button big">Watch Now</a>
+              <a *ngIf="latestVideo" [routerLink]="['/', profile.name, 'watch', latestVideo.id]" class="button big">Watch Now</a>
             </li>
           </ul>
         </div>
@@ -75,7 +75,7 @@
         </header>
         <div class="posts">
           <article *ngFor="let video of videos">
-            <a [routerLink]="['/watch/', video.id]" class="image">
+            <a [routerLink]="['/', profile.name, 'watch', video.id]" class="image">
               <img src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}" alt="" />
             </a>
             <h3>{{ video.title }}</h3>
@@ -84,7 +84,7 @@
             </p>
             <ul class="actions">
               <li>
-                <a [routerLink]="['/watch/', video.id]" class="button">Watch Now</a>
+                <a [routerLink]="['/', profile.name, 'watch', video.id]" class="button">Watch Now</a>
               </li>
             </ul>
           </article>

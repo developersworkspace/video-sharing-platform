@@ -15,7 +15,7 @@ export class VideoRouter extends BaseRouter {
         try {
             const videoService: VideoService = container.get<VideoService>('VideoService');
 
-            const result: OperationResult<boolean> = await videoService.appendUploadForThumbnail(req.body, req['user'].emailAddress, req.query.id, req.query.offset);
+            const result: OperationResult<boolean> = await videoService.appendUploadForThumbnail(req.body, req['user'] ? req['user'].emailAddress : null, req.query.id, req.query.offset);
 
             VideoRouter.sendOperationResult(res, result);
         } catch (err) {
@@ -27,7 +27,7 @@ export class VideoRouter extends BaseRouter {
         try {
             const videoService: VideoService = container.get<VideoService>('VideoService');
 
-            const result: OperationResult<boolean> = await videoService.appendUploadForVideo(req.body, req['user'].emailAddress, req.query.id, req.query.offset);
+            const result: OperationResult<boolean> = await videoService.appendUploadForVideo(req.body, req['user'] ? req['user'].emailAddress : null, req.query.id, req.query.offset);
 
             VideoRouter.sendOperationResult(res, result);
         } catch (err) {
@@ -39,7 +39,7 @@ export class VideoRouter extends BaseRouter {
         try {
             const videoService: VideoService = container.get<VideoService>('VideoService');
 
-            const result: boolean = await videoService.endUploadForThumbnail(req['user'].emailAddress, req.query.id);
+            const result: boolean = await videoService.endUploadForThumbnail(req['user'] ? req['user'].emailAddress : null, req.query.id);
 
             res.json(result);
         } catch (err) {
@@ -51,7 +51,7 @@ export class VideoRouter extends BaseRouter {
         try {
             const videoService: VideoService = container.get<VideoService>('VideoService');
 
-            const result: boolean = await videoService.endUploadForVideo(req['user'].emailAddress, req.query.id);
+            const result: boolean = await videoService.endUploadForVideo(req['user'] ? req['user'].emailAddress : null, req.query.id);
 
             res.json(result);
         } catch (err) {
@@ -64,7 +64,7 @@ export class VideoRouter extends BaseRouter {
             const videoService: VideoService = container.get<VideoService>('VideoService');
 
             if (req.query.id) {
-                const resultGet: OperationResult<Video> = await videoService.get(true, req['user'].emailAddress, req.query.id);
+                const resultGet: OperationResult<Video> = await videoService.get(true, req['user'] ? req['user'].emailAddress : null, req.query.id);
 
                 VideoRouter.sendOperationResult(res, resultGet);
 
@@ -72,7 +72,7 @@ export class VideoRouter extends BaseRouter {
             }
 
             if (req.query.profileName) {
-                const resultList: Video[] = await videoService.list(req['user'].emailAddress, req.query.profileName);
+                const resultList: Video[] = await videoService.list(req['user'] ? req['user'].emailAddress : null, req.query.profileName);
 
                 res.json(resultList);
 
@@ -87,7 +87,7 @@ export class VideoRouter extends BaseRouter {
         try {
             const videoService: VideoService = container.get<VideoService>('VideoService');
 
-            const result: OperationResult<Video> = await videoService.get(true, req['user'].emailAddress, req.query.id);
+            const result: OperationResult<Video> = await videoService.get(true, req['user'] ? req['user'].emailAddress : null, req.query.id);
 
             if (result.hasErrors()) {
                 res.status(400).json(result.messages);
@@ -110,7 +110,7 @@ export class VideoRouter extends BaseRouter {
         try {
             const videoService: VideoService = container.get<VideoService>('VideoService');
 
-            const result: OperationResult<Video> = await videoService.get(false, req['user'].emailAddress, req.query.id);
+            const result: OperationResult<Video> = await videoService.get(false, req['user'] ? req['user'].emailAddress : null, req.query.id);
 
             if (result.hasErrors()) {
                 res.status(400).json(result.messages);
@@ -129,7 +129,7 @@ export class VideoRouter extends BaseRouter {
         try {
             const videoService: VideoService = container.get<VideoService>('VideoService');
 
-            const result: boolean = await videoService.startUploadForThumbnail(req['user'].emailAddress, req.query.id);
+            const result: boolean = await videoService.startUploadForThumbnail(req['user'] ? req['user'].emailAddress : null, req.query.id);
 
             res.json(result);
         } catch (err) {
@@ -141,7 +141,7 @@ export class VideoRouter extends BaseRouter {
         try {
             const videoService: VideoService = container.get<VideoService>('VideoService');
 
-            const result: boolean = await videoService.startUploadForVideo(req['user'].emailAddress, req.query.id);
+            const result: boolean = await videoService.startUploadForVideo(req['user'] ? req['user'].emailAddress : null, req.query.id);
 
             res.json(result);
         } catch (err) {
