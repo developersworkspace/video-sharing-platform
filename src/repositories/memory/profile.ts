@@ -3,6 +3,7 @@ import { Profile } from '../../entities/profile';
 import { IProfileRepository } from '../../interfaces/profile-repository';
 import { Address } from '../../value-objects/address';
 import { ContactDetails } from '../../value-objects/contact-details';
+import { SocialDetails } from '../../value-objects/social-details';
 
 @injectable()
 export class ProfileRepository implements IProfileRepository {
@@ -18,6 +19,11 @@ export class ProfileRepository implements IProfileRepository {
                 'chris-ramsay-profile-id',
                 `Chris Ramsay specializes in the deceptive practices. Using techniques he's refined through thousands of hours of practice, he persists in altering your perceived reality. His flare for creativity has thrown him in to the world of deception, where some of his techniques are distributed to practitioners across the globe. At the forefront of today's industry of modern conjuring, Chris is constantly creating new ways to entertain and redefine your idea of magic.`,
                 'chris-ramsay',
+                new SocialDetails(
+                    'https://www.facebook.com/deceivingisbelieving',
+                    'https://www.instagram.com/chrisramsay52',
+                    'https://twitter.com/chrisramsay52',
+                ),
                 'chris-ramsay-user-id',
             ),
         ];
