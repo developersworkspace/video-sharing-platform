@@ -7,8 +7,10 @@
       <!-- Section -->
       <section>
         <div>
-          <video *ngIf="video && subscriptionPaid" style="height: auto; width: 100%" src="{{ apiUri }}/video/stream?id={{ video.id }}" controls></video>
-          <img *ngIf="video && !subscriptionPaid" style="height: auto; width: 100%" src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}" alt="" />
+          <video *ngIf="video && subscriptionPaid" style="height: auto; width: 100%" src="{{ apiUri }}/video/stream?id={{ video.id }}&token={{ token }}"
+            controls></video>
+          <img *ngIf="video && !subscriptionPaid" (click)="onClickSubscribe()" style="height: auto; width: 100%" src="http://via.placeholder.com/350x150?text=Subscribe+to+Watch"
+            alt="" />
           <h2>
             {{ video?.title }}
           </h2>
