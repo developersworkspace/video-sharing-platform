@@ -24,33 +24,36 @@ app.use(cors());
 app.route('/api/auth/auth0')
     .get(AuthRouter.auth0);
 
-// app.use(jwt({ secret: 'video-sharing-platform' }));
-
-app.use((req: express.Request, response: express.Response, next: express.NextFunction) => {
-    req['user'] = {
-        emailAddress: 'chris@leslingshot.com',
-    };
-
-    next();
-});
-
 // const swaggerDocument = fs.readFileSync(path.join(__dirname, '..', 'swagger.json'), 'utf8');
 // app.use('/api/docs', swagger.serve, swagger.setup(JSON.parse(swaggerDocument), { explore: true }));
 
 app.route('/api/profile')
     .get(ProfileRouter.get);
 
-app.route('/api/subscription')
-    .get(SubscriptionRouter.get);
-
-app.route('/api/subscription/isPaid')
-    .get(SubscriptionRouter.isPaid);
-
 app.route('/api/user')
     .get(UserRouter.get);
 
 app.route('/api/video')
     .get(VideoRouter.get);
+
+app.route('/api/video/thumbnail/stream')
+    .get(VideoRouter.getStreamForThumbnail);
+
+app.use(jwt({ secret: 'video-sharing-platform' }));
+
+// app.use((req: express.Request, response: express.Response, next: express.NextFunction) => {
+//     req['user'] = {
+//         emailAddress: 'chris@leslingshot.com',
+//     };
+
+//     next();
+// });
+
+app.route('/api/subscription')
+    .get(SubscriptionRouter.get);
+
+app.route('/api/subscription/isPaid')
+    .get(SubscriptionRouter.isPaid);
 
 app.route('/api/video/append')
     .post(VideoRouter.appendUploadForVideo);
@@ -72,9 +75,6 @@ app.route('/api/video/thumbnail/end')
 
 app.route('/api/video/thumbnail/start')
     .post(VideoRouter.startUploadForThumbnail);
-
-app.route('/api/video/thumbnail/stream')
-    .get(VideoRouter.getStreamForThumbnail);
 
 app.listen(argv.port || process.env.PORT || 3000, () => {
     winston.info(`listening on port ${argv.port || process.env.PORT || 3000}`);

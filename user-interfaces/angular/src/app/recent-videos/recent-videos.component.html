@@ -5,7 +5,7 @@
   </header>
   <div class="mini-posts">
     <article *ngFor="let video of recentVideos">
-      <a [routerLink]="['/watch/', video.id]" class="image">
+      <a [routerLink]="['/', profile.name, 'watch', video.id]" class="image">
         <img src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}" alt="" />
       </a>
       <p>{{ video.title }}</p>

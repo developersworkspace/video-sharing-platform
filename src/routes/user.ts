@@ -18,7 +18,7 @@ export class UserRouter extends BaseRouter {
                 return;
             }
 
-            const resultFind: User = await userService.find(req['user'].emailAddress);
+            const resultFind: User = await userService.find(req['user'] ? req['user'].emailAddress : null);
 
             res.json(resultFind);
         } catch (err) {

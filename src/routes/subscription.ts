@@ -10,7 +10,7 @@ export class SubscriptionRouter extends BaseRouter {
         try {
             const subscriptionService: SubscriptionService = container.get<SubscriptionService>('SubscriptionService');
 
-            const result: OperationResult<SubscriptionCreateResult> = await subscriptionService.create(new Subscription(25, 'description', Frequency.Monthly, null, 'name', req['user'].emailAddress));
+            const result: OperationResult<SubscriptionCreateResult> = await subscriptionService.create(new Subscription(25, 'description', Frequency.Monthly, null, 'name', req['user'] ? req['user'].emailAddress : null));
 
             SubscriptionRouter.sendOperationResult(res, result);
         } catch (err) {
@@ -22,7 +22,7 @@ export class SubscriptionRouter extends BaseRouter {
         try {
             const subscriptionService: SubscriptionService = container.get<SubscriptionService>('SubscriptionService');
 
-            const result: boolean = await subscriptionService.isPaid(req['user'].emailAddress);
+            const result: boolean = await subscriptionService.isPaid(req['user'] ? req['user'].emailAddress : null);
 
             res.json(result);
         } catch (err) {

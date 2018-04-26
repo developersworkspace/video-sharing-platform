@@ -1,7 +1,8 @@
 import { Container, decorate, injectable, interfaces } from 'inversify';
-import { IPaymentGateway, IPaymentRepository, ISubscriptionRepository, IValidator, PayFastPaymentGateway, Subscription, SubscriptionService as MajuroSubscriptionService, SubscriptionValidator  } from 'majuro';
+import { IPaymentGateway, IPaymentRepository as MajuroIPaymentRepository, ISubscriptionRepository, IValidator, PayFastPaymentGateway, Subscription, SubscriptionService as MajuroSubscriptionService, SubscriptionValidator  } from 'majuro';
 import 'reflect-metadata';
 import { config } from './config';
+import { IPaymentRepository } from './interfaces/payment-repository';
 import { IProfileRepository } from './interfaces/profile-repository';
 import { IStorageGateway } from './interfaces/storage-gateway';
 import { IUserRepository } from './interfaces/user-repository';
@@ -23,6 +24,7 @@ decorate(injectable(), MajuroSubscriptionService);
 decorate(injectable(), PayFastPaymentGateway);
 decorate(injectable(), SubscriptionValidator);
 
+container.bind<MajuroIPaymentRepository>('MajuroIPaymentRepository').to(PaymentRepository);
 container.bind<IPaymentRepository>('IPaymentRepository').to(PaymentRepository);
 container.bind<IProfileRepository>('IProfileRepository').to(ProfileRepository);
 container.bind<ISubscriptionRepository>('ISubscriptionRepository').to(SubscriptionRepository);

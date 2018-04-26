@@ -1,9 +1,29 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeRouteComponent } from './home-route/home-route.component';
+import { WatchRouteComponent } from './watch-route/watch-route.component';
+import { AuthGuard } from './auth.guard';
+import { CallbackRouteComponent } from './callback-route/callback-route.component';
 
 const appRoutes: Routes = [
-  { path: ':profileName', component: HomeRouteComponent },
+  {
+    component: CallbackRouteComponent,
+    path: 'callback',
+  },
+  {
+    // canActivate: [
+    //   AuthGuard,
+    // ],
+    component: HomeRouteComponent,
+    path: ':profileName',
+  },
+  {
+    canActivate: [
+      AuthGuard,
+    ],
+    component: WatchRouteComponent,
+    path: ':profileName/watch/:videoId',
+  },
 ];
 
 @NgModule({
