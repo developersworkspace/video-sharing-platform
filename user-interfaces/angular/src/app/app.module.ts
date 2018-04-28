@@ -11,6 +11,7 @@ import { GetInTouchComponent } from './get-in-touch/get-in-touch.component';
 import { WatchRouteComponent } from './watch-route/watch-route.component';
 import { AuthGuard } from './auth.guard';
 import { CallbackRouteComponent } from './callback-route/callback-route.component';
+import { ProfileRouteComponent } from './profile-route/profile-route.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { CallbackRouteComponent } from './callback-route/callback-route.componen
     GetInTouchComponent,
     WatchRouteComponent,
     CallbackRouteComponent,
+    ProfileRouteComponent,
   ],
   imports: [
     AppRoutingModule,
