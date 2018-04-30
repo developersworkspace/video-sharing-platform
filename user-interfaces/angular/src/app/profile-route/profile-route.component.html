@@ -6,62 +6,56 @@
       <app-header></app-header>
       <!-- Section -->
       <section>
-        <div class="row uniform">
+        <h3>User</h3>
+        <div *ngIf="user" class="row uniform">
+          <div class="6u$ 12u$(xsmall)">
+            <label>Email Address</label>
+            <input [(ngModel)]="user.emailAddress" type="text" placeholder="Email Address">
+          </div>
           <div class="6u 12u$(xsmall)">
-            <input type="text" name="demo-name" id="demo-name" value="" placeholder="Name">
+            <label>First Name</label>
+            <input [(ngModel)]="user.firstName" type="text" placeholder="First Name">
           </div>
           <div class="6u$ 12u$(xsmall)">
-            <input type="email" name="demo-email" id="demo-email" value="" placeholder="Email">
+            <label>Last Name</label>
+            <input [(ngModel)]="user.lastName" type="text" placeholder="Last Name">
           </div>
-          <!-- Break -->
-          <div class="12u$">
-            <div class="select-wrapper">
-              <select name="demo-category" id="demo-category">
-                <option value="">- Category -</option>
-                <option value="1">Manufacturing</option>
-                <option value="1">Shipping</option>
-                <option value="1">Administration</option>
-                <option value="1">Human Resources</option>
-              </select>
+        </div>
+      </section>
+      <!-- Section -->
+      <section>
+        <h3>Profile</h3>
+        <div *ngIf="profile" class="row uniform">
+          <div class="6u$ 12u$(xsmall)">
+            <label>Name</label>
+            <input [(ngModel)]="profile.name" type="text" placeholder="Name">
+          </div>
+          <div class="6u 12u$(xsmall)">
+            <label>Email Address</label>
+            <input [(ngModel)]="profile.contactDetails.emailAddress" type="text" placeholder="First Name">
+          </div>
+          <div class="6u$ 12u$(xsmall)">
+            <label>Phone Number</label>
+            <input [(ngModel)]="profile.contactDetails.phoneNumber" type="text" placeholder="Last Name">
+          </div>
+          <div class="6u 12u$(xsmall)">
+            <label>City</label>
+            <input [(ngModel)]="profile.address.city" type="text" placeholder="First Name">
+          </div>
+          <div class="6u$ 12u$(xsmall)">
+            <label>Country</label>
+            <input [(ngModel)]="profile.address.country" type="text" placeholder="Last Name">
+          </div>
+          <div class="12u$ 12u$(xsmall)">
+            <label>Description</label>
+            <textarea [(ngModel)]="profile.description" rows="4">
+            </textarea>
+          </div>
+          <div class="12u$ 12u$(xsmall)">
+              <label>Message</label>
+              <textarea [(ngModel)]="profile.message" rows="4">
+              </textarea>
             </div>
-          </div>
-          <!-- Break -->
-          <div class="4u 12u$(small)">
-            <input type="radio" id="demo-priority-low" name="demo-priority" checked="">
-            <label for="demo-priority-low">Low</label>
-          </div>
-          <div class="4u 12u$(small)">
-            <input type="radio" id="demo-priority-normal" name="demo-priority">
-            <label for="demo-priority-normal">Normal</label>
-          </div>
-          <div class="4u$ 12u$(small)">
-            <input type="radio" id="demo-priority-high" name="demo-priority">
-            <label for="demo-priority-high">High</label>
-          </div>
-          <!-- Break -->
-          <div class="6u 12u$(small)">
-            <input type="checkbox" id="demo-copy" name="demo-copy">
-            <label for="demo-copy">Email me a copy</label>
-          </div>
-          <div class="6u$ 12u$(small)">
-            <input type="checkbox" id="demo-human" name="demo-human" checked="">
-            <label for="demo-human">I am a human</label>
-          </div>
-          <!-- Break -->
-          <div class="12u$">
-            <textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
-          </div>
-          <!-- Break -->
-          <div class="12u$">
-            <ul class="actions">
-              <li>
-                <input type="submit" value="Send Message" class="special">
-              </li>
-              <li>
-                <input type="reset" value="Reset">
-              </li>
-            </ul>
-          </div>
         </div>
       </section>
     </div>
@@ -76,13 +70,13 @@
         </form>
       </section>
       <!-- Menu -->
-      <nav id="menu">
+      <nav *ngIf="profile" id="menu">
         <header class="major">
           <h2>Menu</h2>
         </header>
         <ul>
           <li>
-            <a href="#">My Profile</a>
+            <a [routerLink]="['/', profile.name, 'profile']" href="#">My Profile</a>
           </li>
           <li>
             <a href="#">Explore</a>
