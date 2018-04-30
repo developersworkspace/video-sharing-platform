@@ -15,4 +15,8 @@ export class User implements IClonable<User> {
         return new User(this.emailAddress, this.firstName, this.id, this.lastName);
     }
 
+    public static fromJSON(json: any): User {
+        return new User(json.emailAddress, json.firstName, json.id, json.lastName);
+    }
+
 }

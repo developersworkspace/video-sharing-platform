@@ -9,6 +9,10 @@ export abstract class BaseComponent {
 
   public authenticated = false;
 
+  public currentProfile: Profile = null;
+
+  public currentUser: User = null;
+
   public profile: Profile = null;
 
   // TODO: Set from Service
@@ -26,10 +30,13 @@ export abstract class BaseComponent {
 
     this.token = localStorage.getItem('jwt');
 
+    this.loadCurrentProfile();
+    this.loadCurrentUser();
+
     this.loadProfile();
   }
 
-  public abstract onLoad(): void;
+  protected abstract onLoad(): void;
 
   protected getHeaders(): HttpHeaders {
     const token: string = localStorage.getItem('jwt');
@@ -39,6 +46,22 @@ export abstract class BaseComponent {
     });
 
     return headers;
+  }
+
+  protected loadCurrentProfile(): void {
+    this.http.get(`${this.apiUri}/profile`, {
+      headers: this.getHeaders(),
+    }).subscribe((profile: Profile) => {
+      this.currentProfile = profile;
+    });
+  }
+
+  protected loadCurrentUser(): void {
+    this.http.get(`${this.apiUri}/user`, {
+      headers: this.getHeaders(),
+    }).subscribe((user: User) => {
+      this.currentUser = user;
+    });
   }
 
   protected loadProfile(): void {

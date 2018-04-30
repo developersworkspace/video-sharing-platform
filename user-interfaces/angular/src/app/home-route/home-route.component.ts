@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Video } from '../entities/video';
-import { Profile } from '../entities/profile';
-import { User } from '../entities/user';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '../base/base.component';
@@ -31,10 +29,10 @@ export class HomeRouteComponent extends BaseComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.loadProfile();
+
   }
 
-  public onLoad(): void {
+  protected onLoad(): void {
     this.loadVideos();
   }
 

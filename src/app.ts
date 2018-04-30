@@ -29,6 +29,51 @@ const swaggerDocument = yamljs.load(path.join(__dirname, 'swagger.yaml'));
 
 app.use('/api/docs', swagger.serve, swagger.setup(swaggerDocument, { explore: true }));
 
+// app.use((request: express.Request, response: express.Response, next: express.NextFunction) => {
+//     if (!request.get('authorization') && !request.query.token) {
+//         response.status(401).end();
+//         return;
+//     }
+
+//     let token: string = null;
+
+//     if (request.get('authorization')) {
+//         const patternAuthorization: RegExp = new RegExp(/bearer (.*)/i);
+
+//         const matchesAuthorization: RegExpExecArray = patternAuthorization.exec(request.get('authorization'));
+
+//         if (!matchesAuthorization) {
+//             response.status(401).end();
+//             return;
+//         }
+
+//         token = matchesAuthorization[1];
+//     }
+
+//     if (request.query.token) {
+//         token = request.query.token;
+//     }
+
+//     try {
+//         const decodedJWT: any = jsonwebtoken.verify(token, 'video-sharing-platform');
+
+//         request['user'] = decodedJWT;
+//     } catch {
+//         response.status(401).end();
+//         return;
+//     }
+
+//     next();
+// });
+
+app.use((req: express.Request, response: express.Response, next: express.NextFunction) => {
+    req['user'] = {
+        emailAddress: 'chris@leslingshot.com',
+    };
+
+    next();
+});
+
 app.route('/api/profile')
     .get(ProfileRouter.get)
     .put(ProfileRouter.put);
@@ -43,50 +88,50 @@ app.route('/api/video')
 app.route('/api/video/thumbnail/stream')
     .get(VideoRouter.getStreamForThumbnail);
 
-app.use((request: express.Request, response: express.Response, next: express.NextFunction) => {
-    if (!request.get('authorization') && !request.query.token) {
-        response.status(401).end();
-        return;
-    }
+// app.use((request: express.Request, response: express.Response, next: express.NextFunction) => {
+//     if (!request.get('authorization') && !request.query.token) {
+//         response.status(401).end();
+//         return;
+//     }
 
-    let token: string = null;
+//     let token: string = null;
 
-    if (request.get('authorization')) {
-        const patternAuthorization: RegExp = new RegExp(/bearer (.*)/i);
+//     if (request.get('authorization')) {
+//         const patternAuthorization: RegExp = new RegExp(/bearer (.*)/i);
 
-        const matchesAuthorization: RegExpExecArray = patternAuthorization.exec(request.get('authorization'));
+//         const matchesAuthorization: RegExpExecArray = patternAuthorization.exec(request.get('authorization'));
 
-        if (!matchesAuthorization) {
-            response.status(401).end();
-            return;
-        }
+//         if (!matchesAuthorization) {
+//             response.status(401).end();
+//             return;
+//         }
 
-        token = matchesAuthorization[1];
-    }
+//         token = matchesAuthorization[1];
+//     }
 
-    if (request.query.token) {
-        token = request.query.token;
-    }
+//     if (request.query.token) {
+//         token = request.query.token;
+//     }
 
-    try {
-        const decodedJWT: any = jsonwebtoken.verify(token, 'video-sharing-platform');
+//     try {
+//         const decodedJWT: any = jsonwebtoken.verify(token, 'video-sharing-platform');
 
-        request['user'] = decodedJWT;
-    } catch {
-        response.status(401).end();
-        return;
-    }
-
-    next();
-});
-
-// app.use((req: express.Request, response: express.Response, next: express.NextFunction) => {
-//     req['user'] = {
-//         emailAddress: 'chris@leslingshot.com',
-//     };
+//         request['user'] = decodedJWT;
+//     } catch {
+//         response.status(401).end();
+//         return;
+//     }
 
 //     next();
 // });
+
+app.use((req: express.Request, response: express.Response, next: express.NextFunction) => {
+    req['user'] = {
+        emailAddress: 'chris@leslingshot.com',
+    };
+
+    next();
+});
 
 app.route('/api/subscription')
     .get(SubscriptionRouter.get);

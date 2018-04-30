@@ -31,7 +31,6 @@ export class WatchRouteComponent extends BaseComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.loadProfile();
   }
 
   public onClickSubscribe(): void {
@@ -42,7 +41,7 @@ export class WatchRouteComponent extends BaseComponent implements OnInit {
     });
   }
 
-  public onLoad(): void {
+  protected onLoad(): void {
     this.loadVideo();
     this.loadVideos();
   }

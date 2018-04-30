@@ -13,6 +13,7 @@ import { AuthGuard } from './auth.guard';
 import { CallbackRouteComponent } from './callback-route/callback-route.component';
 import { ProfileRouteComponent } from './profile-route/profile-route.component';
 import { FormsModule } from '@angular/forms';
+import { MyVideosRouteComponent } from './my-videos-route/my-videos-route.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { FormsModule } from '@angular/forms';
     WatchRouteComponent,
     CallbackRouteComponent,
     ProfileRouteComponent,
+    MyVideosRouteComponent,
   ],
   imports: [
     AppRoutingModule,

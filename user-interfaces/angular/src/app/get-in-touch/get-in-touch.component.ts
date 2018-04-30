@@ -21,7 +21,7 @@ export class GetInTouchComponent extends BaseComponent implements OnInit {
 
   }
 
-  public onLoad(): void {
+  protected onLoad(): void {
 
   }
 

@@ -21,7 +21,7 @@ export class HeaderComponent extends BaseComponent implements OnInit {
 
   }
 
-  public onLoad(): void {
+  protected onLoad(): void {
 
   }
 

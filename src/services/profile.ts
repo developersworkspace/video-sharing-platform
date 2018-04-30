@@ -18,7 +18,11 @@ export class ProfileService {
     }
 
     public async find(emailAddress: string): Promise<Profile> {
-        return this.profileRepository.find(emailAddress);
+        const user: User = await this.userRepository.find(emailAddress);
+
+        const profile: Profile = await this.profileRepository.find(user.id);
+
+        return profile;
     }
 
     public async findByName(emailAddress: string): Promise<Profile> {
