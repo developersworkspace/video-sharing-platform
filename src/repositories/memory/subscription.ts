@@ -4,16 +4,15 @@ import { ISubscriptionRepository, Subscription } from 'majuro';
 @injectable()
 export class SubscriptionRepository implements ISubscriptionRepository {
 
-    protected subscriptions: Subscription[] = null;
+    protected static subscriptions: Subscription[] = [];
 
     constructor() {
-        this.subscriptions = [];
     }
 
     public async create(subscription: Subscription): Promise<Subscription> {
         subscription.id = 1;
 
-        this.subscriptions.push(subscription);
+        SubscriptionRepository.subscriptions.push(subscription);
 
         return subscription;
     }
@@ -23,6 +22,6 @@ export class SubscriptionRepository implements ISubscriptionRepository {
     }
 
     public async find(userId: string): Promise<Subscription> {
-        return this.subscriptions.find((subscription: Subscription) => subscription.userId === userId);
+        return SubscriptionRepository.subscriptions.find((subscription: Subscription) => subscription.userId === userId);
     }
 }

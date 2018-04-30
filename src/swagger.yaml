@@ -17,92 +17,58 @@ paths:
   /profile:
     get:
       summary: "Find Profile"
-      description: ""
+      description: "Returns authenticated or specified profile"
       operationId: "findProfile"
       produces:
       - "application/json"
       parameters:
       - in: "query"
-        name: "id"
-        description: "Customer Id"
+        name: "name"
+        description: "Profile Name"
         required: true
         type: "string"
       responses:
         200:
-            description: "Customer"
+            description: "Profile"
             schema:
-                $ref: "#/definitions/Customer"
-        400:
-          description: "Invalid Customer Id"
-  /customer/search:
-    get:
-      summary: "Search customers"
-      description: ""
-      operationId: "searchCustomers"
+                $ref: "#/definitions/Profile"
+    put:
+      summary: "Update Profile"
+      description: "Updates profile"
+      operationId: "updateProfile"
       produces:
       - "application/json"
       parameters:
-      - in: "query"
-        name: "city"
-        description: "City"
-        required: false
-        type: "string"
-      - in: "query"
-        name: "emailAddress"
-        description: "Email Address"
-        required: false
-        type: "string"
-      - in: "query"
-        name: "firstName"
-        description: "First Name"
-        required: false
-        type: "string"
-      - in: "query"
-        name: "identificationNumber"
-        description: "Identification Number"
-        required: false
-        type: "string"
-      - in: "query"
-        name: "lastName"
-        description: "Last Name"
-        required: false
-        type: "string"
-      - in: "query"
-        name: "phoneNumber"
-        description: "Phone Number"
-        required: false
-        type: "string"
+      - in: "body"
+        name: "name"
+        description: "Profile Name"
+        required: true
+        schema:
+          $ref: "#/definitions/Profile"
       responses:
         200:
-            description: "Customers"
+            description: "Profile"
             schema:
-              type: "array"
-              items:
-                $ref: "#/definitions/Customer"
-        400:
-          description: "Invalid Customer Id"
+                $ref: "#/definitions/Profile"
 definitions:
-  Customer:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-      contactInformation:
-        $ref: "#/definitions/ContactInformation"
-      firstName:
-        type: "string"
-      identificationNumber:
-        type: "string"
-      lastName:
-        type: "string"
-  ContactInformation:
+  Profile:
     type: "object"
     properties:
       address:
-         $ref: "#/definitions/Address"
-      emailAddress:
+        $ref: "#/definitions/Address"
+      contactDetails:
+        $ref: "#/definitions/Address"
+      description:
         type: "string"
-      phoneNumber:
+      id:
+        type: "string"
+      message:
+        type: "string"
+      name:
+        type: "string"
+      socialDetails:
+        $ref: "#/definitions/SocialDetails"
+      userId:
         type: "string"
   Address:
     type: "object"
@@ -111,11 +77,21 @@ definitions:
         type: "string"
       country:
         type: "string"
-      line1:
+  ContactDetails:
+    type: "object"
+    properties:
+      emailAddress:
         type: "string"
-      line2:
+      phoneNumber:
         type: "string"
-      postalCode:
+  SocialDetails:
+    type: "object"
+    properties:
+      facebook:
+        type: "string"
+      instagram:
+        type: "string"
+      twitter:
         type: "string"
 externalDocs:
   description: "Find out more about Swagger"

@@ -1,8 +1,9 @@
+import { IClonable } from '../interfaces/clonable';
 import { Address } from '../value-objects/address';
 import { ContactDetails } from '../value-objects/contact-details';
 import { SocialDetails } from '../value-objects/social-details';
 
-export class Profile {
+export class Profile implements IClonable<Profile> {
 
     constructor(
         public address: Address,
@@ -15,6 +16,19 @@ export class Profile {
         public userId: string,
     ) {
 
+    }
+
+    public clone(): Profile {
+        return new Profile(
+            this.address.clone(),
+            this.contactDetails.clone(),
+            this.description,
+            this.id,
+            this.message,
+            this.name,
+            this.socialDetails.clone(),
+            this.userId,
+        );
     }
 
 }

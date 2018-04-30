@@ -6,6 +6,7 @@ import * as jsonwebtoken from 'jsonwebtoken';
 import * as path from 'path';
 import * as swagger from 'swagger-ui-express';
 import * as winston from 'winston';
+import * as yamljs from 'yamljs';
 import * as yargs from 'yargs';
 import { AuthRouter } from './routes/auth';
 import { ProfileRouter } from './routes/profile';
@@ -24,14 +25,17 @@ app.use(cors());
 app.route('/api/auth/auth0')
     .get(AuthRouter.auth0);
 
-// const swaggerDocument = fs.readFileSync(path.join(__dirname, '..', 'swagger.json'), 'utf8');
-// app.use('/api/docs', swagger.serve, swagger.setup(JSON.parse(swaggerDocument), { explore: true }));
+const swaggerDocument = yamljs.load(path.join(__dirname, 'swagger.yaml'));
+
+app.use('/api/docs', swagger.serve, swagger.setup(swaggerDocument, { explore: true }));
 
 app.route('/api/profile')
-    .get(ProfileRouter.get);
+    .get(ProfileRouter.get)
+    .put(ProfileRouter.put);
 
 app.route('/api/user')
-    .get(UserRouter.get);
+    .get(UserRouter.get)
+    .put(UserRouter.put);
 
 app.route('/api/video')
     .get(VideoRouter.get);
