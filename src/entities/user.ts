@@ -1,4 +1,6 @@
-export class User {
+import { IClonable } from '../interfaces/clonable';
+
+export class User implements IClonable<User> {
 
     constructor(
         public emailAddress: string,
@@ -7,6 +9,10 @@ export class User {
         public lastName: string,
     ) {
 
+    }
+
+    public clone(): User {
+        return new User(this.emailAddress, this.firstName, this.id, this.lastName);
     }
 
 }

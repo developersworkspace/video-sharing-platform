@@ -5,19 +5,18 @@ import { IPaymentRepository } from '../../interfaces/payment-repository';
 @injectable()
 export class PaymentRepository implements IPaymentRepository {
 
-    protected payments: Payment[] = null;
+    protected static payments: Payment[] = [];
 
     constructor() {
-        this.payments = [];
     }
 
     public async create(payment: Payment): Promise<Payment> {
-        this.payments.push(payment);
+        PaymentRepository.payments.push(payment);
 
         return payment;
     }
 
     public async list(subscriptionId: number): Promise<Payment[]> {
-        return this.payments.filter((payment: Payment) => payment.subscriptionId === subscriptionId);
+        return PaymentRepository.payments.filter((payment: Payment) => payment.subscriptionId === subscriptionId);
     }
 }
