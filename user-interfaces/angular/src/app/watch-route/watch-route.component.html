@@ -53,13 +53,13 @@
         </form>
       </section>
       <!-- Menu -->
-      <nav id="menu">
+      <nav *ngIf="profile" id="menu">
         <header class="major">
           <h2>Menu</h2>
         </header>
         <ul>
           <li>
-            <a href="#">My Profile</a>
+            <a [routerLink]="['/', profile.name, 'profile']" href="#">My Profile</a>
           </li>
           <li>
             <a href="#">Explore</a>

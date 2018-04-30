@@ -12,6 +12,7 @@ import { WatchRouteComponent } from './watch-route/watch-route.component';
 import { AuthGuard } from './auth.guard';
 import { CallbackRouteComponent } from './callback-route/callback-route.component';
 import { ProfileRouteComponent } from './profile-route/profile-route.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ProfileRouteComponent } from './profile-route/profile-route.component';
   imports: [
     AppRoutingModule,
     BrowserModule,
+    FormsModule,
     HttpClientModule,
   ],
   providers: [
