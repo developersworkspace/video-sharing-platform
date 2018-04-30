@@ -31,7 +31,7 @@ export class UserRouter extends BaseRouter {
         try {
             const userService: UserService = container.get<UserService>('UserService');
 
-            const result: OperationResult<User> = await userService.update(req['user'] ? req['user'].emailAddress : null, req.body);
+            const result: OperationResult<User> = await userService.update(req['user'] ? req['user'].emailAddress : null, User.fromJSON(req.body));
 
             UserRouter.sendOperationResult(res, result);
         } catch (err) {

@@ -7,56 +7,63 @@
       <!-- Section -->
       <section>
         <h3>User</h3>
-        <div *ngIf="user" class="row uniform">
+        <div *ngIf="currentUser" class="row uniform">
           <div class="6u$ 12u$(xsmall)">
             <label>Email Address</label>
-            <input [(ngModel)]="user.emailAddress" type="text" placeholder="Email Address">
+            <input [(ngModel)]="currentUser.emailAddress" disabled type="text" placeholder="Email Address">
           </div>
           <div class="6u 12u$(xsmall)">
             <label>First Name</label>
-            <input [(ngModel)]="user.firstName" type="text" placeholder="First Name">
+            <input [(ngModel)]="currentUser.firstName" type="text" placeholder="First Name">
           </div>
           <div class="6u$ 12u$(xsmall)">
             <label>Last Name</label>
-            <input [(ngModel)]="user.lastName" type="text" placeholder="Last Name">
+            <input [(ngModel)]="currentUser.lastName" type="text" placeholder="Last Name">
+          </div>
+          <div class="12u$ 12u$(xsmall)">
+            <button (click)="onClickSaveUser()" class="button special small fit">Save</button>
           </div>
         </div>
       </section>
       <!-- Section -->
       <section>
         <h3>Profile</h3>
-        <div *ngIf="profile" class="row uniform">
+        <div *ngIf="currentProfile" class="row uniform">
           <div class="6u$ 12u$(xsmall)">
             <label>Name</label>
-            <input [(ngModel)]="profile.name" type="text" placeholder="Name">
+            <input [(ngModel)]="currentProfile.name" disabled type="text" placeholder="Name">
           </div>
           <div class="6u 12u$(xsmall)">
             <label>Email Address</label>
-            <input [(ngModel)]="profile.contactDetails.emailAddress" type="text" placeholder="First Name">
+            <input [(ngModel)]="currentProfile.contactDetails.emailAddress" type="text" placeholder="First Name">
           </div>
           <div class="6u$ 12u$(xsmall)">
             <label>Phone Number</label>
-            <input [(ngModel)]="profile.contactDetails.phoneNumber" type="text" placeholder="Last Name">
+            <input [(ngModel)]="currentProfile.contactDetails.phoneNumber" type="text" placeholder="Last Name">
           </div>
           <div class="6u 12u$(xsmall)">
             <label>City</label>
-            <input [(ngModel)]="profile.address.city" type="text" placeholder="First Name">
+            <input [(ngModel)]="currentProfile.address.city" type="text" placeholder="First Name">
           </div>
           <div class="6u$ 12u$(xsmall)">
             <label>Country</label>
-            <input [(ngModel)]="profile.address.country" type="text" placeholder="Last Name">
+            <input [(ngModel)]="currentProfile.address.country" type="text" placeholder="Last Name">
           </div>
           <div class="12u$ 12u$(xsmall)">
             <label>Description</label>
-            <textarea [(ngModel)]="profile.description" rows="4">
+            <textarea [(ngModel)]="currentProfile.description" rows="4">
             </textarea>
           </div>
           <div class="12u$ 12u$(xsmall)">
-              <label>Message</label>
-              <textarea [(ngModel)]="profile.message" rows="4">
+            <label>Message</label>
+            <textarea [(ngModel)]="currentProfile.message" rows="4">
               </textarea>
-            </div>
+          </div>
+          <div class="12u$ 12u$(xsmall)">
+            <button (click)="onClickSaveProfile()" class="button special small fit">Save</button>
+          </div>
         </div>
+
       </section>
     </div>
   </div>

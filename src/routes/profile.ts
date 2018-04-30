@@ -31,7 +31,7 @@ export class ProfileRouter extends BaseRouter {
         try {
             const profileService: ProfileService = container.get<ProfileService>('ProfileService');
 
-            const result: OperationResult<Profile> = await profileService.update(req['user'] ? req['user'].emailAddress : null, req.body);
+            const result: OperationResult<Profile> = await profileService.update(req['user'] ? req['user'].emailAddress : null, Profile.fromJSON(req.body));
 
             ProfileRouter.sendOperationResult(res, result);
         } catch (err) {

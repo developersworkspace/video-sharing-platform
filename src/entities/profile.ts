@@ -31,4 +31,17 @@ export class Profile implements IClonable<Profile> {
         );
     }
 
+    public static fromJSON(json: any): Profile {
+        return new Profile(
+            new Address(json.address.city, json.address.country),
+            new ContactDetails(json.contactDetails.emailAddress, json.contactDetails.phoneNumber),
+            json.description,
+            json.id,
+            json.message,
+            json.name,
+            new SocialDetails(json.socialDetails.facebook, json.socialDetails.instagram, json.socialDetails.twitter),
+            json.userId,
+        );
+    }
+
 }

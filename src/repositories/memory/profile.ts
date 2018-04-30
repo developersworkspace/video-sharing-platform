@@ -47,7 +47,7 @@ export class ProfileRepository implements IProfileRepository {
     }
 
     public async update(profile: Profile): Promise<Profile> {
-        const result: Profile = ProfileRepository.profiles.find((x: Profile) => x.name === profile.id);
+        const result: Profile = ProfileRepository.profiles.find((x: Profile) => x.id === profile.id);
 
         result.address = profile.address.clone();
         result.contactDetails = profile.contactDetails.clone();

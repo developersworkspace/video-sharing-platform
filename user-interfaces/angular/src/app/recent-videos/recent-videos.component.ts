@@ -23,10 +23,9 @@ export class RecentVideosComponent extends BaseComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.loadProfile();
   }
 
-  public onLoad(): void {
+  protected onLoad(): void {
     this.loadVideos();
   }
 
