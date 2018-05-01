@@ -4,6 +4,7 @@ export class Video implements IClonable<Video> {
 
     constructor(
         public blobLocation: string,
+        public datePublished: Date,
         public id: string,
         public longDescription: string,
         public profileName: string,
@@ -18,6 +19,7 @@ export class Video implements IClonable<Video> {
     public clone(): Video {
         return new Video(
             this.blobLocation,
+            this.datePublished,
             this.id,
             this.longDescription,
             this.profileName,

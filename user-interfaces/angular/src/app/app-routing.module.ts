@@ -5,6 +5,7 @@ import { WatchRouteComponent } from './watch-route/watch-route.component';
 import { AuthGuard } from './auth.guard';
 import { CallbackRouteComponent } from './callback-route/callback-route.component';
 import { ProfileRouteComponent } from './profile-route/profile-route.component';
+import { MyVideosRouteComponent } from './my-videos-route/my-videos-route.component';
 
 const appRoutes: Routes = [
   {
@@ -17,6 +18,13 @@ const appRoutes: Routes = [
     // ],
     component: HomeRouteComponent,
     path: ':profileName',
+  },
+  {
+    canActivate: [
+      AuthGuard,
+    ],
+    component: MyVideosRouteComponent,
+    path: ':profileName/my-videos',
   },
   {
     canActivate: [
