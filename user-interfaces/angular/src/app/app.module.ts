@@ -14,6 +14,7 @@ import { CallbackRouteComponent } from './callback-route/callback-route.componen
 import { ProfileRouteComponent } from './profile-route/profile-route.component';
 import { FormsModule } from '@angular/forms';
 import { MyVideosRouteComponent } from './my-videos-route/my-videos-route.component';
+import { MyVideosEditRouteComponent } from './my-videos-edit-route/my-videos-edit-route.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { MyVideosRouteComponent } from './my-videos-route/my-videos-route.compon
     CallbackRouteComponent,
     ProfileRouteComponent,
     MyVideosRouteComponent,
+    MyVideosEditRouteComponent,
   ],
   imports: [
     AppRoutingModule,

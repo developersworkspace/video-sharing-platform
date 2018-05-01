@@ -6,30 +6,23 @@
       <app-header></app-header>
       <!-- Section -->
       <section>
-        <h3>My Videos</h3>
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Size</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let video of videos">
-                <td>
-                  <a [routerLink]="['/', profile.name, 'my-video', 'edit', video.id]">{{ video.title }}</a>
-                </td>
-                <td>{{ video.size / 1000000 }} MB</td>
-                <td>
-                  <a [routerLink]="['/', profile.name, 'watch', video.id]">
-                    <img style="height: auto; width: 250px" src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}" alt="" />
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <h3>My Videos - Edit</h3>
+        <div *ngIf="video" class="row uniform">
+          <div class="6u$ 12u$(xsmall)">
+            <label>Name</label>
+            <input [(ngModel)]="video.title" type="text" placeholder="Title">
+          </div>
+          <div class="12u$ 12u$(xsmall)">
+            <label>Short Description</label>
+            <textarea [(ngModel)]="video.shortDescription" rows="4">
+              </textarea>
+          </div>
+          <div class="12u$ 12u$(xsmall)">
+            <label>Long Description</label>
+            <textarea [(ngModel)]="video.longDescription" rows="4">
+            </textarea>
+          </div>
+
         </div>
       </section>
     </div>
