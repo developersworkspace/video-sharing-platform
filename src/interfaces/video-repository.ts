@@ -6,4 +6,6 @@ export interface IVideoRepository {
 
     list(profileName: string): Promise<Video[]>;
 
+    update(video: Video): Promise<Video>;
+
 }

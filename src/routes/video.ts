@@ -39,9 +39,9 @@ export class VideoRouter extends BaseRouter {
         try {
             const videoService: VideoService = container.get<VideoService>('VideoService');
 
-            const result: boolean = await videoService.endUploadForThumbnail(req['user'] ? req['user'].emailAddress : null, req.query.id);
+            const result: OperationResult<string> = await videoService.endUploadForThumbnail(req['user'] ? req['user'].emailAddress : null, req.query.id);
 
-            res.json(result);
+            VideoRouter.sendOperationResult(res, result);
         } catch (err) {
             VideoRouter.sendErrorResponse(err, res);
         }
@@ -96,7 +96,7 @@ export class VideoRouter extends BaseRouter {
 
             const video: Video = result.result;
 
-            const stream: Stream = fs.createReadStream(video.thumbnailLocation);
+            const stream: Stream = fs.createReadStream(path.join(config.paths.base, video.thumbnailLocation));
 
             res.set('Content-Type', 'image/jpg');
 

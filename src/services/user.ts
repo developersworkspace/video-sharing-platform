@@ -1,5 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { OperationResult } from 'majuro';
+import { Constants } from '../constants';
 import { User } from '../entities/user';
 import { IUserRepository } from '../interfaces/user-repository';
 
@@ -27,7 +28,7 @@ export class UserService {
         const existingUser: User = await this.userRepository.findById(user.id);
 
         if (existingUser.emailAddress !== emailAddress) {
-            result.addMessage('unauthorized', null, `Not allowed to edit another user`);
+            result.addMessage(Constants.ERROR_CODES_UNAUTHORIZED, null, `Not allowed to edit another user`);
 
             return result;
         }

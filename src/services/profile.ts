@@ -1,5 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { OperationResult } from 'majuro';
+import { Constants } from '../constants';
 import { Profile } from '../entities/profile';
 import { User } from '../entities/user';
 import { IProfileRepository } from '../interfaces/profile-repository';
@@ -37,7 +38,7 @@ export class ProfileService {
         const existingProfile: Profile = await this.profileRepository.findById(profile.id);
 
         if (existingProfile.userId !== user.id) {
-            result.addMessage('unauthorized', null, `Not allowed to edit another user`);
+            result.addMessage(Constants.ERROR_CODES_UNAUTHORIZED, null, `Not allowed to edit another user`);
 
             return result;
         }
