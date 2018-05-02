@@ -2,6 +2,8 @@ import * as fs from 'fs';
 import { inject, injectable } from 'inversify';
 import { OperationResult } from 'majuro';
 import * as path from 'path';
+import * as uuid from 'uuid';
+import { Constants } from '../constants';
 import { Profile } from '../entities/profile';
 import { User } from '../entities/user';
 import { Video } from '../entities/video';
@@ -58,7 +60,7 @@ export class VideoService {
             return operationResult;
         }
 
-        await this.storageGateway.append(buffer, video.thumbnailLocation, offset);
+        await this.storageGateway.append(buffer, `${user.id}-${profile.id}-${video.id}-thumbnail.file`, offset);
 
         operationResult.setResult(true);
 
@@ -104,37 +106,57 @@ export class VideoService {
             return operationResult;
         }
 
-        await this.storageGateway.append(buffer, video.blobLocation, offset);
+        await this.storageGateway.append(buffer, `${user.id}-${profile.id}-${video.id}-video.file`, offset);
 
         operationResult.setResult(true);
 
         return operationResult;
     }
 
-    public async endUploadForThumbnail(emailAddress: string, id: string): Promise<boolean> {
+    public async endUploadForThumbnail(emailAddress: string, id: string): Promise<OperationResult<string>> {
+        const operationResult: OperationResult<string> = new OperationResult<string>(null);
+
         const video: Video = await this.videoRepository.find(id);
 
         if (!video) {
-            return false;
+            operationResult.addMessage(Constants.ERROR_CODES_VIDEO_NOT_FOUND, null, `Video with id '${id}' not found`);
+
+            return operationResult;
         }
 
         const profile: Profile = await this.profileRepository.findByName(video.profileName);
 
         if (!profile) {
-            return false;
+            operationResult.addMessage(Constants.ERROR_CODES_PROFILE_NOT_FOUND, null, `Profile with name '${video.profileName}' not found`);
+
+            return operationResult;
         }
 
-        const user: User = await this.userRepository.find(profile.userId);
+        const user: User = await this.userRepository.findById(profile.userId);
 
         if (!user) {
-            return false;
+            operationResult.addMessage(Constants.ERROR_CODES_USER_NOT_FOUND, null, `User with id '${profile.userId}' not found`);
+
+            return operationResult;
         }
 
         if (emailAddress !== user.emailAddress) {
-            return false;
+            return null;
         }
 
-        return true;
+        await this.storageGateway.delete(video.thumbnailLocation);
+
+        const thumbnailLocation: string = `${uuid.v4()}.file`;
+
+        await this.storageGateway.copy(`${user.id}-${profile.id}-${video.id}-thumbnail.file`, thumbnailLocation);
+
+        video.thumbnailLocation = thumbnailLocation;
+
+        await this.videoRepository.update(video);
+
+        operationResult.setResult(thumbnailLocation);
+
+        return operationResult;
     }
 
     public async endUploadForVideo(emailAddress: string, id: string): Promise<boolean> {
@@ -150,7 +172,7 @@ export class VideoService {
             return false;
         }
 
-        const user: User = await this.userRepository.find(profile.userId);
+        const user: User = await this.userRepository.findById(profile.userId);
 
         if (!user) {
             return false;
@@ -229,7 +251,7 @@ export class VideoService {
             return false;
         }
 
-        const user: User = await this.userRepository.find(profile.userId);
+        const user: User = await this.userRepository.findById(profile.userId);
 
         if (!user) {
             return false;
@@ -255,7 +277,7 @@ export class VideoService {
             return false;
         }
 
-        const user: User = await this.userRepository.find(profile.userId);
+        const user: User = await this.userRepository.findById(profile.userId);
 
         if (!user) {
             return false;

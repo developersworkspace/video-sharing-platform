@@ -36,6 +36,10 @@ export class FileSystemStorageGateway implements IStorageGateway {
         });
     }
 
+    public async copy(from: string, to: string): Promise<void> {
+        fs.createReadStream(path.join(this.basePath, from)).pipe(fs.createWriteStream(path.join(this.basePath, to)));
+    }
+
     public async delete(fileName: string): Promise<void> {
         if (fs.existsSync(fileName)) {
             await fs.remove(fileName);

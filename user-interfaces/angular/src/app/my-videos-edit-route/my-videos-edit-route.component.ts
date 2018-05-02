@@ -3,6 +3,8 @@ import { BaseComponent } from '../base/base.component';
 import { Video } from '../entities/video';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 @Component({
   selector: 'app-my-videos-edit-route',
@@ -25,26 +27,14 @@ export class MyVideosEditRouteComponent extends BaseComponent implements OnInit 
   }
 
   public handleThumbnailUpload(files: FileList): void {
-    // TODO: Start
-
     const file: File = files[0];
 
     const reader: FileReader = new FileReader();
 
     reader.onload = () => {
-      const result: ArrayBuffer = reader.result as ArrayBuffer;
+      const arrayBuffer: ArrayBuffer = reader.result as ArrayBuffer;
 
-      const chunkSize = 2000;
-
-      for (let offset = 0; offset < result.byteLength; offset += chunkSize) {
-        const data: Uint8Array = new Uint8Array(result.slice(offset, offset + chunkSize - 1));
-
-        this.http.post(`${this.apiUri}/video/thumbnail/append?id=${this.video.id}&offset=${offset}`, Array.from(data)).subscribe(() => {
-
-        });
-      }
-
-      // TODO: End
+      this.uploadThumbnail(arrayBuffer);
     };
 
     reader.readAsArrayBuffer(file);
@@ -69,6 +59,28 @@ export class MyVideosEditRouteComponent extends BaseComponent implements OnInit 
   protected loadVideo(): void {
     this.http.get(`${this.apiUri}/video?id=${this.activatedRoute.snapshot.params.videoId}`).subscribe((video: Video) => {
       this.video = video;
+    });
+  }
+
+  protected uploadThumbnail(arrayBuffer: ArrayBuffer): void {
+    this.http.post(`${this.apiUri}/video/thumbnail/start?id=${this.video.id}`, null).subscribe((startResponse: any) => {
+      const appendARequests: Observable<any>[] = [];
+
+      const chunkSize = 2000;
+
+      for (let offset = 0; offset < arrayBuffer.byteLength; offset += chunkSize) {
+        const data: Uint8Array = new Uint8Array(arrayBuffer.slice(offset, offset + chunkSize));
+
+        appendARequests.push(
+          this.http.post(`${this.apiUri}/video/thumbnail/append?id=${this.video.id}&offset=${offset}`, Array.from(data))
+        );
+      }
+
+      forkJoin(appendARequests).subscribe(() => {
+        this.http.post(`${this.apiUri}/video/thumbnail/end?id=${this.video.id}`, null).subscribe((endResponse: any) => {
+          this.video.thumbnailLocation = endResponse;
+        });
+      });
     });
   }
 
