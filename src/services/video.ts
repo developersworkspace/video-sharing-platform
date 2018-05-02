@@ -150,6 +150,8 @@ export class VideoService {
 
         await this.storageGateway.copy(`${user.id}-${profile.id}-${video.id}-thumbnail.file`, thumbnailLocation);
 
+        // await this.storageGateway.delete(`${user.id}-${profile.id}-${video.id}-thumbnail.file`);
+
         video.thumbnailLocation = thumbnailLocation;
 
         await this.videoRepository.update(video);
