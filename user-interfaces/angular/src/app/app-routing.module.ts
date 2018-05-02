@@ -6,6 +6,7 @@ import { AuthGuard } from './auth.guard';
 import { CallbackRouteComponent } from './callback-route/callback-route.component';
 import { ProfileRouteComponent } from './profile-route/profile-route.component';
 import { MyVideosRouteComponent } from './my-videos-route/my-videos-route.component';
+import { MyVideosEditRouteComponent } from './my-videos-edit-route/my-videos-edit-route.component';
 
 const appRoutes: Routes = [
   {
@@ -25,6 +26,13 @@ const appRoutes: Routes = [
     ],
     component: MyVideosRouteComponent,
     path: ':profileName/my-videos',
+  },
+  {
+    canActivate: [
+      AuthGuard,
+    ],
+    component: MyVideosEditRouteComponent,
+    path: ':profileName/my-videos/:videoId',
   },
   {
     canActivate: [

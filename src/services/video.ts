@@ -46,10 +46,10 @@ export class VideoService {
             return operationResult;
         }
 
-        const user: User = await this.userRepository.find(profile.userId);
+        const user: User = await this.userRepository.findById(profile.userId);
 
         if (!user) {
-            operationResult.addMessage('user_not_found', null, `Profile with id '${profile.userId}' not found`);
+            operationResult.addMessage('user_not_found', null, `User with id '${profile.userId}' not found`);
             return operationResult;
         }
 
@@ -82,10 +82,10 @@ export class VideoService {
             return operationResult;
         }
 
-        const user: User = await this.userRepository.find(profile.userId);
+        const user: User = await this.userRepository.findById(profile.userId);
 
         if (!user) {
-            operationResult.addMessage('user_not_found', null, `Profile with id '${profile.userId}' not found`);
+            operationResult.addMessage('user_not_found', null, `User with id '${profile.userId}' not found`);
             return operationResult;
         }
 

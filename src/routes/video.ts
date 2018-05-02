@@ -15,7 +15,7 @@ export class VideoRouter extends BaseRouter {
         try {
             const videoService: VideoService = container.get<VideoService>('VideoService');
 
-            const result: OperationResult<boolean> = await videoService.appendUploadForThumbnail(req.body, req['user'] ? req['user'].emailAddress : null, req.query.id, req.query.offset);
+            const result: OperationResult<boolean> = await videoService.appendUploadForThumbnail(Buffer.from(req.body), req['user'] ? req['user'].emailAddress : null, req.query.id, parseInt(req.query.offset, undefined));
 
             VideoRouter.sendOperationResult(res, result);
         } catch (err) {
@@ -27,7 +27,7 @@ export class VideoRouter extends BaseRouter {
         try {
             const videoService: VideoService = container.get<VideoService>('VideoService');
 
-            const result: OperationResult<boolean> = await videoService.appendUploadForVideo(req.body, req['user'] ? req['user'].emailAddress : null, req.query.id, req.query.offset);
+            const result: OperationResult<boolean> = await videoService.appendUploadForVideo(req.body, req['user'] ? req['user'].emailAddress : null, req.query.id, parseInt(req.query.offset, undefined));
 
             VideoRouter.sendOperationResult(res, result);
         } catch (err) {
@@ -96,7 +96,7 @@ export class VideoRouter extends BaseRouter {
 
             const video: Video = result.result;
 
-            const stream: Stream = fs.createReadStream(path.join(config.paths.base, video.thumbnailLocation));
+            const stream: Stream = fs.createReadStream(video.thumbnailLocation);
 
             res.set('Content-Type', 'image/jpg');
 
