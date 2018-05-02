@@ -4,7 +4,7 @@ import { Video } from '../entities/video';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-my-videos-edit-route',
@@ -12,6 +12,8 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
   styleUrls: ['./my-videos-edit-route.component.css']
 })
 export class MyVideosEditRouteComponent extends BaseComponent implements OnInit {
+
+  public token: string = null;
 
   public video: Video = null;
 
@@ -21,6 +23,8 @@ export class MyVideosEditRouteComponent extends BaseComponent implements OnInit 
     http: HttpClient,
   ) {
     super(activatedRoute, http);
+
+    this.refreshTokenForUpdate();
   }
 
   public ngOnInit(): void {
@@ -62,23 +66,36 @@ export class MyVideosEditRouteComponent extends BaseComponent implements OnInit 
     });
   }
 
+  protected refreshTokenForUpdate(): void {
+    this.token = new Date().getTime().toString();
+  }
+
   protected uploadThumbnail(arrayBuffer: ArrayBuffer): void {
     this.http.post(`${this.apiUri}/video/thumbnail/start?id=${this.video.id}`, null).subscribe((startResponse: any) => {
-      const appendARequests: Observable<any>[] = [];
+      let requestObservable: Observable<any> = null;
 
       const chunkSize = 2000;
 
       for (let offset = 0; offset < arrayBuffer.byteLength; offset += chunkSize) {
         const data: Uint8Array = new Uint8Array(arrayBuffer.slice(offset, offset + chunkSize));
 
-        appendARequests.push(
-          this.http.post(`${this.apiUri}/video/thumbnail/append?id=${this.video.id}&offset=${offset}`, Array.from(data))
-        );
+        const observable: Observable<any> = this.http.post(`${this.apiUri}/video/thumbnail/append?id=${this.video.id}&offset=${offset}`,
+          Array.from(data));
+
+        if (!requestObservable) {
+          requestObservable = observable;
+
+          continue;
+        }
+
+        requestObservable = requestObservable.pipe(mergeMap((value) => observable));
       }
 
-      forkJoin(appendARequests).subscribe(() => {
+      requestObservable.subscribe(() => {
         this.http.post(`${this.apiUri}/video/thumbnail/end?id=${this.video.id}`, null).subscribe((endResponse: any) => {
           this.video.thumbnailLocation = endResponse;
+
+          this.refreshTokenForUpdate();
         });
       });
     });

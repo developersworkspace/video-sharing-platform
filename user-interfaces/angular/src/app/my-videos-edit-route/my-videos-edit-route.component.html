@@ -27,7 +27,7 @@
             <label for="published">Published</label>
           </div>
           <div class="12u$ 12u$(xsmall)">
-            <img style="height: auto; width: 250px; display: block; margin-left: auto; margin-right: auto; margin-bottom: 10px" src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}" alt="" />
+            <img style="height: auto; width: 250px; display: block; margin-left: auto; margin-right: auto; margin-bottom: 10px" src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}&token={{ token }}" alt="" />
             <button (click)="onClickUploadThumbnail()" class="button special small fit">Upload Thumbnail</button>
             <input (change)="handleThumbnailUpload($event.target.files)" type="file" id="upload-thumbnail" style="display: none">
           </div>
