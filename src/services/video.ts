@@ -161,30 +161,52 @@ export class VideoService {
         return operationResult;
     }
 
-    public async endUploadForVideo(emailAddress: string, id: string): Promise<boolean> {
+    public async endUploadForVideo(emailAddress: string, id: string): Promise<OperationResult<string>> {
+        const operationResult: OperationResult<string> = new OperationResult<string>(null);
+
         const video: Video = await this.videoRepository.find(id);
 
         if (!video) {
-            return false;
+            operationResult.addMessage(Constants.ERROR_CODES_VIDEO_NOT_FOUND, null, `Video with id '${id}' not found`);
+
+            return operationResult;
         }
 
         const profile: Profile = await this.profileRepository.findByName(video.profileName);
 
         if (!profile) {
-            return false;
+            operationResult.addMessage(Constants.ERROR_CODES_PROFILE_NOT_FOUND, null, `Profile with name '${video.profileName}' not found`);
+
+            return operationResult;
         }
 
         const user: User = await this.userRepository.findById(profile.userId);
 
         if (!user) {
-            return false;
+            operationResult.addMessage(Constants.ERROR_CODES_USER_NOT_FOUND, null, `User with id '${profile.userId}' not found`);
+
+            return operationResult;
         }
 
         if (emailAddress !== user.emailAddress) {
-            return false;
+            return null;
         }
 
-        return true;
+        await this.storageGateway.delete(video.blobLocation);
+
+        const blobLocation: string = `${uuid.v4()}.file`;
+
+        await this.storageGateway.copy(`${user.id}-${profile.id}-${video.id}-video.file`, blobLocation);
+
+        // await this.storageGateway.delete(`${user.id}-${profile.id}-${video.id}-thumbnail.file`);
+
+        video.blobLocation = blobLocation;
+
+        await this.videoRepository.update(video);
+
+        operationResult.setResult(blobLocation);
+
+        return operationResult;
     }
 
     public async get(anonymous: boolean, emailAddress: string, id: string): Promise<OperationResult<Video>> {

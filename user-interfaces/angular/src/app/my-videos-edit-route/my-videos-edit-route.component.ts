@@ -45,7 +45,17 @@ export class MyVideosEditRouteComponent extends BaseComponent implements OnInit 
   }
 
   public handleVideoUpload(files: FileList): void {
-    console.log(files);
+    const file: File = files[0];
+
+    const reader: FileReader = new FileReader();
+
+    reader.onload = () => {
+      const arrayBuffer: ArrayBuffer = reader.result as ArrayBuffer;
+
+      this.uploadVideo(arrayBuffer);
+    };
+
+    reader.readAsArrayBuffer(file);
   }
 
   public onClickUploadThumbnail(): void {
@@ -74,7 +84,7 @@ export class MyVideosEditRouteComponent extends BaseComponent implements OnInit 
     this.http.post(`${this.apiUri}/video/thumbnail/start?id=${this.video.id}`, null).subscribe((startResponse: any) => {
       let requestObservable: Observable<any> = null;
 
-      const chunkSize = 2000;
+      const chunkSize = 600000;
 
       for (let offset = 0; offset < arrayBuffer.byteLength; offset += chunkSize) {
         const data: Uint8Array = new Uint8Array(arrayBuffer.slice(offset, offset + chunkSize));
@@ -93,6 +103,37 @@ export class MyVideosEditRouteComponent extends BaseComponent implements OnInit 
 
       requestObservable.subscribe(() => {
         this.http.post(`${this.apiUri}/video/thumbnail/end?id=${this.video.id}`, null).subscribe((endResponse: any) => {
+          this.video.thumbnailLocation = endResponse;
+
+          this.refreshTokenForUpdate();
+        });
+      });
+    });
+  }
+
+  protected uploadVideo(arrayBuffer: ArrayBuffer): void {
+    this.http.post(`${this.apiUri}/video/start?id=${this.video.id}`, null).subscribe((startResponse: any) => {
+      let requestObservable: Observable<any> = null;
+
+      const chunkSize = 600000;
+
+      for (let offset = 0; offset < arrayBuffer.byteLength; offset += chunkSize) {
+        const data: Uint8Array = new Uint8Array(arrayBuffer.slice(offset, offset + chunkSize));
+
+        const observable: Observable<any> = this.http.post(`${this.apiUri}/video/append?id=${this.video.id}&offset=${offset}`,
+          Array.from(data));
+
+        if (!requestObservable) {
+          requestObservable = observable;
+
+          continue;
+        }
+
+        requestObservable = requestObservable.pipe(mergeMap((value) => observable));
+      }
+
+      requestObservable.subscribe(() => {
+        this.http.post(`${this.apiUri}/video/end?id=${this.video.id}`, null).subscribe((endResponse: any) => {
           this.video.thumbnailLocation = endResponse;
 
           this.refreshTokenForUpdate();
