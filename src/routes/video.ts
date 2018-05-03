@@ -27,7 +27,7 @@ export class VideoRouter extends BaseRouter {
         try {
             const videoService: VideoService = container.get<VideoService>('VideoService');
 
-            const result: OperationResult<boolean> = await videoService.appendUploadForVideo(req.body, req['user'] ? req['user'].emailAddress : null, req.query.id, parseInt(req.query.offset, undefined));
+            const result: OperationResult<boolean> = await videoService.appendUploadForVideo(Buffer.from(req.body), req['user'] ? req['user'].emailAddress : null, req.query.id, parseInt(req.query.offset, undefined));
 
             VideoRouter.sendOperationResult(res, result);
         } catch (err) {
@@ -51,9 +51,9 @@ export class VideoRouter extends BaseRouter {
         try {
             const videoService: VideoService = container.get<VideoService>('VideoService');
 
-            const result: boolean = await videoService.endUploadForVideo(req['user'] ? req['user'].emailAddress : null, req.query.id);
+            const result: OperationResult<string> = await videoService.endUploadForVideo(req['user'] ? req['user'].emailAddress : null, req.query.id);
 
-            res.json(result);
+            VideoRouter.sendOperationResult(res, result);
         } catch (err) {
             VideoRouter.sendErrorResponse(err, res);
         }

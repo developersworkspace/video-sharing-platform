@@ -19,7 +19,7 @@ winston.add(winston.transports.File, { filename: 'video-sharing-platform.log' })
 const argv = yargs.argv;
 const app = express();
 
-app.use(bodyParser.json({}));
+app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors());
 
 app.route('/api/auth/auth0')
