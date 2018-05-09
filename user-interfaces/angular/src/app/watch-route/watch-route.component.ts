@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, Event, NavigationEnd } from '@angular/router';
 import { Video } from '../entities/video';
 import { BaseComponent } from '../base/base.component';
 import { HttpClient } from '@angular/common/http';
@@ -22,6 +22,7 @@ export class WatchRouteComponent extends BaseComponent implements OnInit {
   constructor(
     activatedRoute: ActivatedRoute,
     http: HttpClient,
+    protected router: Router,
   ) {
     super(activatedRoute, http);
 
@@ -31,6 +32,14 @@ export class WatchRouteComponent extends BaseComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        this.loadVideo();
+        this.loadVideos();
+
+        window.scrollTo(0, 0);
+      }
+    });
   }
 
   public onClickSubscribe(): void {

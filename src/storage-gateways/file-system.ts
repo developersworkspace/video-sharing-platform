@@ -13,17 +13,17 @@ export class FileSystemStorageGateway implements IStorageGateway {
     }
 
     public async append(buffer: Buffer, fileName: string, offset: number): Promise<void> {
-        const directory: string = path.dirname(fileName);
+        const directory: string = path.dirname(path.join(this.basePath, fileName));
 
         await this.ensureDirectoryExist(directory);
 
-        await this.appendFile(fileName, offset, buffer);
+        await this.appendFile(path.join(this.basePath, fileName), offset, buffer);
     }
 
     public computeHash(fileName: string): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             const hash = crypto.createHash('md5');
-            const stream = fs.createReadStream(fileName);
+            const stream = fs.createReadStream(path.join(this.basePath, fileName));
 
             stream.on('data', (data: Buffer) => {
                 hash.update(data, 'utf8');
@@ -36,6 +36,11 @@ export class FileSystemStorageGateway implements IStorageGateway {
         });
     }
 
+    public async copy(from: string, to: string): Promise<void> {
+        // TODO:
+        fs.createReadStream(path.join(this.basePath, from)).pipe(fs.createWriteStream(path.join(this.basePath, to)));
+    }
+
     public async delete(fileName: string): Promise<void> {
         if (fs.existsSync(fileName)) {
             await fs.remove(fileName);
@@ -43,7 +48,7 @@ export class FileSystemStorageGateway implements IStorageGateway {
     }
 
     public async getStream(end: number, fileName: string, start: number): Promise<Stream> {
-        return fs.createReadStream(fileName, {
+        return fs.createReadStream(path.join(this.basePath, fileName), {
             end,
             start,
         });
