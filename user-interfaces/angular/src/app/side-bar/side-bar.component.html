@@ -1,0 +1,36 @@
+<!-- Top Bar Start -->
+<div class="topbar-mobile">
+  <div class="logo">
+      <a [routerLink]="['/', profile.name]"><img src="assets/images/logo.png" alt="" class="" style="height: 44px;"></a>
+      <button class="button-menu-mobile">
+          <i class="mdi mdi-menu"></i>
+      </button>
+  </div>
+</div>
+<!-- Top Bar End -->
+<!-- ========== Left Sidebar Start ========== -->
+<div class="left side-menu">
+  <div class="slimscroll-menu" id="remove-scroll">
+      <div class="logo">
+          <a [routerLink]="['/', profile.name]"><img src="assets/images/logo.png" alt="" class="" style="height: 44px;"></a>
+          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </div>
+      <!--- Sidemenu -->
+      <div id="sidebar-menu">
+          <!-- Left Menu Start -->
+          <ul class="metismenu" id="side-menu">
+            <li>
+              <a [routerLink]="['/', profile.name, 'profile']" href="#">My Profile</a>
+            </li>
+            <li>
+              <a href="#">Explore</a>
+            </li>
+          </ul>
+         <app-footer></app-footer>
+      </div>
+      <!-- Sidebar -->
+      <div class="clearfix"></div>
+  </div>
+  <!-- Sidebar -left -->
+</div>
+<!-- Left Sidebar End -->
