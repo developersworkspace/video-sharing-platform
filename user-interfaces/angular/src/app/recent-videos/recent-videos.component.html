@@ -1,14 +1,12 @@
-<!-- Section -->
-<section>
-  <header class="major">
-    <h2>Recent Videos</h2>
-  </header>
-  <div class="mini-posts">
-    <article *ngFor="let video of recentVideos">
-      <a [routerLink]="['/', profile.name, 'watch', video.id]" class="image">
-        <img src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}" alt="" />
-      </a>
-      <p>{{ video.title }}</p>
-    </article>
-  </div>
-</section>
+<!-- Recent entries widget-->
+<aside class="widget widget_recent_entries_custom">
+  <div class="widget-title">Recent Videos</div>
+  <ul>
+      <li *ngFor="let video of recentVideos" class="clearfix">
+          <div class="wi">
+              <a [routerLink]="['/', profile.name, 'watch', video.id]"><img src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}" alt="" class="img-fluid"></a>
+          </div>
+          <div class="wb"><a [routerLink]="['/', profile.name, 'watch', video.id]">{{ video.title }}</a> <span class="post-date">{{ video.datePublished | date: 'MMMM dd, yyyy' }}</span></div>
+      </li>
+  </ul>
+</aside>
