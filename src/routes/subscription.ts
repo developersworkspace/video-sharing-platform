@@ -10,7 +10,7 @@ export class SubscriptionRouter extends BaseRouter {
         try {
             const subscriptionService: SubscriptionService = container.get<SubscriptionService>('SubscriptionService');
 
-            const result: OperationResult<SubscriptionCreateResult> = await subscriptionService.create(new Subscription(25, 'description', Frequency.Monthly, null, 'name', req['user'] ? req['user'].emailAddress : null));
+            const result: OperationResult<SubscriptionCreateResult> = await subscriptionService.create(new Subscription(25, 'Video Sharing Platform is a ....', Frequency.Monthly, null, 'Video Sharing Platform', req['user'] ? req['user'].emailAddress : null));
 
             SubscriptionRouter.sendOperationResult(res, result);
         } catch (err) {
