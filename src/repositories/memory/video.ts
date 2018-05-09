@@ -59,4 +59,18 @@ export class VideoRepository implements IVideoRepository {
         return result ? result.map((video: Video) => video.clone()) : null;
     }
 
+    public async update(video: Video): Promise<Video> {
+        const result: Video = VideoRepository.videos.find((x: Video) => x.id === video.id);
+
+        result.blobLocation = video.blobLocation;
+        result.datePublished = video.datePublished;
+        result.longDescription = video.longDescription;
+        result.shortDescription = video.shortDescription;
+        result.size = video.size;
+        result.thumbnailLocation = video.thumbnailLocation;
+        result.title = video.title;
+
+        return result.clone();
+    }
+
 }
