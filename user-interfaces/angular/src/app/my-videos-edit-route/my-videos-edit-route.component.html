@@ -63,6 +63,9 @@
           <li>
             <a href="#">Explore</a>
           </li>
+          <li>
+            <a [routerLink]="['/', profile.name, 'my-videos']" href="#">My Videos</a>
+          </li>
         </ul>
       </nav>
       <app-recent-videos></app-recent-videos>
