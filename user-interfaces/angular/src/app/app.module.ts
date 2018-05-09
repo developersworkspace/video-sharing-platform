@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HomeRouteComponent } from './home-route/home-route.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HeaderComponent } from './header/header.component';
 import { RecentVideosComponent } from './recent-videos/recent-videos.component';
 import { FooterComponent } from './footer/footer.component';
 import { WatchRouteComponent } from './watch-route/watch-route.component';
@@ -20,7 +19,6 @@ import { SideBarComponent } from './side-bar/side-bar.component';
   declarations: [
     AppComponent,
     HomeRouteComponent,
-    HeaderComponent,
     RecentVideosComponent,
     FooterComponent,
     WatchRouteComponent,

@@ -1,68 +1,54 @@
-<!-- Wrapper -->
-<div id="wrapper">
-  <!-- Main -->
-  <div id="main">
-    <div class="inner">
-      <app-header></app-header>
-      <!-- Section -->
-      <section>
-        <h3>My Videos</h3>
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Size</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let video of videos">
-                <td>
-                  <a [routerLink]="['/', profile.name, 'my-videos', video.id]">{{ video.title }}</a>
-                </td>
-                <td>{{ video.size / 1000000 }} MB</td>
-                <td>
-                  <a [routerLink]="['/', profile.name, 'watch', video.id]">
-                    <img style="height: auto; width: 250px" src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}" alt="" />
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+<!-- Begin page -->
+<div *ngIf="profile" id="wrapper">
+  <app-side-bar></app-side-bar>
+  <div class="page-wrapper">
+    <section class="pt-5">
+      <div class="home-center">
+        <div class="home-desc-center">
+          <div class="container">
+            <div class="row justify-content-center">
+              <!-- Content-->
+              <div class="col-12">
+                <!-- Post-->
+                <article class="post">
+                  <h5 class="text-center mt-0 mb-5 pb-3 text-uppercase">
+                    <b>My Videos</b>
+                  </h5>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Title</th>
+                            <th>Size</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let video of videos">
+                            <td>
+                              <a [routerLink]="['/', profile.name, 'my-videos', video.id]">{{ video.title }}</a>
+                            </td>
+                            <td>{{ (video.size / 1000000) | number: '.0-2' }} MB</td>
+                            <td>
+                              <a [routerLink]="['/', profile.name, 'watch', video.id]">
+                                <img style="height: auto; width: 250px" src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}" alt="" />
+                              </a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </article>
+                <!-- Post end-->
+              </div>
+              <!-- Content end-->
+            </div>
+          </div>
+          <!-- end container -->
         </div>
-      </section>
-    </div>
-  </div>
-  <!-- Sidebar -->
-  <div id="sidebar">
-    <div class="inner">
-      <!-- Search -->
-      <section id="search" class="alt">
-        <form method="post" action="#">
-          <input type="text" name="query" id="query" placeholder="Search" />
-        </form>
-      </section>
-      <!-- Menu -->
-      <nav *ngIf="profile" id="menu">
-        <header class="major">
-          <h2>Menu</h2>
-        </header>
-        <ul>
-          <li>
-            <a [routerLink]="['/', profile.name, 'profile']" href="#">My Profile</a>
-          </li>
-          <li>
-            <a href="#">Explore</a>
-          </li>
-          <li>
-            <a [routerLink]="['/', profile.name, 'my-videos']" href="#">My Videos</a>
-          </li>
-        </ul>
-      </nav>
-      <app-recent-videos></app-recent-videos>
-      <app-get-in-touch></app-get-in-touch>
-      <app-footer></app-footer>
-    </div>
+      </div>
+    </section>
   </div>
 </div>
