@@ -4,6 +4,7 @@ import { IProfileRepository } from '../../interfaces/profile-repository';
 import { Address } from '../../value-objects/address';
 import { ContactDetails } from '../../value-objects/contact-details';
 import { SocialDetails } from '../../value-objects/social-details';
+import { BaseRepository } from './base';
 
 @injectable()
 export class ProfileRepository implements IProfileRepository {
@@ -26,6 +27,16 @@ export class ProfileRepository implements IProfileRepository {
     ];
 
     constructor() {
+    }
+
+    public async create(profile: Profile): Promise<Profile> {
+        const newProfile: Profile = profile.clone();
+
+        newProfile.id = BaseRepository.nextStringId();
+
+        ProfileRepository.profiles.push(newProfile);
+
+        return newProfile;
     }
 
     public async find(userId: string): Promise<Profile> {

@@ -37,26 +37,26 @@ export class VideoService {
         const video: Video = await this.videoRepository.find(id);
 
         if (!video) {
-            operationResult.addMessage('video_not_found', null, `Video with id '${id}' not found`);
+            operationResult.addMessage(Constants.ERROR_CODES_VIDEO_NOT_FOUND, null, `Video with id '${id}' not found`);
             return operationResult;
         }
 
         const profile: Profile = await this.profileRepository.findByName(video.profileName);
 
         if (!profile) {
-            operationResult.addMessage('profile_not_found', null, `Profile with name '${video.profileName}' not found`);
+            operationResult.addMessage(Constants.ERROR_CODES_PROFILE_NOT_FOUND, null, `Profile with name '${video.profileName}' not found`);
             return operationResult;
         }
 
         const user: User = await this.userRepository.findById(profile.userId);
 
         if (!user) {
-            operationResult.addMessage('user_not_found', null, `User with id '${profile.userId}' not found`);
+            operationResult.addMessage(Constants.ERROR_CODES_USER_NOT_FOUND, null, `User with id '${profile.userId}' not found`);
             return operationResult;
         }
 
         if (emailAddress !== user.emailAddress) {
-            operationResult.addMessage('unauthorized', null, `User cannot modify another user's video`);
+            operationResult.addMessage(Constants.ERROR_CODES_UNAUTHORIZED, null, `User cannot modify another user's video`);
             return operationResult;
         }
 
@@ -73,42 +73,71 @@ export class VideoService {
         const video: Video = await this.videoRepository.find(id);
 
         if (!video) {
-            operationResult.addMessage('video_not_found', null, `Video with id '${id}' not found`);
+            operationResult.addMessage(Constants.ERROR_CODES_VIDEO_NOT_FOUND, null, `Video with id '${id}' not found`);
             return operationResult;
         }
 
         const profile: Profile = await this.profileRepository.findByName(video.profileName);
 
         if (!profile) {
-            operationResult.addMessage('profile_not_found', null, `Profile with name '${video.profileName}' not found`);
+            operationResult.addMessage(Constants.ERROR_CODES_PROFILE_NOT_FOUND, null, `Profile with name '${video.profileName}' not found`);
             return operationResult;
         }
 
         const user: User = await this.userRepository.findById(profile.userId);
 
         if (!user) {
-            operationResult.addMessage('user_not_found', null, `User with id '${profile.userId}' not found`);
+            operationResult.addMessage(Constants.ERROR_CODES_USER_NOT_FOUND, null, `User with id '${profile.userId}' not found`);
             return operationResult;
         }
 
         if (emailAddress !== user.emailAddress) {
-            operationResult.addMessage('unauthorized', null, `User cannot modify another user's video`);
+            operationResult.addMessage(Constants.ERROR_CODES_UNAUTHORIZED, null, `User cannot modify another user's video`);
             return operationResult;
         }
 
         if (offset >= video.size) {
-            operationResult.addMessage('video_size_exceeded', null, `Video size exceeded`);
+            operationResult.addMessage(Constants.ERROR_CODES_VIDEO_SIZE_EXCEEDED, null, `Video size exceeded`);
             return operationResult;
         }
 
         if (offset + buffer.length > video.size) {
-            operationResult.addMessage('video_size_exceeded', null, `Video size exceeded`);
+            operationResult.addMessage(Constants.ERROR_CODES_VIDEO_SIZE_EXCEEDED, null, `Video size exceeded`);
             return operationResult;
         }
 
         await this.storageGateway.append(buffer, `${user.id}-${profile.id}-${video.id}-video.file`, offset);
 
         operationResult.setResult(true);
+
+        return operationResult;
+    }
+
+    public async create(emailAddress: string, video: Video): Promise<OperationResult<Video>> {
+        const operationResult: OperationResult<Video> = new OperationResult(null);
+
+        const profile: Profile = await this.profileRepository.findByName(video.profileName);
+
+        if (!profile) {
+            operationResult.addMessage(Constants.ERROR_CODES_PROFILE_NOT_FOUND, null, `Profile with name '${video.profileName}' not found`);
+            return operationResult;
+        }
+
+        const user: User = await this.userRepository.findById(profile.userId);
+
+        if (!user) {
+            operationResult.addMessage(Constants.ERROR_CODES_USER_NOT_FOUND, null, `User with id '${profile.userId}' not found`);
+            return operationResult;
+        }
+
+        if (emailAddress !== user.emailAddress) {
+            operationResult.addMessage(Constants.ERROR_CODES_UNAUTHORIZED, null, `User cannot modify another user's video`);
+            return operationResult;
+        }
+
+        video = await this.videoRepository.create(video);
+
+        operationResult.setResult(video);
 
         return operationResult;
     }
@@ -215,21 +244,21 @@ export class VideoService {
         const video: Video = await this.videoRepository.find(id);
 
         if (!video) {
-            operationResult.addMessage('video_not_found', null, `Video with id '${id}' not found`);
+            operationResult.addMessage(Constants.ERROR_CODES_VIDEO_NOT_FOUND, null, `Video with id '${id}' not found`);
             return operationResult;
         }
 
         const profile: Profile = await this.profileRepository.findByName(video.profileName);
 
         if (!profile) {
-            operationResult.addMessage('profile_not_found', null, `Profile with name '${video.profileName}' not found`);
+            operationResult.addMessage(Constants.ERROR_CODES_PROFILE_NOT_FOUND, null, `Profile with name '${video.profileName}' not found`);
             return operationResult;
         }
 
         const user: User = await this.userRepository.findById(profile.userId);
 
         if (!user) {
-            operationResult.addMessage('user_not_found', null, `User with id '${profile.userId}' not found`);
+            operationResult.addMessage(Constants.ERROR_CODES_USER_NOT_FOUND, null, `User with id '${profile.userId}' not found`);
             return operationResult;
         }
 
@@ -312,6 +341,47 @@ export class VideoService {
         }
 
         return true;
+    }
+
+    public async update(emailAddress: string, video: Video): Promise<OperationResult<Video>> {
+        const operationResult: OperationResult<Video> = new OperationResult(null);
+
+        const profile: Profile = await this.profileRepository.findByName(video.profileName);
+
+        if (!profile) {
+            operationResult.addMessage(Constants.ERROR_CODES_PROFILE_NOT_FOUND, null, `Profile with name '${video.profileName}' not found`);
+            return operationResult;
+        }
+
+        const user: User = await this.userRepository.findById(profile.userId);
+
+        if (!user) {
+            operationResult.addMessage(Constants.ERROR_CODES_USER_NOT_FOUND, null, `User with id '${profile.userId}' not found`);
+            return operationResult;
+        }
+
+        if (emailAddress !== user.emailAddress) {
+            operationResult.addMessage(Constants.ERROR_CODES_UNAUTHORIZED, null, `User cannot modify another user's video`);
+            return operationResult;
+        }
+
+        const existingVideo: Video = await this.videoRepository.find(video.id);
+
+        if (!existingVideo) {
+            operationResult.addMessage(Constants.ERROR_CODES_VIDEO_NOT_FOUND, null, `Video with id '${video.id}' not found`);
+            return operationResult;
+        }
+
+        existingVideo.datePublished = video.datePublished;
+        existingVideo.longDescription = video.longDescription;
+        existingVideo.shortDescription = video.shortDescription;
+        existingVideo.title = video.title;
+
+        video = await this.videoRepository.update(existingVideo);
+
+        operationResult.setResult(video);
+
+        return operationResult;
     }
 
 }

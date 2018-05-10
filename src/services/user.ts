@@ -14,6 +14,24 @@ export class UserService {
 
     }
 
+    public async create(emailAddress: string, user: User): Promise<OperationResult<User>> {
+        const result: OperationResult<User> = new OperationResult(null);
+
+        const existingUser: User = await this.userRepository.find(user.emailAddress);
+
+        if (existingUser) {
+            result.addMessage(Constants.ERROR_CODES_USER_EXIST, null, `User with email address '${user.emailAddress}' already exist`);
+
+            return result;
+        }
+
+        user = await this.userRepository.create(user);
+
+        result.setResult(user);
+
+        return result;
+    }
+
     public async find(emailAddress: string): Promise<User> {
         return this.userRepository.find(emailAddress);
     }
