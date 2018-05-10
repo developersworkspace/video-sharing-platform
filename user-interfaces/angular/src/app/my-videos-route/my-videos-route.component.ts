@@ -30,7 +30,7 @@ export class MyVideosRouteComponent extends BaseComponent implements OnInit {
   }
 
   protected loadVideos(): void {
-    this.http.get(`${this.apiUri}/video?profileName=${this.profile.name}`).subscribe((videos: Video[]) => {
+    this.http.get(`${this.apiUri}/video?profileName=${this.currentProfile.name}`).subscribe((videos: Video[]) => {
       this.videos = videos;
     });
   }

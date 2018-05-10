@@ -53,6 +53,10 @@ app.route('/api/subscription')
 app.route('/api/subscription/isPaid')
     .get(SubscriptionRouter.isPaid);
 
+app.route('/api/video')
+    .post(VideoRouter.post)
+    .put(VideoRouter.put);
+
 app.route('/api/video/append')
     .post(VideoRouter.appendUploadForVideo);
 

@@ -29,4 +29,19 @@ export class Video implements IClonable<Video> {
             this.title,
         );
     }
+
+    public static fromJSON(json: any): Video {
+        return new Video(
+            json.blobLocation,
+            json.datePublished,
+            json.id,
+            json.longDescription,
+            json.profileName,
+            json.shortDescription,
+            json.size,
+            json.thumbnailLocation,
+            json.title,
+        );
+    }
+
 }

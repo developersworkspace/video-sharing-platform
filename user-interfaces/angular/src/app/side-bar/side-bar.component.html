@@ -2,7 +2,7 @@
 <div *ngIf="profile" class="topbar-mobile">
   <div class="logo">
     <a [routerLink]="['/', profile.name]">
-      <img src="assets/images/logo.png" alt="" class="" style="height: 44px;">
+      <span style="font-family: Goudy Stout; font-size: 1em; color: black;">{{ user?.firstName }} {{ user?.lastName }} </span>
     </a>
     <button class="button-menu-mobile">
       <i class="mdi mdi-menu"></i>
@@ -15,9 +15,9 @@
   <div class="slimscroll-menu" id="remove-scroll">
     <div class="logo">
       <a [routerLink]="['/', profile.name]">
-        <img src="assets/images/logo.png" alt="" class="" style="height: 44px;">
+        <span style="font-family: Goudy Stout; font-size: 1em; color: black;">{{ user?.firstName }} {{ user?.lastName }} </span>
       </a>
-      <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <p class="text-muted">Opportunities don't happen. You create them. ~ Chris Grosser</p>
     </div>
     <!--- Sidemenu -->
     <div id="sidebar-menu">

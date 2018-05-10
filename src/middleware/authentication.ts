@@ -56,13 +56,15 @@ export class AuthenticationMiddleware {
             let profile: Profile = await profileService.find(decodedJWT.emailAddress);
 
             if (!profile) {
+                const profileName: string = new RegExp(/([^@]+)/).exec(decodedJWT.emailAddress)[0];
+
                 profile = new Profile(
                     new Address(null, null),
                     new ContactDetails(null, null),
                     null,
                     null,
                     null,
-                    null,
+                    profileName,
                     new SocialDetails(null, null, null),
                     user.id,
                 );

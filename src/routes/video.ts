@@ -149,4 +149,28 @@ export class VideoRouter extends BaseRouter {
         }
     }
 
+    public static async post(req: express.Request, res: express.Response) {
+        try {
+            const videoService: VideoService = container.get<VideoService>('VideoService');
+
+            const result: OperationResult<Video> = await videoService.create(req['user'] ? req['user'].emailAddress : null, Video.fromJSON(req.body));
+
+            VideoRouter.sendOperationResult(res, result);
+        } catch (err) {
+            VideoRouter.sendErrorResponse(err, res);
+        }
+    }
+
+    public static async put(req: express.Request, res: express.Response) {
+        try {
+            const videoService: VideoService = container.get<VideoService>('VideoService');
+
+            const result: OperationResult<Video> = await videoService.update(req['user'] ? req['user'].emailAddress : null, Video.fromJSON(req.body));
+
+            VideoRouter.sendOperationResult(res, result);
+        } catch (err) {
+            VideoRouter.sendErrorResponse(err, res);
+        }
+    }
+
 }
