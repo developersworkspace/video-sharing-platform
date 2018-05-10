@@ -1,73 +1,79 @@
-<!-- Wrapper -->
-<div id="wrapper">
-  <!-- Main -->
-  <div id="main">
-    <div class="inner">
-      <app-header></app-header>
-      <!-- Section -->
-      <section>
-        <h3>My Videos - Edit</h3>
-        <div *ngIf="video" class="row uniform">
-          <div class="6u$ 12u$(xsmall)">
-            <label>Name</label>
-            <input [(ngModel)]="video.title" type="text" placeholder="Title">
+<!-- Begin page -->
+<div *ngIf="video" id="wrapper">
+  <app-side-bar></app-side-bar>
+  <div class="page-wrapper">
+    <section class="pt-5">
+      <div class="home-center">
+        <div class="home-desc-center">
+          <div class="container">
+            <div class="row justify-content-center">
+              <!-- Content-->
+              <div class="col-12">
+                <!-- Post-->
+                <article class="post">
+                  <h5 class="text-center mt-0 mb-5 pb-3 text-uppercase">
+                    <b>My Videos - Edit</b>
+                  </h5>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <input [(ngModel)]="video.title" class="form-control" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <textarea [(ngModel)]="video.shortDescription" class="form-control" rows="4">
+                            </textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <input type="checkbox" id="published">
+                        <label for="published">Published</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 text-center">
+                      <img src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}&token={{ token }}" class="img-thumbnail" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group text-center">
+                        <button (click)="onClickUploadThumbnail()" class="btn btn-dark">Upload Thumbnail</button>
+                        <input (change)="handleThumbnailUpload($event.target.files)" type="file" id="upload-thumbnail" style="display: none">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group text-center">
+                        <button (click)="onClickUploadVideo()" class="btn btn-dark">Upload Video</button>
+                        <input (change)="handleVideoUpload($event.target.files)" type="file" id="upload-video" style="display: none">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group text-right">
+                        <button class="btn btn-dark">Save</button>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+                <!-- Post end-->
+              </div>
+              <!-- Content end-->
+            </div>
           </div>
-          <div class="12u$ 12u$(xsmall)">
-            <label>Short Description</label>
-            <textarea [(ngModel)]="video.shortDescription" rows="4">
-              </textarea>
-          </div>
-          <div class="12u$ 12u$(xsmall)">
-            <label>Long Description</label>
-            <textarea [(ngModel)]="video.longDescription" rows="4">
-            </textarea>
-          </div>
-          <div class="6u 12u$(small)">
-            <input type="checkbox" id="published">
-            <label for="published">Published</label>
-          </div>
-          <div class="12u$ 12u$(xsmall)">
-            <img style="height: auto; width: 250px; display: block; margin-left: auto; margin-right: auto; margin-bottom: 10px" src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}&token={{ token }}" alt="" />
-            <button (click)="onClickUploadThumbnail()" class="button special small fit">Upload Thumbnail</button>
-            <input (change)="handleThumbnailUpload($event.target.files)" type="file" id="upload-thumbnail" style="display: none">
-          </div>
-          <div class="12u$ 12u$(xsmall)">
-            <button (click)="onClickUploadVideo()" class="button special small fit">Upload Video</button>
-            <input (change)="handleVideoUpload($event.target.files)" type="file" id="upload-video" style="display: none">
-          </div>
-          <div class="12u$ 12u$(xsmall)">
-            <button class="button special small fit">Save</button>
-          </div>
+          <!-- end container -->
         </div>
-      </section>
-    </div>
-  </div>
-  <!-- Sidebar -->
-  <div id="sidebar">
-    <div class="inner">
-      <!-- Search -->
-      <section id="search" class="alt">
-        <form method="post" action="#">
-          <input type="text" name="query" id="query" placeholder="Search" />
-        </form>
-      </section>
-      <!-- Menu -->
-      <nav *ngIf="profile" id="menu">
-        <header class="major">
-          <h2>Menu</h2>
-        </header>
-        <ul>
-          <li>
-            <a [routerLink]="['/', profile.name, 'profile']" href="#">My Profile</a>
-          </li>
-          <li>
-            <a href="#">Explore</a>
-          </li>
-        </ul>
-      </nav>
-      <app-recent-videos></app-recent-videos>
-      <app-get-in-touch></app-get-in-touch>
-      <app-footer></app-footer>
-    </div>
+      </div>
+    </section>
   </div>
 </div>

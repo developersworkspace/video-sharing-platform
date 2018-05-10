@@ -1,98 +1,121 @@
-<!-- Wrapper -->
-<div id="wrapper">
-  <!-- Main -->
-  <div id="main">
-    <div class="inner">
-      <app-header></app-header>
-      <!-- Section -->
-      <section>
-        <h3>User</h3>
-        <div *ngIf="currentUser" class="row uniform">
-          <div class="6u$ 12u$(xsmall)">
-            <label>Email Address</label>
-            <input [(ngModel)]="currentUser.emailAddress" disabled type="text" placeholder="Email Address">
-          </div>
-          <div class="6u 12u$(xsmall)">
-            <label>First Name</label>
-            <input [(ngModel)]="currentUser.firstName" type="text" placeholder="First Name">
-          </div>
-          <div class="6u$ 12u$(xsmall)">
-            <label>Last Name</label>
-            <input [(ngModel)]="currentUser.lastName" type="text" placeholder="Last Name">
-          </div>
-          <div class="12u$ 12u$(xsmall)">
-            <button (click)="onClickSaveUser()" class="button special small fit">Save</button>
-          </div>
-        </div>
-      </section>
-      <!-- Section -->
-      <section>
-        <h3>Profile</h3>
-        <div *ngIf="currentProfile" class="row uniform">
-          <div class="6u$ 12u$(xsmall)">
-            <label>Name</label>
-            <input [(ngModel)]="currentProfile.name" disabled type="text" placeholder="Name">
-          </div>
-          <div class="6u 12u$(xsmall)">
-            <label>Email Address</label>
-            <input [(ngModel)]="currentProfile.contactDetails.emailAddress" type="text" placeholder="First Name">
-          </div>
-          <div class="6u$ 12u$(xsmall)">
-            <label>Phone Number</label>
-            <input [(ngModel)]="currentProfile.contactDetails.phoneNumber" type="text" placeholder="Last Name">
-          </div>
-          <div class="6u 12u$(xsmall)">
-            <label>City</label>
-            <input [(ngModel)]="currentProfile.address.city" type="text" placeholder="First Name">
-          </div>
-          <div class="6u$ 12u$(xsmall)">
-            <label>Country</label>
-            <input [(ngModel)]="currentProfile.address.country" type="text" placeholder="Last Name">
-          </div>
-          <div class="12u$ 12u$(xsmall)">
-            <label>Description</label>
-            <textarea [(ngModel)]="currentProfile.description" rows="4">
-            </textarea>
-          </div>
-          <div class="12u$ 12u$(xsmall)">
-            <label>Message</label>
-            <textarea [(ngModel)]="currentProfile.message" rows="4">
-              </textarea>
-          </div>
-          <div class="12u$ 12u$(xsmall)">
-            <button (click)="onClickSaveProfile()" class="button special small fit">Save</button>
-          </div>
-        </div>
-
-      </section>
+<!-- Begin page -->
+<div *ngIf="currentUser && currentProfile" id="wrapper">
+    <app-side-bar></app-side-bar>
+    <div class="page-wrapper">
+        <section class="pt-5">
+            <div class="home-center">
+                <div class="home-desc-center">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <!-- Content-->
+                            <div class="col-12">
+                                <!-- Post-->
+                                <article class="post">
+                                    <h5 class="text-center mt-0 mb-5 pb-3 text-uppercase">
+                                        <b>User</b>
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <input [(ngModel)]="currentUser.emailAddress" disabled type="text" placeholder="Email Address" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <input [(ngModel)]="currentUser.firstName" type="text" placeholder="First Name" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <input [(ngModel)]="currentUser.lastName" type="text" placeholder="Last Name" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group text-right">
+                                                <button (click)="onClickSaveUser()" class="btn btn-dark">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                                <!-- Post end-->
+                                <!-- Post-->
+                                <article class="post">
+                                    <h5 class="text-center mt-0 mb-5 pb-3 text-uppercase">
+                                        <b>Profile</b>
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <input [(ngModel)]="currentProfile.name" disabled type="text" placeholder="Name" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <input [(ngModel)]="currentProfile.contactDetails.emailAddress" type="text" placeholder="Email Address" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <input [(ngModel)]="currentProfile.contactDetails.phoneNumber" type="text" placeholder="Phone Number" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <input [(ngModel)]="currentProfile.address.city" type="text" placeholder="City" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <input [(ngModel)]="currentProfile.address.country" type="text" placeholder="Country" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <textarea [(ngModel)]="currentProfile.description" class="form-control" rows="4">
+                                                </textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <textarea [(ngModel)]="currentProfile.message" class="form-control" rows="4">
+                                                    </textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group text-right">
+                                                <button (click)="onClickSaveProfile()" class="btn btn-dark">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                                <!-- Post end-->
+                            </div>
+                            <!-- Content end-->
+                        </div>
+                    </div>
+                    <!-- end container -->
+                </div>
+            </div>
+        </section>
     </div>
-  </div>
-  <!-- Sidebar -->
-  <div id="sidebar">
-    <div class="inner">
-      <!-- Search -->
-      <section id="search" class="alt">
-        <form method="post" action="#">
-          <input type="text" name="query" id="query" placeholder="Search" />
-        </form>
-      </section>
-      <!-- Menu -->
-      <nav *ngIf="profile" id="menu">
-        <header class="major">
-          <h2>Menu</h2>
-        </header>
-        <ul>
-          <li>
-            <a [routerLink]="['/', profile.name, 'profile']" href="#">My Profile</a>
-          </li>
-          <li>
-            <a href="#">Explore</a>
-          </li>
-        </ul>
-      </nav>
-      <app-recent-videos></app-recent-videos>
-      <app-get-in-touch></app-get-in-touch>
-      <app-footer></app-footer>
-    </div>
-  </div>
 </div>
