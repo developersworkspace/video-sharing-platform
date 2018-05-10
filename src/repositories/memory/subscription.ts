@@ -1,5 +1,6 @@
 import { injectable } from 'inversify';
 import { ISubscriptionRepository, Subscription } from 'majuro';
+import { BaseRepository } from './base';
 
 @injectable()
 export class SubscriptionRepository implements ISubscriptionRepository {
@@ -10,11 +11,13 @@ export class SubscriptionRepository implements ISubscriptionRepository {
     }
 
     public async create(subscription: Subscription): Promise<Subscription> {
-        subscription.id = 1;
+        const newSubscription: Subscription = subscription.clone();
 
-        SubscriptionRepository.subscriptions.push(subscription);
+        newSubscription.id = BaseRepository.nextNumericId();
 
-        return subscription;
+        SubscriptionRepository.subscriptions.push(newSubscription);
+
+        return newSubscription;
     }
 
     public async delete(subscriptionId: number): Promise<void> {

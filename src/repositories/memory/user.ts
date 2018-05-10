@@ -1,6 +1,7 @@
 import { injectable } from 'inversify';
 import { User } from '../../entities/user';
 import { IUserRepository } from '../../interfaces/user-repository';
+import { BaseRepository } from './base';
 
 @injectable()
 export class UserRepository implements IUserRepository {
@@ -10,6 +11,16 @@ export class UserRepository implements IUserRepository {
     ];
 
     constructor() {
+    }
+
+    public async create(user: User): Promise<User> {
+        const newUser: User = user.clone();
+
+        newUser.id = BaseRepository.nextStringId();
+
+        UserRepository.users.push(newUser);
+
+        return newUser;
     }
 
     public async find(emailAddress: string): Promise<User> {

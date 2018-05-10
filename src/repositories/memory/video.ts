@@ -1,6 +1,7 @@
 import { injectable } from 'inversify';
 import { Video } from '../../entities/video';
 import { IVideoRepository } from '../../interfaces/video-repository';
+import { BaseRepository } from './base';
 
 @injectable()
 export class VideoRepository implements IVideoRepository {
@@ -45,6 +46,16 @@ export class VideoRepository implements IVideoRepository {
     ];
 
     constructor() {
+    }
+
+    public async create(video: Video): Promise<Video> {
+        const newVideo: Video = video.clone();
+
+        newVideo.id = BaseRepository.nextStringId();
+
+        VideoRepository.videos.push(newVideo);
+
+        return newVideo;
     }
 
     public async find(id: string): Promise<Video> {

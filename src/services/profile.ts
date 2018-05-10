@@ -18,6 +18,24 @@ export class ProfileService {
 
     }
 
+    public async create(emailAddress: string, profile: Profile): Promise<OperationResult<Profile>> {
+        const result: OperationResult<Profile> = new OperationResult(null);
+
+        const existingProfile: Profile = await this.profileRepository.findByName(profile.name);
+
+        if (existingProfile) {
+            result.addMessage(Constants.ERROR_CODES_USER_EXIST, null, `Profile with name '${profile.name}' already exist`);
+
+            return result;
+        }
+
+        profile = await this.profileRepository.create(profile);
+
+        result.setResult(profile);
+
+        return result;
+    }
+
     public async find(emailAddress: string): Promise<Profile> {
         const user: User = await this.userRepository.find(emailAddress);
 

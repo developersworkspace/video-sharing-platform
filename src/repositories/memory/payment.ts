@@ -1,6 +1,7 @@
 import { injectable } from 'inversify';
 import { Payment } from 'majuro';
 import { IPaymentRepository } from '../../interfaces/payment-repository';
+import { BaseRepository } from './base';
 
 @injectable()
 export class PaymentRepository implements IPaymentRepository {
@@ -11,9 +12,13 @@ export class PaymentRepository implements IPaymentRepository {
     }
 
     public async create(payment: Payment): Promise<Payment> {
-        PaymentRepository.payments.push(payment);
+        const newPayment: Payment = payment.clone();
 
-        return payment;
+        newPayment.id = BaseRepository.nextNumericId();
+
+        PaymentRepository.payments.push(newPayment);
+
+        return newPayment;
     }
 
     public async list(subscriptionId: number): Promise<Payment[]> {
