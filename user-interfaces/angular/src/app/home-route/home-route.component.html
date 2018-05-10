@@ -1,123 +1,78 @@
-<!-- Wrapper -->
+<!-- Begin page -->
 <div id="wrapper">
-  <!-- Main -->
-  <div id="main">
-    <div class="inner">
-      <app-header></app-header>
-      <!-- Banner -->
-      <section id="banner">
-        <div class="content">
-          <header>
-            <h1>Hi, I’m {{ user?.firstName }} {{ user?.lastName }}</h1>
-            <p>Welcome to my platform</p>
-          </header>
-          <p>
-            {{ profile?.description }}
-          </p>
-          <ul class="actions">
-            <li>
-              <a *ngIf="latestVideo" [routerLink]="['/', profile.name, 'watch', latestVideo.id]" class="button big">Watch Now</a>
-            </li>
-          </ul>
-        </div>
-        <span class="image object">
-          <img *ngIf="latestVideo" src="{{ apiUri }}/video/thumbnail/stream?id={{ latestVideo.id }}" alt="" />
-        </span>
-      </section>
-      <!-- Section -->
-      <!-- <section>
-        <header class="major">
-          <h2>About</h2>
-        </header>
-        <div class="features">
-          <article>
-            <span class="icon fa-users"></span>
-            <div class="content">
-              <h3>820k Subscribers</h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum fringilla neque at tristique
-              </p>
-            </div>
-          </article>
-          <article>
-            <span class="icon fa-file"></span>
-            <div class="content">
-              <h3>321 Videos</h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum fringilla neque at tristique
-              </p>
-            </div>
-          </article>
-          <article>
-            <span class="icon fa-eye"></span>
-            <div class="content">
-              <h3>85 Million Views</h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum fringilla neque at tristique
-              </p>
-            </div>
-          </article>
-          <article>
-            <span class="icon fa-calendar"></span>
-            <div class="content">
-              <h3>Member Since 15th December 2011</h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum fringilla neque at tristique
-              </p>
-            </div>
-          </article>
-        </div>
-      </section> -->
-      <!-- Section -->
+  <app-side-bar></app-side-bar>
+  <div class="page-wrapper">
       <section>
-        <header class="major">
-          <h2>My Videos</h2>
-        </header>
-        <div class="posts">
-          <article *ngFor="let video of videos">
-            <a [routerLink]="['/', profile.name, 'watch', video.id]" class="image">
-              <img src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}" alt="" />
-            </a>
-            <h3>{{ video.title }}</h3>
-            <p>
-              {{ video.shortDescription }}
-            </p>
-            <ul class="actions">
-              <li>
-                <a [routerLink]="['/', profile.name, 'watch', video.id]" class="button">Watch Now</a>
-              </li>
-            </ul>
-          </article>
-        </div>
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-12">
+                      <div class="page-title">
+                          <div class="row">
+                              <div class="col-md-9 col-xs-12">
+                                  <h2><span>{{ user?.firstName }} {{ user?.lastName }}</span></h2>
+                                  <p class="subtitle text-muted">
+                                    {{ profile?.description }}
+                                  </p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
       </section>
-    </div>
-  </div>
-  <!-- Sidebar -->
-  <div id="sidebar">
-    <div class="inner">
-      <!-- Search -->
-      <section id="search" class="alt">
-        <form method="post" action="#">
-          <input type="text" name="query" id="query" placeholder="Search" />
-        </form>
+      <section class="mt-5 pb-5">
+          <div class="container">
+              <div class="row">
+                  <!-- Content-->
+                  <div class="col-xl-8">
+                      <!-- Post-->
+                      <article *ngFor="let video of videos" class="post">
+                          <div class="post-header">
+                              <h2 class="post-title"><a [routerLink]="['/', profile.name, 'watch', video.id]">{{ video.title }}</a></h2>
+                              <ul class="post-meta">
+                                  <li><i class="mdi mdi-calendar"></i> {{ video.datePublished | date: 'MMMM dd, yyyy' }}</li>
+                              </ul>
+                          </div>
+                          <div class="post-preview">
+                              <a [routerLink]="['/', profile.name, 'watch', video.id]"><img src="{{ apiUri }}/video/thumbnail/stream?id={{ video.id }}" alt="" class="img-fluid rounded"></a>
+                          </div>
+                          <div class="post-content">
+                              <p>
+                                {{ video.shortDescription }}
+                              </p>
+                          </div>
+                          <div><a [routerLink]="['/', profile.name, 'watch', video.id]" class="btn btn-outline-custom">Watch Now <i class="mdi mdi-arrow-right"></i></a></div>
+                      </article>
+                      <!-- Post end-->
+                  </div>
+                  <!-- Content end-->
+                  <!-- Sidebar-->
+                  <div class="col-xl-4">
+                      <div class="sidebar">
+                          <!-- Search widget-->
+                          <aside class="widget widget_search">
+                              <form>
+                                  <input class="form-control pr-5" type="search" placeholder="Search...">
+                                  <button class="search-button" type="submit"><span class="mdi mdi-magnify"></span></button>
+                              </form>
+                          </aside>
+                          <aside class="widget about-widget">
+                              <div class="widget-title">About Me</div>
+
+                              <div class="text-center">
+                                  <p>
+                                    {{ profile?.message }}
+                                  </p>
+                              </div>
+
+                          </aside>
+                          <app-recent-videos></app-recent-videos>
+                      </div>
+                  </div>
+                  <!-- Sidebar end-->
+              </div>
+          </div>
+          <!-- end container -->
       </section>
-      <!-- Menu -->
-      <nav *ngIf="profile" id="menu">
-        <header class="major">
-          <h2>Menu</h2>
-        </header>
-        <ul>
-          <li>
-            <a [routerLink]="['/', profile.name, 'profile']" href="#">My Profile</a>
-          </li>
-          <li>
-            <a href="#">Explore</a>
-          </li>
-        </ul>
-      </nav>
-      <app-recent-videos></app-recent-videos>
-      <app-get-in-touch></app-get-in-touch>
-      <app-footer></app-footer>
-    </div>
   </div>
 </div>
