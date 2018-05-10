@@ -14,7 +14,7 @@ export class AuthenticationMiddleware {
 
     public static async call(request: express.Request, response: express.Response, next: express.NextFunction): Promise<void> {
         if (!request.get('authorization') && !request.query.token) {
-            response.status(401).end();
+            next();
             return;
         }
 
@@ -26,7 +26,7 @@ export class AuthenticationMiddleware {
             const matchesAuthorization: RegExpExecArray = patternAuthorization.exec(request.get('authorization'));
 
             if (!matchesAuthorization) {
-                response.status(401).end();
+                next();
                 return;
             }
 
@@ -74,6 +74,15 @@ export class AuthenticationMiddleware {
 
             request['user'] = user;
         } catch {
+            next();
+            return;
+        }
+
+        next();
+    }
+
+    public static async authorized(request: express.Request, response: express.Response, next: express.NextFunction): Promise<void> {
+        if (!request['user']) {
             response.status(401).end();
             return;
         }

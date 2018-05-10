@@ -81,7 +81,9 @@ export class MyVideosEditRouteComponent extends BaseComponent implements OnInit 
   }
 
   protected uploadThumbnail(arrayBuffer: ArrayBuffer): void {
-    this.http.post(`${this.apiUri}/video/thumbnail/start?id=${this.video.id}`, null).subscribe((startResponse: any) => {
+    this.http.post(`${this.apiUri}/video/thumbnail/start?id=${this.video.id}`, null, {
+      headers: this.getHeaders(),
+    }).subscribe((startResponse: any) => {
       let requestObservable: Observable<any> = null;
 
       const chunkSize = 600000;
@@ -90,7 +92,9 @@ export class MyVideosEditRouteComponent extends BaseComponent implements OnInit 
         const data: Uint8Array = new Uint8Array(arrayBuffer.slice(offset, offset + chunkSize));
 
         const observable: Observable<any> = this.http.post(`${this.apiUri}/video/thumbnail/append?id=${this.video.id}&offset=${offset}`,
-          Array.from(data));
+          Array.from(data), {
+            headers: this.getHeaders(),
+          });
 
         if (!requestObservable) {
           requestObservable = observable;
@@ -102,7 +106,9 @@ export class MyVideosEditRouteComponent extends BaseComponent implements OnInit 
       }
 
       requestObservable.subscribe(() => {
-        this.http.post(`${this.apiUri}/video/thumbnail/end?id=${this.video.id}`, null).subscribe((endResponse: any) => {
+        this.http.post(`${this.apiUri}/video/thumbnail/end?id=${this.video.id}`, null, {
+          headers: this.getHeaders(),
+        }).subscribe((endResponse: any) => {
           this.video.thumbnailLocation = endResponse;
 
           this.refreshTokenForUpdate();
@@ -112,7 +118,9 @@ export class MyVideosEditRouteComponent extends BaseComponent implements OnInit 
   }
 
   protected uploadVideo(arrayBuffer: ArrayBuffer): void {
-    this.http.post(`${this.apiUri}/video/start?id=${this.video.id}`, null).subscribe((startResponse: any) => {
+    this.http.post(`${this.apiUri}/video/start?id=${this.video.id}`, null, {
+      headers: this.getHeaders(),
+    }).subscribe((startResponse: any) => {
       let requestObservable: Observable<any> = null;
 
       const chunkSize = 600000;
@@ -121,7 +129,9 @@ export class MyVideosEditRouteComponent extends BaseComponent implements OnInit 
         const data: Uint8Array = new Uint8Array(arrayBuffer.slice(offset, offset + chunkSize));
 
         const observable: Observable<any> = this.http.post(`${this.apiUri}/video/append?id=${this.video.id}&offset=${offset}`,
-          Array.from(data));
+          Array.from(data), {
+            headers: this.getHeaders(),
+          });
 
         if (!requestObservable) {
           requestObservable = observable;
@@ -133,7 +143,9 @@ export class MyVideosEditRouteComponent extends BaseComponent implements OnInit 
       }
 
       requestObservable.subscribe(() => {
-        this.http.post(`${this.apiUri}/video/end?id=${this.video.id}`, null).subscribe((endResponse: any) => {
+        this.http.post(`${this.apiUri}/video/end?id=${this.video.id}`, null, {
+          headers: this.getHeaders(),
+        }).subscribe((endResponse: any) => {
           this.video.thumbnailLocation = endResponse;
 
           this.refreshTokenForUpdate();
