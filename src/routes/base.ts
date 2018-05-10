@@ -9,6 +9,7 @@ export class BaseRouter {
 
     protected static sendOperationResult(response: express.Response, result: OperationResult<any>): void {
         if (result.hasErrors()) {
+            console.log(result);
             response.status(400).json(result.messages);
         } else {
             response.json(result.result);

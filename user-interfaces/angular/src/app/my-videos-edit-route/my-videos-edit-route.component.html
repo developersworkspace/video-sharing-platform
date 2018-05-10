@@ -17,18 +17,26 @@
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="form-group">
-                        <input [(ngModel)]="video.title" class="form-control" type="text">
+                        <input [(ngModel)]="video.title" class="form-control" type="text" placeholder="Enter video short description">
                       </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="form-group">
-                        <textarea [(ngModel)]="video.shortDescription" class="form-control" rows="4">
+                        <textarea [(ngModel)]="video.shortDescription" class="form-control" rows="4" placeholder="Enter video short description">
                             </textarea>
                       </div>
                     </div>
                   </div>
+                  <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <textarea [(ngModel)]="video.longDescription" class="form-control" rows="4" placeholder="Enter video long description">
+                                  </textarea>
+                        </div>
+                      </div>
+                    </div>
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="form-group">

@@ -25,6 +25,13 @@
                           </tr>
                         </thead>
                         <tbody>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                              <a  [routerLink]="['/', profile.name, 'my-videos', 'new']" class="btn btn-primary">New Video</a>
+                            </td>
+                          </tr>
                           <tr *ngFor="let video of videos">
                             <td>
                               <a [routerLink]="['/', profile.name, 'my-videos', video.id]">{{ video.title }}</a>

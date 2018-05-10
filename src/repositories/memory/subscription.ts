@@ -21,7 +21,7 @@ export class SubscriptionRepository implements ISubscriptionRepository {
     }
 
     public async delete(subscriptionId: number): Promise<void> {
-        throw new Error('Method not implemented.');
+        // TODO:
     }
 
     public async find(userId: string): Promise<Subscription> {

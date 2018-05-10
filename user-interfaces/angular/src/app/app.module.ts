@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { MyVideosRouteComponent } from './my-videos-route/my-videos-route.component';
 import { MyVideosEditRouteComponent } from './my-videos-edit-route/my-videos-edit-route.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
+import { MyVideosNewRouteComponent } from './my-videos-new-route/my-videos-new-route.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { SideBarComponent } from './side-bar/side-bar.component';
     MyVideosRouteComponent,
     MyVideosEditRouteComponent,
     SideBarComponent,
+    MyVideosNewRouteComponent,
   ],
   imports: [
     AppRoutingModule,
