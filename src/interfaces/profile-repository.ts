@@ -6,7 +6,7 @@ export interface IProfileRepository {
 
     find(userId: string): Promise<Profile>;
 
-    findById(id: string): Promise<Profile>;
+    findById(profileId: string): Promise<Profile>;
 
     findByName(name: string): Promise<Profile>;
 

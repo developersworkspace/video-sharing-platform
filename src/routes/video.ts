@@ -6,6 +6,7 @@ import { Stream } from 'stream';
 import { config } from '../config';
 import { Video } from '../entities/video';
 import { container } from '../ioc';
+import { notFoundImageBase64 } from '../not-found-image';
 import { VideoService } from '../services/video';
 import { BaseRouter } from './base';
 
@@ -96,9 +97,16 @@ export class VideoRouter extends BaseRouter {
 
             const video: Video = result.result;
 
-            const stream: Stream = fs.createReadStream(path.join(config.paths.base, video.thumbnailLocation));
-
             res.set('Content-Type', 'image/jpg');
+
+            if (!fs.existsSync(path.join(config.paths.base, video.thumbnailLocation))) {
+                res.set('Content-Type', 'image/jpg');
+
+                res.end(new Buffer(notFoundImageBase64, 'base64'));
+                return;
+            }
+
+            const stream: Stream = fs.createReadStream(path.join(config.paths.base, video.thumbnailLocation));
 
             stream.pipe(res);
         } catch (err) {

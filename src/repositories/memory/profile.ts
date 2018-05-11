@@ -45,8 +45,8 @@ export class ProfileRepository implements IProfileRepository {
         return result ? result.clone() : null;
     }
 
-    public async findById(id: string): Promise<Profile> {
-        const result: Profile = ProfileRepository.profiles.find((profile: Profile) => profile.id === id);
+    public async findById(profileId: string): Promise<Profile> {
+        const result: Profile = ProfileRepository.profiles.find((profile: Profile) => profile.id === profileId);
 
         return result ? result.clone() : null;
     }

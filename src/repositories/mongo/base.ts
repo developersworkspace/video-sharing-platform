@@ -1,4 +1,4 @@
-import { ObjectPool } from 'majuro';
+import { ILogger, ObjectPool } from 'majuro';
 import * as mongo from 'mongodb';
 import * as uuid from 'uuid';
 
@@ -6,10 +6,12 @@ export class BaseRepository {
 
     protected objectPool: ObjectPool<mongo.MongoClient> = null;
 
-    constructor(protected database: string, protected host: string) {
-        this.objectPool = new ObjectPool<mongo.MongoClient>(async () => {
-            return this.newClient();
-        }, 10);
+    constructor(
+        protected database: string,
+        protected host: string,
+        protected logger: ILogger,
+    ) {
+        this.objectPool = new ObjectPool<mongo.MongoClient>(async () => this.newClient(), 10);
     }
 
     public async getCollection(name: string): Promise<mongo.Collection> {
@@ -60,7 +62,9 @@ export class BaseRepository {
     protected async newClient(): Promise<mongo.MongoClient> {
         const client: mongo.MongoClient = new mongo.MongoClient(this.host);
 
+        this.logger.debug(`[${__filename}]: connecting to '${this.host}'`);
         await client.connect();
+        this.logger.debug(`[${__filename}]: connected to '${this.host}'`);
 
         return client;
     }

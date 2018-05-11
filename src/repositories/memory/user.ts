@@ -29,8 +29,8 @@ export class UserRepository implements IUserRepository {
         return result ? result.clone() : null;
     }
 
-    public async findById(id: string): Promise<User> {
-        const result: User = UserRepository.users.find((user: User) => user.id === id);
+    public async findById(userId: string): Promise<User> {
+        const result: User = UserRepository.users.find((user: User) => user.id === userId);
 
         return result ? result.clone() : null;
     }

@@ -66,11 +66,11 @@ export class ProfileRepository implements IProfileRepository {
         ) : null;
     }
 
-    public async findById(id: string): Promise<Profile> {
+    public async findById(profileId: string): Promise<Profile> {
         const collection: mongo.Collection = await this.baseRepository.getCollection('profiles');
 
         const result: any = await collection.findOne({
-            stringId: id,
+            stringId: profileId,
         });
 
         return result ? new Profile(

@@ -8,6 +8,7 @@ import * as winston from 'winston';
 import * as yamljs from 'yamljs';
 import * as yargs from 'yargs';
 import { AuthenticationMiddleware } from './middleware/authentication';
+import { RequestTimeMiddleware } from './middleware/request-time';
 import { AuthRouter } from './routes/auth';
 import { ProfileRouter } from './routes/profile';
 import { SubscriptionRouter } from './routes/subscription';
@@ -21,6 +22,8 @@ const app = express();
 
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors());
+
+app.use(RequestTimeMiddleware.call);
 
 app.use(AuthenticationMiddleware.call);
 
