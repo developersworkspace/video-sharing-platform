@@ -47,25 +47,6 @@ export class ProfileRepository implements IProfileRepository {
         return newProfile;
     }
 
-    public async find(userId: string): Promise<Profile> {
-        const collection: mongo.Collection = await this.baseRepository.getCollection('profiles');
-
-        const result: any = await collection.findOne({
-            userId,
-        });
-
-        return result ? new Profile(
-            new Address(result.address.city, result.address.country),
-            new ContactDetails(result.contactDetails.emailAddress, result.contactDetails.phoneNumber),
-            result.description,
-            result.stringId,
-            result.message,
-            result.name,
-            new SocialDetails(result.socialDetails.facebook, result.socialDetails.instagram, result.socialDetails.twitter),
-            result.userId,
-        ) : null;
-    }
-
     public async findById(profileId: string): Promise<Profile> {
         const collection: mongo.Collection = await this.baseRepository.getCollection('profiles');
 
@@ -90,6 +71,25 @@ export class ProfileRepository implements IProfileRepository {
 
         const result: any = await collection.findOne({
             name,
+        });
+
+        return result ? new Profile(
+            new Address(result.address.city, result.address.country),
+            new ContactDetails(result.contactDetails.emailAddress, result.contactDetails.phoneNumber),
+            result.description,
+            result.stringId,
+            result.message,
+            result.name,
+            new SocialDetails(result.socialDetails.facebook, result.socialDetails.instagram, result.socialDetails.twitter),
+            result.userId,
+        ) : null;
+    }
+
+    public async findByUserId(userId: string): Promise<Profile> {
+        const collection: mongo.Collection = await this.baseRepository.getCollection('profiles');
+
+        const result: any = await collection.findOne({
+            userId,
         });
 
         return result ? new Profile(

@@ -23,7 +23,7 @@ export class UserRepository implements IUserRepository {
         return newUser;
     }
 
-    public async find(emailAddress: string): Promise<User> {
+    public async findByEmailAddress(emailAddress: string): Promise<User> {
         const result: User = UserRepository.users.find((user: User) => user.emailAddress === emailAddress);
 
         return result ? result.clone() : null;

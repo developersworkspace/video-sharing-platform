@@ -11,6 +11,7 @@ import { container } from './ioc';
 import { AuthenticationMiddleware } from './middleware/authentication';
 import { RequestTimeMiddleware } from './middleware/request-time';
 import { AuthRouter } from './routes/auth';
+import { PaymentRouter } from './routes/payment';
 import { ProfileRouter } from './routes/profile';
 import { SubscriptionRouter } from './routes/subscription';
 import { UserRouter } from './routes/user';
@@ -32,6 +33,9 @@ app.route('/api/auth/auth0')
 const swaggerDocument = yamljs.load(path.join(__dirname, 'swagger.yaml'));
 
 app.use('/api/docs', swagger.serve, swagger.setup(swaggerDocument, { explore: true }));
+
+app.route('/api/payment/notify')
+    .get(PaymentRouter.notify);
 
 app.route('/api/profile')
     .get(ProfileRouter.get)

@@ -37,9 +37,9 @@ export class ProfileService {
     }
 
     public async find(emailAddress: string): Promise<Profile> {
-        const user: User = await this.userRepository.find(emailAddress);
+        const user: User = await this.userRepository.findByEmailAddress(emailAddress);
 
-        const profile: Profile = await this.profileRepository.find(user.id);
+        const profile: Profile = await this.profileRepository.findByUserId(user.id);
 
         return profile;
     }
@@ -51,7 +51,7 @@ export class ProfileService {
     public async update(emailAddress: string, profile: Profile): Promise<OperationResult<Profile>> {
         const result: OperationResult<Profile> = new OperationResult(null);
 
-        const user: User = await this.userRepository.find(emailAddress);
+        const user: User = await this.userRepository.findByEmailAddress(emailAddress);
 
         const existingProfile: Profile = await this.profileRepository.findById(profile.id);
 

@@ -34,7 +34,7 @@ export class VideoService {
     public async appendUploadForThumbnail(buffer: Buffer, emailAddress: string, id: string, offset: number): Promise<OperationResult<boolean>> {
         const operationResult: OperationResult<boolean> = new OperationResult(null);
 
-        const video: Video = await this.videoRepository.find(id);
+        const video: Video = await this.videoRepository.findById(id);
 
         if (!video) {
             operationResult.addMessage(Constants.ERROR_CODES_VIDEO_NOT_FOUND, null, `Video with id '${id}' not found`);
@@ -70,7 +70,7 @@ export class VideoService {
     public async appendUploadForVideo(buffer: Buffer, emailAddress: string, id: string, offset: number): Promise<OperationResult<boolean>> {
         const operationResult: OperationResult<boolean> = new OperationResult(null);
 
-        const video: Video = await this.videoRepository.find(id);
+        const video: Video = await this.videoRepository.findById(id);
 
         if (!video) {
             operationResult.addMessage(Constants.ERROR_CODES_VIDEO_NOT_FOUND, null, `Video with id '${id}' not found`);
@@ -145,7 +145,7 @@ export class VideoService {
     public async endUploadForThumbnail(emailAddress: string, id: string): Promise<OperationResult<string>> {
         const operationResult: OperationResult<string> = new OperationResult<string>(null);
 
-        const video: Video = await this.videoRepository.find(id);
+        const video: Video = await this.videoRepository.findById(id);
 
         if (!video) {
             operationResult.addMessage(Constants.ERROR_CODES_VIDEO_NOT_FOUND, null, `Video with id '${id}' not found`);
@@ -193,7 +193,7 @@ export class VideoService {
     public async endUploadForVideo(emailAddress: string, id: string): Promise<OperationResult<string>> {
         const operationResult: OperationResult<string> = new OperationResult<string>(null);
 
-        const video: Video = await this.videoRepository.find(id);
+        const video: Video = await this.videoRepository.findById(id);
 
         if (!video) {
             operationResult.addMessage(Constants.ERROR_CODES_VIDEO_NOT_FOUND, null, `Video with id '${id}' not found`);
@@ -241,7 +241,7 @@ export class VideoService {
     public async get(anonymous: boolean, emailAddress: string, id: string): Promise<OperationResult<Video>> {
         const operationResult: OperationResult<Video> = new OperationResult(null);
 
-        const video: Video = await this.videoRepository.find(id);
+        const video: Video = await this.videoRepository.findById(id);
 
         if (!video) {
             operationResult.addMessage(Constants.ERROR_CODES_VIDEO_NOT_FOUND, null, `Video with id '${id}' not found`);
@@ -292,7 +292,7 @@ export class VideoService {
     }
 
     public async startUploadForThumbnail(emailAddress: string, id: string): Promise<boolean> {
-        const video: Video = await this.videoRepository.find(id);
+        const video: Video = await this.videoRepository.findById(id);
 
         if (!video) {
             return false;
@@ -318,7 +318,7 @@ export class VideoService {
     }
 
     public async startUploadForVideo(emailAddress: string, id: string): Promise<boolean> {
-        const video: Video = await this.videoRepository.find(id);
+        const video: Video = await this.videoRepository.findById(id);
 
         if (!video) {
             return false;
@@ -365,7 +365,7 @@ export class VideoService {
             return operationResult;
         }
 
-        const existingVideo: Video = await this.videoRepository.find(video.id);
+        const existingVideo: Video = await this.videoRepository.findById(video.id);
 
         if (!existingVideo) {
             operationResult.addMessage(Constants.ERROR_CODES_VIDEO_NOT_FOUND, null, `Video with id '${video.id}' not found`);

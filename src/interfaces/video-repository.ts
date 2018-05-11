@@ -4,7 +4,7 @@ export interface IVideoRepository {
 
     create(video: Video): Promise<Video>;
 
-    find(videoId: string): Promise<Video>;
+    findById(videoId: string): Promise<Video>;
 
     list(profileName: string): Promise<Video[]>;
 

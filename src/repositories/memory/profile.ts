@@ -39,12 +39,6 @@ export class ProfileRepository implements IProfileRepository {
         return newProfile;
     }
 
-    public async find(userId: string): Promise<Profile> {
-        const result: Profile = ProfileRepository.profiles.find((profile: Profile) => profile.userId === userId);
-
-        return result ? result.clone() : null;
-    }
-
     public async findById(profileId: string): Promise<Profile> {
         const result: Profile = ProfileRepository.profiles.find((profile: Profile) => profile.id === profileId);
 
@@ -53,6 +47,12 @@ export class ProfileRepository implements IProfileRepository {
 
     public async findByName(name: string): Promise<Profile> {
         const result: Profile = ProfileRepository.profiles.find((profile: Profile) => profile.name === name);
+
+        return result ? result.clone() : null;
+    }
+
+    public async findByUserId(userId: string): Promise<Profile> {
+        const result: Profile = ProfileRepository.profiles.find((profile: Profile) => profile.userId === userId);
 
         return result ? result.clone() : null;
     }

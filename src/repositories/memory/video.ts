@@ -58,7 +58,7 @@ export class VideoRepository implements IVideoRepository {
         return newVideo;
     }
 
-    public async find(videoId: string): Promise<Video> {
+    public async findById(videoId: string): Promise<Video> {
         const result: Video = VideoRepository.videos.find((video: Video) => video.id === videoId);
 
         return result ? result.clone() : null;
