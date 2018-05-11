@@ -238,7 +238,7 @@ export class VideoService {
         return operationResult;
     }
 
-    public async get(anonymous: boolean, emailAddress: string, id: string): Promise<OperationResult<Video>> {
+    public async find(anonymous: boolean, emailAddress: string, id: string): Promise<OperationResult<Video>> {
         const operationResult: OperationResult<Video> = new OperationResult(null);
 
         const video: Video = await this.videoRepository.findById(id);

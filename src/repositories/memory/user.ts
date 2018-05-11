@@ -6,9 +6,7 @@ import { BaseRepository } from './base';
 @injectable()
 export class UserRepository implements IUserRepository {
 
-    protected static users: User[] = [
-        new User('chris@leslingshot.com', 'Chris', 'chris-ramsay-user-id', 'Ramsay'),
-    ];
+    protected static users: User[] = [];
 
     constructor() {
     }

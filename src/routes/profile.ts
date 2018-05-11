@@ -19,7 +19,7 @@ export class ProfileRouter extends BaseRouter {
                 return;
             }
 
-            const resultFind: Profile = await profileService.find(req['user'] ? req['user'].emailAddress : null);
+            const resultFind: Profile = await profileService.findByEmailAddress(req['user'] ? req['user'].emailAddress : null);
 
             res.json(resultFind);
         } catch (err) {

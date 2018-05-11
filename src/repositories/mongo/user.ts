@@ -16,7 +16,9 @@ export class UserRepository implements IUserRepository {
     public async create(user: User): Promise<User> {
         const newUser: User = user.clone();
 
-        newUser.id = await this.baseRepository.nextStringId();
+        if (!user.id) {
+            newUser.id = await this.baseRepository.nextStringId();
+        }
 
         const collection: mongo.Collection = await this.baseRepository.getCollection('users');
 
@@ -37,7 +39,7 @@ export class UserRepository implements IUserRepository {
             emailAddress,
         });
 
-        return result ? new User(result.emailAddress, result.firstName, result.stringId, result.name) : null;
+        return result ? new User(result.emailAddress, result.firstName, result.stringId, result.lastName) : null;
     }
 
     public async findById(userId: string): Promise<User> {
@@ -47,7 +49,7 @@ export class UserRepository implements IUserRepository {
             stringId: userId,
         });
 
-        return result ? new User(result.emailAddress, result.firstName, result.stringId, result.name) : null;
+        return result ? new User(result.emailAddress, result.firstName, result.stringId, result.lastName) : null;
     }
 
     public async update(user: User): Promise<User> {
@@ -62,11 +64,11 @@ export class UserRepository implements IUserRepository {
         await collection.updateOne({
             stringId: existingUser.id,
         }, {
-            emailAddress: existingUser.emailAddress,
-            firstName: existingUser.firstName,
-            lastName: existingUser.lastName,
-            stringId: existingUser.id,
-        });
+                emailAddress: existingUser.emailAddress,
+                firstName: existingUser.firstName,
+                lastName: existingUser.lastName,
+                stringId: existingUser.id,
+            });
 
         return existingUser.clone();
     }

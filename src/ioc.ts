@@ -7,12 +7,12 @@ import { IProfileRepository } from './interfaces/profile-repository';
 import { IStorageGateway } from './interfaces/storage-gateway';
 import { IUserRepository } from './interfaces/user-repository';
 import { IVideoRepository } from './interfaces/video-repository';
-import { UserRepository } from './repositories/memory/user';
 import { VideoRepository } from './repositories/memory/video';
 import { BaseRepository } from './repositories/mongo/base';
 import { PaymentRepository } from './repositories/mongo/payment';
 import { ProfileRepository } from './repositories/mongo/profile';
 import { SubscriptionRepository } from './repositories/mongo/subscription';
+import { UserRepository } from './repositories/mongo/user';
 import { seed } from './seed';
 import { ProfileService } from './services/profile';
 import { SubscriptionService } from './services/subscription';
@@ -26,7 +26,7 @@ decorate(injectable(), MajuroSubscriptionService);
 decorate(injectable(), PayFastPaymentGateway);
 decorate(injectable(), SubscriptionValidator);
 
-container.bind<BaseRepository>('BaseRepository').toConstantValue(new BaseRepository('video-sharing-platform', config.database.host, new DailyRollingFileLogger('./', null, 'video-sharing-platform'), 10, 1200));
+container.bind<BaseRepository>('BaseRepository').toConstantValue(new BaseRepository('video-sharing-platform-2018-05-11', config.database.host, new DailyRollingFileLogger('./', null, 'video-sharing-platform'), 10, 1200));
 
 container.bind<MajuroIPaymentRepository>('MajuroIPaymentRepository').to(PaymentRepository);
 container.bind<IPaymentRepository>('IPaymentRepository').to(PaymentRepository);

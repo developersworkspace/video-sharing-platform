@@ -1,11 +1,21 @@
 import { Profile } from './entities/profile';
+import { User } from './entities/user';
 import { container } from './ioc';
 import { ProfileService } from './services/profile';
+import { UserService } from './services/user';
 import { Address } from './value-objects/address';
 import { ContactDetails } from './value-objects/contact-details';
 import { SocialDetails } from './value-objects/social-details';
 
 export async function seed(): Promise<void> {
+    const userService: UserService = container.get<UserService>('UserService');
+
+    const chrisRamsayUser: User = await userService.findByEmailAddress('chris@leslingshot.com');
+
+    if (!chrisRamsayUser) {
+        await userService.create(null,  new User('chris@leslingshot.com', 'Chris', 'chris-ramsay-user-id', 'Ramsay'));
+    }
+
     const profileService: ProfileService = container.get<ProfileService>('ProfileService');
 
     const chrisRamsayProfile: Profile = await profileService.findByName('chris-ramsay');

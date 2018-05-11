@@ -43,7 +43,7 @@ export class AuthenticationMiddleware {
             const profileService: ProfileService = container.get<ProfileService>('ProfileService');
             const userService: UserService = container.get<UserService>('UserService');
 
-            let user: User = await userService.find(decodedJWT.emailAddress);
+            let user: User = await userService.findByEmailAddress(decodedJWT.emailAddress);
 
             if (!user) {
                 user = new User(decodedJWT.emailAddress, null, null, null);
@@ -53,7 +53,7 @@ export class AuthenticationMiddleware {
                 user = operationResultCreateUser.result;
             }
 
-            let profile: Profile = await profileService.find(decodedJWT.emailAddress);
+            let profile: Profile = await profileService.findByEmailAddress(decodedJWT.emailAddress);
 
             if (!profile) {
                 const profileName: string = new RegExp(/([^@]+)/).exec(decodedJWT.emailAddress)[0];

@@ -36,7 +36,7 @@ export class ProfileService {
         return result;
     }
 
-    public async find(emailAddress: string): Promise<Profile> {
+    public async findByEmailAddress(emailAddress: string): Promise<Profile> {
         const user: User = await this.userRepository.findByEmailAddress(emailAddress);
 
         const profile: Profile = await this.profileRepository.findByUserId(user.id);
