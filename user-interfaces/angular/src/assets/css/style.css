@@ -846,3 +846,9 @@ textarea.form-control {
         padding: 20px 20px;
     }
 }
+
+/* additional */
+
+.page-wrapper {
+    min-height: 500px;
+}

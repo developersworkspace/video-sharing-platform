@@ -10,7 +10,7 @@ export class SubscriptionRouter extends BaseRouter {
         try {
             const subscriptionService: SubscriptionService = container.get<SubscriptionService>('SubscriptionService');
 
-            const result: OperationResult<SubscriptionCreateResult> = await subscriptionService.create(new Subscription(25, null, Frequency.Monthly, null, 'Video Sharing Platform', 'type', req['user'] ? req['user'].emailAddress : null));
+            const result: OperationResult<SubscriptionCreateResult> = await subscriptionService.create(new Subscription(25, null, Frequency.Monthly, null, 'Video Sharing Platform', `video-sharing-platform-${req.query.profileName}`, req['user'] ? req['user'].emailAddress : null));
 
             SubscriptionRouter.sendOperationResult(res, result);
         } catch (err) {
@@ -22,7 +22,7 @@ export class SubscriptionRouter extends BaseRouter {
         try {
             const subscriptionService: SubscriptionService = container.get<SubscriptionService>('SubscriptionService');
 
-            const result: boolean = await subscriptionService.isPaid('type', req['user'] ? req['user'].emailAddress : null);
+            const result: boolean = await subscriptionService.isPaid(`video-sharing-platform-${req.query.profileName}`, req['user'] ? req['user'].emailAddress : null);
 
             res.json(result);
         } catch (err) {

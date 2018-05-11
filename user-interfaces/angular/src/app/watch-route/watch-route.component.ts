@@ -43,7 +43,7 @@ export class WatchRouteComponent extends BaseComponent implements OnInit {
   }
 
   public onClickSubscribe(): void {
-    this.http.get(`${this.apiUri}/subscription`, {
+    this.http.get(`${this.apiUri}/subscription?profileName=${this.profile.name}`, {
       headers: this.getHeaders(),
     }).subscribe((response: any) => {
       window.location.href = response.uri;

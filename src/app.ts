@@ -56,7 +56,7 @@ app.use(AuthenticationMiddleware.authorized);
 app.route('/api/subscription')
     .get(SubscriptionRouter.get);
 
-app.route('/api/subscription/isPaid')
+app.route('/api/subscription/ispaid')
     .get(SubscriptionRouter.isPaid);
 
 app.route('/api/video')

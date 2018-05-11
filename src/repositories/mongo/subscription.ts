@@ -45,10 +45,11 @@ export class SubscriptionRepository implements ISubscriptionRepository {
             });
     }
 
-    public async find(userId: string): Promise<Subscription> {
+    public async findByUserId(type: string, userId: string): Promise<Subscription> {
         const collection: mongo.Collection = await this.baseRepository.getCollection('subscriptions');
 
         const result: any = await collection.findOne({
+            type,
             userId,
         });
 

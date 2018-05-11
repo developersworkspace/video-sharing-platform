@@ -2,6 +2,10 @@ import { User } from '../entities/user';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Profile } from '../entities/profile';
+import { mergeMap, tap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { Observable } from 'rxjs/Observable';
+import { UnaryFunction } from 'rxjs/interfaces';
 
 export abstract class BaseComponent {
 
@@ -15,8 +19,7 @@ export abstract class BaseComponent {
 
   public profile: Profile = null;
 
-  // TODO: Set from Service
-  public subscriptionPaid = true;
+  public subscriptionPaid = null;
 
   public token: string = null;
 
@@ -30,10 +33,15 @@ export abstract class BaseComponent {
 
     this.token = localStorage.getItem('jwt');
 
-    this.loadCurrentProfile();
-    this.loadCurrentUser();
+    const observable: Observable<[User, Profile, User]> = forkJoin(
+      this.loadProfileAndUserAndSubscriptionPaid(),
+      this.loadCurrentProfile(),
+      this.loadCurrentUser(),
+    );
 
-    this.loadProfile();
+    observable.subscribe((val: any[]) => {
+      this.onLoad();
+    });
   }
 
   protected abstract onLoad(): void;
@@ -48,36 +56,36 @@ export abstract class BaseComponent {
     return headers;
   }
 
-  protected loadCurrentProfile(): void {
-    this.http.get(`${this.apiUri}/profile`, {
+  protected loadCurrentProfile(): Observable<Profile> {
+    return this.http.get<Profile>(`${this.apiUri}/profile`, {
       headers: this.getHeaders(),
-    }).subscribe((profile: Profile) => {
+    }).pipe(tap((profile: Profile) => {
       this.currentProfile = profile;
-    });
+    }));
   }
 
-  protected loadCurrentUser(): void {
-    this.http.get(`${this.apiUri}/user`, {
+  protected loadCurrentUser(): Observable<User> {
+    return this.http.get<User>(`${this.apiUri}/user`, {
       headers: this.getHeaders(),
-    }).subscribe((user: User) => {
+    }).pipe(tap((user: User) => {
       this.currentUser = user;
-    });
+    }));
   }
 
-  protected loadProfile(): void {
-    this.http.get(`${this.apiUri}/profile?name=${this.activatedRoute.snapshot.params.profileName}`).subscribe((profile: Profile) => {
-      this.profile = profile;
+  protected loadProfileAndUserAndSubscriptionPaid(): Observable<any> {
+    return this.http.get<Profile>(`${this.apiUri}/profile?name=${this.activatedRoute.snapshot.params.profileName}`)
+      .pipe(mergeMap((profile: Profile) => {
+        this.profile = profile;
 
-      this.loadUser();
-    });
+        return this.http.get<User>(`${this.apiUri}/user?id=${this.profile.userId}`);
+      })).pipe(tap((user: User) => {
+        this.user = user;
+      })).pipe(mergeMap(() => {
+        return this.http.get<boolean>(`${this.apiUri}/subscription/ispaid?profileName=${this.profile.name}`, {
+          headers: this.getHeaders(),
+        });
+      })).pipe(tap((subscriptionPaid: boolean) => {
+        this.subscriptionPaid = subscriptionPaid;
+      }));
   }
-
-  protected loadUser(): void {
-    this.http.get(`${this.apiUri}/user?id=${this.profile.userId}`).subscribe((user: User) => {
-      this.user = user;
-
-      this.onLoad();
-    });
-  }
-
 }

@@ -4,6 +4,7 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
+    "lint": "tslint ./src/**/*.ts --fix --exclude ./src/**/*.d.ts",
     "start": "gulp build & tsc & node ./dist/app.js"
   },
   "repository": {
@@ -24,7 +25,7 @@
     "fs-extra": "^5.0.0",
     "inversify": "^4.13.0",
     "jsonwebtoken": "^8.2.1",
-    "majuro": "^1.1.21",
+    "majuro": "^1.2.2",
     "mongodb": "^3.0.8",
     "reflect-metadata": "^0.1.12",
     "swagger-ui-express": "^3.0.8",

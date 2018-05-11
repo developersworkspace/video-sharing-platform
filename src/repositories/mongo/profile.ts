@@ -116,7 +116,7 @@ export class ProfileRepository implements IProfileRepository {
 
         const collection: mongo.Collection = await this.baseRepository.getCollection('profiles');
 
-        await collection.updateOne({
+        await collection.replaceOne({
             stringId: existingProfile.id,
         }, {
             address: {

@@ -61,7 +61,7 @@ export class UserRepository implements IUserRepository {
 
         const collection: mongo.Collection = await this.baseRepository.getCollection('users');
 
-        await collection.updateOne({
+        await collection.replaceOne({
             stringId: existingUser.id,
         }, {
                 emailAddress: existingUser.emailAddress,

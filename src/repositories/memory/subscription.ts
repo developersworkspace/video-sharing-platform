@@ -24,7 +24,7 @@ export class SubscriptionRepository implements ISubscriptionRepository {
         // TODO:
     }
 
-    public async find(userId: string): Promise<Subscription> {
+    public async findByUserId(type: string, userId: string): Promise<Subscription> {
         return SubscriptionRepository.subscriptions.find((subscription: Subscription) => subscription.userId === userId);
     }
 }

@@ -33,7 +33,7 @@ export class BaseRepository {
                 },
             });
 
-        if (!result) {
+        if (!result.value) {
             await collection.insertOne({
                 key: 'next-numeric-id',
                 value: 2,
@@ -42,7 +42,7 @@ export class BaseRepository {
             return 1;
         }
 
-        return result.value;
+        return result.value.value;
     }
 
     public async nextStringId(): Promise<string> {
