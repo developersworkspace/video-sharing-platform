@@ -44,8 +44,8 @@ export class ProfileService {
         return profile;
     }
 
-    public async findByName(emailAddress: string): Promise<Profile> {
-        return this.profileRepository.findByName(emailAddress);
+    public async findByName(name: string): Promise<Profile> {
+        return this.profileRepository.findByName(name);
     }
 
     public async update(emailAddress: string, profile: Profile): Promise<OperationResult<Profile>> {
