@@ -16,7 +16,7 @@ export abstract class BaseComponent {
   public profile: Profile = null;
 
   // TODO: Set from Service
-  public subscriptionPaid = false;
+  public subscriptionPaid = true;
 
   public token: string = null;
 

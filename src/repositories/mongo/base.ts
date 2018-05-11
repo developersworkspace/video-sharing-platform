@@ -10,8 +10,10 @@ export class BaseRepository {
         protected database: string,
         protected host: string,
         protected logger: ILogger,
+        protected poolSize: number,
+        protected retryTimeout: number,
     ) {
-        this.objectPool = new ObjectPool<mongo.MongoClient>(async () => this.newClient(), 10);
+        this.objectPool = new ObjectPool<mongo.MongoClient>(async () => this.newClient(), poolSize);
     }
 
     public async getCollection(name: string): Promise<mongo.Collection> {
@@ -60,13 +62,28 @@ export class BaseRepository {
     }
 
     protected async newClient(): Promise<mongo.MongoClient> {
-        const client: mongo.MongoClient = new mongo.MongoClient(this.host);
+        try {
+            const client: mongo.MongoClient = new mongo.MongoClient(this.host);
 
-        this.logger.debug(`[${__filename}]: connecting to '${this.host}'`);
-        await client.connect();
-        this.logger.debug(`[${__filename}]: connected to '${this.host}'`);
+            this.logger.debug(`[${__filename}]: connecting to '${this.host}'`);
+            await client.connect();
+            this.logger.debug(`[${__filename}]: connected to '${this.host}'`);
 
-        return client;
+            return client;
+
+        } catch (error) {
+            this.logger.error(error);
+
+            await this.delay(this.retryTimeout);
+
+            return this.newClient();
+        }
+    }
+
+    private delay(milliseconds: number): Promise<void> {
+        return new Promise((resolve: () => void, reject: (error: Error) => void) => {
+            setTimeout(resolve, milliseconds);
+        });
     }
 
 }

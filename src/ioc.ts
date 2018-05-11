@@ -1,5 +1,5 @@
 import { Container, decorate, injectable, interfaces } from 'inversify';
-import { ConsoleLogger, ILogger, IPaymentGateway, IPaymentRepository as MajuroIPaymentRepository, ISubscriptionRepository, IValidator, PayFastPaymentGateway, Subscription, SubscriptionService as MajuroSubscriptionService, SubscriptionValidator } from 'majuro';
+import { DailyRollingFileLogger, ILogger, IPaymentGateway, IPaymentRepository as MajuroIPaymentRepository, ISubscriptionRepository, IValidator, PayFastPaymentGateway, Subscription, SubscriptionService as MajuroSubscriptionService, SubscriptionValidator } from 'majuro';
 import 'reflect-metadata';
 import { config } from './config';
 import { IPaymentRepository } from './interfaces/payment-repository';
@@ -26,7 +26,7 @@ decorate(injectable(), MajuroSubscriptionService);
 decorate(injectable(), PayFastPaymentGateway);
 decorate(injectable(), SubscriptionValidator);
 
-container.bind<BaseRepository>('BaseRepository').toConstantValue(new BaseRepository('video-sharing-platform', 'mongodb://127.0.0.1:27017', new ConsoleLogger()));
+container.bind<BaseRepository>('BaseRepository').toConstantValue(new BaseRepository('video-sharing-platform', config.database.host, new DailyRollingFileLogger('./', null, 'video-sharing-platform'), 10, 1200));
 
 container.bind<MajuroIPaymentRepository>('MajuroIPaymentRepository').to(PaymentRepository);
 container.bind<IPaymentRepository>('IPaymentRepository').to(PaymentRepository);
@@ -53,7 +53,7 @@ container.bind<IStorageGateway>('IStorageGateway').toConstantValue(new FileSyste
 
 container.bind<IValidator<Subscription>>('IValidator<Subscription>').toConstantValue(new SubscriptionValidator());
 
-container.bind<ILogger>('ILogger').toConstantValue(new ConsoleLogger());
+container.bind<ILogger>('ILogger').toConstantValue(new DailyRollingFileLogger('./', null, 'video-sharing-platform'));
 
 // Seed Database
 seed();

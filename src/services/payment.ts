@@ -9,8 +9,8 @@ export class PaymentService {
 
     }
 
-    public async notify(id: number, subscriptionId: number, token: string): Promise<void> {
-        this.paymentRepository.create(new Payment(id, subscriptionId, new Date(), token));
+    public async notify(subscriptionId: number, token: string): Promise<void> {
+        this.paymentRepository.create(new Payment(null, subscriptionId, new Date(), token));
     }
 
 }

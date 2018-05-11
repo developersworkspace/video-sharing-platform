@@ -2,11 +2,12 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as fs from 'fs';
+import { ILogger } from 'majuro';
 import * as path from 'path';
 import * as swagger from 'swagger-ui-express';
-import * as winston from 'winston';
 import * as yamljs from 'yamljs';
 import * as yargs from 'yargs';
+import { container } from './ioc';
 import { AuthenticationMiddleware } from './middleware/authentication';
 import { RequestTimeMiddleware } from './middleware/request-time';
 import { AuthRouter } from './routes/auth';
@@ -14,8 +15,6 @@ import { ProfileRouter } from './routes/profile';
 import { SubscriptionRouter } from './routes/subscription';
 import { UserRouter } from './routes/user';
 import { VideoRouter } from './routes/video';
-
-winston.add(winston.transports.File, { filename: 'video-sharing-platform.log' });
 
 const argv = yargs.argv;
 const app = express();
@@ -82,7 +81,9 @@ app.route('/api/video/thumbnail/start')
     .post(VideoRouter.startUploadForThumbnail);
 
 app.listen(argv.port || process.env.PORT || 3000, () => {
-    winston.info(`listening on port ${argv.port || process.env.PORT || 3000}`);
+    const logger: ILogger = container.get<ILogger>('ILogger');
+
+    logger.info(`listening on port ${argv.port || process.env.PORT || 3000}`);
 });
 
 // https://developersworkspace.auth0.com/authorize?response_type=token&client_id=CZ5i4EtEMua0Myv08pZlen35d4aiE7n0&redirect_uri=http://localhost:4200/callback
