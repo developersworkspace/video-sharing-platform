@@ -14,6 +14,7 @@ export async function seed(): Promise<void> {
     const users: User[] = [
         new User('chris@leslingshot.com', 'Chris', 'chris-ramsay-user-id', 'Ramsay'),
         new User('alecsteeletools@gmail.com', 'Alec', 'alec-steele-user-id', 'Steele'),
+        new User('bramtyjuliette@gmail.com', 'Bramty', 'bramty-juliette-user-id', 'Juliette'),
     ];
 
     const userRepository: IUserRepository = container.get<IUserRepository>('IUserRepository');
@@ -55,6 +56,20 @@ export async function seed(): Promise<void> {
                 'https://twitter.com/alecsteelesteel',
             ),
             'alec-steele-user-id',
+        ),
+        new Profile(
+            new Address('', 'United States'),
+            new ContactDetails('bramtyjuliette@gmail.com', '(000) 000-0000'),
+            `Our vlogs will show you the real life of a young married couple who happen to be teen parents. From laughter to fights. Accomplishments to struggles. Follow our journey!`,
+            'the-bramfam-profile-id',
+            `Our vlogs will show you the real life of a young married couple who happen to be teen parents. From laughter to fights. Accomplishments to struggles. Follow our journey!`,
+            'the-bramfam',
+            new SocialDetails(
+                '',
+                'https://www.instagram.com/bramty',
+                'https://twitter.com/bramtyjuliettel',
+            ),
+            'bramty-juliette-user-id',
         ),
     ];
 
@@ -100,7 +115,6 @@ export async function seed(): Promise<void> {
             // tslint:disable-next-line:max-line-length
             `YO! Today I decided to go out and perform some magic in the streets...`,
             'chris-ramsay',
-            // tslint:disable-next-line:max-line-length
             `YO! Today I decided to go out and perform some magic in the streets...`,
             74338401,
             'thumbnail-3.file',
@@ -112,7 +126,6 @@ export async function seed(): Promise<void> {
             // tslint:disable-next-line:max-line-length
             `My name is Alec Steele and I am a 20 year old blacksmith from Norfolk in the United Kingdom. I upload a vlog from my day at the workshop almost every single day. Lots of sparks, lots of making, lots of fantastic-ness. Great to have you here following along!`,
             'alec-steele',
-            // tslint:disable-next-line:max-line-length
             `My name is Alec Steele and I am a 20 year old blacksmith from Norfolk in the United Kingdom. I upload a vlog from my...`,
             74338401,
             'thumbnail-4.file',
@@ -124,7 +137,6 @@ export async function seed(): Promise<void> {
             // tslint:disable-next-line:max-line-length
             `My name is Alec Steele and I am a 20 year old blacksmith from Norfolk in the United Kingdom. I upload a vlog from my day at the workshop almost every single day. Lots of sparks, lots of making, lots of fantastic-ness. Great to have you here following along!`,
             'alec-steele',
-            // tslint:disable-next-line:max-line-length
             `My name is Alec Steele and I am a 20 year old blacksmith from Norfolk in the United Kingdom. I upload a vlog from my...`,
             74338401,
             'thumbnail-5.file',
@@ -136,11 +148,44 @@ export async function seed(): Promise<void> {
             // tslint:disable-next-line:max-line-length
             `My name is Alec Steele and I am a 20 year old blacksmith from Norfolk in the United Kingdom. I upload a vlog from my day at the workshop almost every single day. Lots of sparks, lots of making, lots of fantastic-ness. Great to have you here following along!`,
             'alec-steele',
-            // tslint:disable-next-line:max-line-length
             `My name is Alec Steele and I am a 20 year old blacksmith from Norfolk in the United Kingdom. I upload a vlog from my...`,
             74338401,
             'thumbnail-6.file',
             'MAKING RAINDROP PATTERN DAMASCUS!!!'),
+
+        new Video(
+            'video-7.file',
+            new Date(),
+            'the-bramfam-video-id-7',
+            // tslint:disable-next-line:max-line-length
+            `Welcome to our channel! Our vlogs will show you the real life of a young married couple who happen to be young parents. From laughter to fights. Accomplishments to struggles. Follow our journey!`,
+            'the-bramfam',
+            `Welcome to our channel! Our vlogs will show you the real life of a young married couple who...`,
+            74338401,
+            'thumbnail-7.file',
+            'LYRIC PRANK ON HUSBAND DURING AN ARGUMENT!'),
+        new Video(
+            'video-8.file',
+            new Date(),
+            'the-bramfam-video-id-8',
+            // tslint:disable-next-line:max-line-length
+            `Welcome to our channel! Our vlogs will show you the real life of a young married couple who happen to be young parents. From laughter to fights. Accomplishments to struggles. Follow our journey!`,
+            'the-bramfam',
+            `Welcome to our channel! Our vlogs will show you the real life of a young married couple who...`,
+            74338401,
+            'thumbnail-8.file',
+            'YOU WON\'T BELIEVE WHO INTERVIEWED US!!! (so nervous)'),
+        new Video(
+            'video-9.file',
+            new Date(),
+            'the-bramfam-video-id-9',
+            // tslint:disable-next-line:max-line-length
+            `Welcome to our channel! Our vlogs will show you the real life of a young married couple who happen to be young parents. From laughter to fights. Accomplishments to struggles. Follow our journey!`,
+            'the-bramfam',
+            `Welcome to our channel! Our vlogs will show you the real life of a young married couple who...`,
+            74338401,
+            'thumbnail-9.file',
+            'We made a HUGE life decision!!! (explained)'),
     ];
 
     const videoRepository: IVideoRepository = container.get<IVideoRepository>('IVideoRepository');
