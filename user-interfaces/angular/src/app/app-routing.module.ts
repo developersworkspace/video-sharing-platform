@@ -8,11 +8,16 @@ import { ProfileRouteComponent } from './profile-route/profile-route.component';
 import { MyVideosRouteComponent } from './my-videos-route/my-videos-route.component';
 import { MyVideosEditRouteComponent } from './my-videos-edit-route/my-videos-edit-route.component';
 import { MyVideosNewRouteComponent } from './my-videos-new-route/my-videos-new-route.component';
+import { ExploreRouteComponent } from './explore-route/explore-route.component';
 
 const appRoutes: Routes = [
   {
     component: CallbackRouteComponent,
     path: 'callback',
+  },
+  {
+    component: ExploreRouteComponent,
+    path: '',
   },
   {
     // canActivate: [

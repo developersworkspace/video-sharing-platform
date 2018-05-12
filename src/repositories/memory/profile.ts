@@ -1,9 +1,6 @@
 import { injectable } from 'inversify';
 import { Profile } from '../../entities/profile';
 import { IProfileRepository } from '../../interfaces/profile-repository';
-import { Address } from '../../value-objects/address';
-import { ContactDetails } from '../../value-objects/contact-details';
-import { SocialDetails } from '../../value-objects/social-details';
 import { BaseRepository } from './base';
 
 @injectable()
@@ -17,7 +14,9 @@ export class ProfileRepository implements IProfileRepository {
     public async create(profile: Profile): Promise<Profile> {
         const newProfile: Profile = profile.clone();
 
-        newProfile.id = BaseRepository.nextStringId();
+        if (!newProfile.id) {
+            newProfile.id = BaseRepository.nextStringId();
+        }
 
         ProfileRepository.profiles.push(newProfile);
 

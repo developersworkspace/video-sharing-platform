@@ -14,7 +14,9 @@ export class UserRepository implements IUserRepository {
     public async create(user: User): Promise<User> {
         const newUser: User = user.clone();
 
-        newUser.id = BaseRepository.nextStringId();
+        if (!newUser.id) {
+            newUser.id = BaseRepository.nextStringId();
+        }
 
         UserRepository.users.push(newUser);
 

@@ -70,7 +70,7 @@ export class UserRepository implements IUserRepository {
                 stringId: existingUser.id,
             });
 
-        return existingUser.clone();
+        return existingUser;
     }
 
 }

@@ -13,7 +13,9 @@ export class SubscriptionRepository implements ISubscriptionRepository {
     public async create(subscription: Subscription): Promise<Subscription> {
         const newSubscription: Subscription = subscription.clone();
 
-        newSubscription.id = BaseRepository.nextNumericId();
+        if (!newSubscription.id) {
+            newSubscription.id = BaseRepository.nextNumericId();
+        }
 
         SubscriptionRepository.subscriptions.push(newSubscription);
 

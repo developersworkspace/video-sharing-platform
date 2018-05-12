@@ -5,7 +5,6 @@ import { Profile } from '../entities/profile';
 import { mergeMap, tap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { Observable } from 'rxjs/Observable';
-import { UnaryFunction } from 'rxjs/interfaces';
 
 export abstract class BaseComponent {
 
@@ -85,7 +84,9 @@ export abstract class BaseComponent {
           headers: this.getHeaders(),
         });
       })).pipe(tap((subscriptionPaid: boolean) => {
-        this.subscriptionPaid = subscriptionPaid;
+        // TODO:
+        // this.subscriptionPaid = subscriptionPaid;
+        this.subscriptionPaid = true;
       }));
   }
 }

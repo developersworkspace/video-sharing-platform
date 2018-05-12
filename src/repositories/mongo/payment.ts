@@ -17,7 +17,9 @@ export class PaymentRepository implements IPaymentRepository {
     public async create(payment: Payment): Promise<Payment> {
         const newPayment: Payment = payment.clone();
 
-        newPayment.id = await this.baseRepository.nextNumericId();
+        if (!newPayment.id) {
+            newPayment.id = await this.baseRepository.nextNumericId();
+        }
 
         const collection: mongo.Collection  = await this.baseRepository.getCollection('payments');
 

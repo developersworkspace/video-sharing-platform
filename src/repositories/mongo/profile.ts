@@ -19,7 +19,9 @@ export class ProfileRepository implements IProfileRepository {
     public async create(profile: Profile): Promise<Profile> {
         const newProfile: Profile = profile.clone();
 
-        newProfile.id = await this.baseRepository.nextStringId();
+        if (!newProfile.id) {
+            newProfile.id = await this.baseRepository.nextStringId();
+        }
 
         const collection: mongo.Collection = await this.baseRepository.getCollection('profiles');
 
@@ -139,6 +141,6 @@ export class ProfileRepository implements IProfileRepository {
             userId: existingProfile.userId,
         });
 
-        return existingProfile.clone();
+        return existingProfile;
     }
 }

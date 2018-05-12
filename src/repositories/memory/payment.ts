@@ -14,7 +14,9 @@ export class PaymentRepository implements IPaymentRepository {
     public async create(payment: Payment): Promise<Payment> {
         const newPayment: Payment = payment.clone();
 
-        newPayment.id = BaseRepository.nextNumericId();
+        if (!newPayment.id) {
+            newPayment.id = BaseRepository.nextNumericId();
+        }
 
         PaymentRepository.payments.push(newPayment);
 

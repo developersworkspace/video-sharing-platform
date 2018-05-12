@@ -15,7 +15,9 @@ export class SubscriptionRepository implements ISubscriptionRepository {
     public async create(subscription: Subscription): Promise<Subscription> {
         const newSubscription: Subscription = subscription.clone();
 
-        newSubscription.id = await this.baseRepository.nextNumericId();
+        if (!newSubscription.id) {
+            newSubscription.id = await this.baseRepository.nextNumericId();
+        }
 
         const collection: mongo.Collection = await this.baseRepository.getCollection('subscriptions');
 
@@ -49,6 +51,7 @@ export class SubscriptionRepository implements ISubscriptionRepository {
         const collection: mongo.Collection = await this.baseRepository.getCollection('subscriptions');
 
         const result: any = await collection.findOne({
+            deleted: false,
             type,
             userId,
         });
