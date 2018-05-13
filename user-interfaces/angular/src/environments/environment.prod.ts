@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  uri: 'https://api.video-sharing-platform.openservices.co.za/api',
 };

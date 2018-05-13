@@ -5,10 +5,11 @@ import { Profile } from '../entities/profile';
 import { mergeMap, tap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { Observable } from 'rxjs/Observable';
+import { environment } from '../../environments/environment';
 
 export abstract class BaseComponent {
 
-  public apiUri = 'http://localhost:3000/api';
+  public apiUri = environment.uri;
 
   public authenticated = false;
 

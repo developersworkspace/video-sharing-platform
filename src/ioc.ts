@@ -1,5 +1,5 @@
 import { Container, decorate, injectable, interfaces } from 'inversify';
-import { DailyRollingFileLogger, ILogger, IPaymentGateway, IPaymentRepository as MajuroIPaymentRepository, ISubscriptionRepository, IValidator, PayFastPaymentGateway, Subscription, SubscriptionService as MajuroSubscriptionService, SubscriptionValidator } from 'majuro';
+import { AES256CTRCryptographyAlgorithm, DailyRollingFileLogger, ICryptographyAlgorithm, ILogger, IPaymentGateway, IPaymentRepository as MajuroIPaymentRepository, ISubscriptionRepository, IValidator, PayFastPaymentGateway, Subscription, SubscriptionService as MajuroSubscriptionService, SubscriptionValidator } from 'majuro';
 import 'reflect-metadata';
 import { config } from './config';
 import { IPaymentRepository } from './interfaces/payment-repository';
@@ -40,12 +40,14 @@ container.bind<SubscriptionService>('SubscriptionService').to(SubscriptionServic
 container.bind<UserService>('UserService').to(UserService);
 container.bind<VideoService>('VideoService').to(VideoService);
 
+const cryptographyAlgorithm: ICryptographyAlgorithm = new AES256CTRCryptographyAlgorithm('enter-password-here');
+
 container.bind<IPaymentGateway>('IPaymentGateway').toConstantValue(new PayFastPaymentGateway(
     'https://example.com/cancel',
-    '11223714',
-    'ak5h6ln1aiwgi',
+    config.payfast.merchantId,
+    cryptographyAlgorithm.decrypt(config.payfast.merchantSecret),
     'https://api.suite.worldofrations.com/api/subscription/notify',
-    'mMUQYkYSV7Jf3Nxr',
+    cryptographyAlgorithm.decrypt(config.payfast.passphrase),
     'https://example.com/return',
     false,
 ));

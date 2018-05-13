@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-callback-route',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class CallbackRouteComponent implements OnInit {
 
-  public apiUri = 'http://localhost:3000/api';
+  public apiUri = environment.uri;
 
   constructor(
     protected http: HttpClient,
