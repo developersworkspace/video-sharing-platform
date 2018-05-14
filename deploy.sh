@@ -1,4 +1,10 @@
-# curl -s https://raw.githubusercontent.com/developersworkspace/video-sharing-platform/master/deploy.sh | bash -s
+# sudo curl -s https://raw.githubusercontent.com/developersworkspace/video-sharing-platform/master/deploy.sh | bash -s
+
+# Copy NGINX Configuration
+cp /opt/repositories/video-sharing-platform/nginx /etc/nginx/sites-enabled
+
+# Restart NGINX
+systemctl start nginx
 
 # Remove Directory
 rm -rf /opt/video-sharing-platform

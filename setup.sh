@@ -1,4 +1,4 @@
-# curl -s https://raw.githubusercontent.com/developersworkspace/video-sharing-platform/master/setup.sh | bash -s
+# sudo curl -s https://raw.githubusercontent.com/developersworkspace/video-sharing-platform/master/setup.sh | bash -s
 
 # Install NGINX
 apt update

@@ -1,4 +1,4 @@
-# curl -s https://raw.githubusercontent.com/developersworkspace/video-sharing-platform/master/deploy.sh | bash -s
+# sudo curl -s https://raw.githubusercontent.com/developersworkspace/video-sharing-platform/master/user-interfaces/angular/deploy.sh | bash -s
 
 # Remove Directory
 rm -rf /opt/video-sharing-platform-ui
