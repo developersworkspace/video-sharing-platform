@@ -3,7 +3,7 @@ import { BaseComponent } from '../base/base.component';
 import { Video } from '../entities/video';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
 @Component({

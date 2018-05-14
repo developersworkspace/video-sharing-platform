@@ -3,9 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Profile } from '../entities/profile';
 import { mergeMap, tap } from 'rxjs/operators';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import { Observable, forkJoin, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export abstract class BaseComponent {
@@ -97,7 +95,7 @@ export abstract class BaseComponent {
             headers: this.getHeaders(),
           });
         } else {
-          return Observable.of(null);
+          return of(null);
         }
       })).pipe(tap((subscriptionPaid: boolean) => {
         // TODO:
