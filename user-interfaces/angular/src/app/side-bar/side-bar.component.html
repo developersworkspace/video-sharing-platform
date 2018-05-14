@@ -26,14 +26,17 @@
         <li>
           <a [routerLink]="['/', profile.name]" href="#">Home</a>
         </li>
-        <li>
+        <li *ngIf="authenticated">
           <a [routerLink]="['/', profile.name, 'profile']" href="#">My Profile</a>
         </li>
         <!-- <li>
           <a [routerLink]="['/']">Explore</a>
         </li> -->
-        <li>
+        <li *ngIf="authenticated">
           <a [routerLink]="['/', profile.name, 'my-videos']">My Videos</a>
+        </li>
+        <li *ngIf="authenticated">
+          <a (click)="logout()" style="cursor: pointer;">Logout</a>
         </li>
       </ul>
       <app-footer></app-footer>

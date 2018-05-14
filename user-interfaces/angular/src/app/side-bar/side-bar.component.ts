@@ -20,6 +20,11 @@ export class SideBarComponent extends BaseComponent implements OnInit {
   public ngOnInit(): void {
   }
 
+  public logout(): void {
+    localStorage.removeItem('jwt');
+    location.reload();
+  }
+
   protected onLoad(): void {
 
   }

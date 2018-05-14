@@ -5,6 +5,7 @@ import { Profile } from '../entities/profile';
 import { mergeMap, tap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import { environment } from '../../environments/environment';
 
 export abstract class BaseComponent {
@@ -33,21 +34,31 @@ export abstract class BaseComponent {
 
     this.token = localStorage.getItem('jwt');
 
-    const observable: Observable<[User, Profile, User]> = forkJoin(
-      this.loadProfileAndUserAndSubscriptionPaid(),
-      this.loadCurrentProfile(),
-      this.loadCurrentUser(),
-    );
+    if (this.authenticated) {
+      const observable: Observable<[User, Profile, User]> = forkJoin(
+        this.loadProfileAndUserAndSubscriptionPaid(),
+        this.loadCurrentProfile(),
+        this.loadCurrentUser(),
+      );
 
-    observable.subscribe((val: any[]) => {
-      this.onLoad();
-    });
+      observable.subscribe((val: any[]) => {
+        this.onLoad();
+      });
+    } else {
+      this.loadProfileAndUserAndSubscriptionPaid().subscribe((user: User) => {
+        this.onLoad();
+      });
+    }
   }
 
   protected abstract onLoad(): void;
 
   protected getHeaders(): HttpHeaders {
     const token: string = localStorage.getItem('jwt');
+
+    if (!token) {
+      return new HttpHeaders();
+    }
 
     const headers: HttpHeaders = new HttpHeaders({
       authorization: `bearer ${token}`,
@@ -81,9 +92,13 @@ export abstract class BaseComponent {
       })).pipe(tap((user: User) => {
         this.user = user;
       })).pipe(mergeMap(() => {
-        return this.http.get<boolean>(`${this.apiUri}/subscription/ispaid?profileName=${this.profile.name}`, {
-          headers: this.getHeaders(),
-        });
+        if (this.authenticated) {
+          return this.http.get<boolean>(`${this.apiUri}/subscription/ispaid?profileName=${this.profile.name}`, {
+            headers: this.getHeaders(),
+          });
+        } else {
+          return Observable.of(null);
+        }
       })).pipe(tap((subscriptionPaid: boolean) => {
         // TODO:
         // this.subscriptionPaid = subscriptionPaid;
