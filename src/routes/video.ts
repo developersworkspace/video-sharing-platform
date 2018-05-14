@@ -99,7 +99,7 @@ export class VideoRouter extends BaseRouter {
 
             res.set('Content-Type', 'image/jpg');
 
-            if (!fs.existsSync(path.join(config.paths.base, video.thumbnailLocation))) {
+            if (!video.thumbnailLocation || !fs.existsSync(path.join(config.paths.base, video.thumbnailLocation))) {
                 res.set('Content-Type', 'image/jpg');
 
                 res.end(new Buffer(notFoundImageBase64, 'base64'));
