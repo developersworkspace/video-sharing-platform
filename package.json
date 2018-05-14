@@ -4,8 +4,9 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
+    "build": "gulp build & tsc",
     "lint": "tslint ./src/**/*.ts --fix --exclude ./src/**/*.d.ts",
-    "start": "gulp build & tsc & node ./dist/app.js"
+    "start": "npm run build & node ./dist/app.js"
   },
   "repository": {
     "type": "git",
