@@ -1,16 +1,16 @@
 # sudo curl -s https://raw.githubusercontent.com/developersworkspace/video-sharing-platform/master/deploy.sh | bash -s
 
-# Copy NGINX Configuration
-cp /opt/repositories/video-sharing-platform/nginx /etc/nginx/sites-enabled
-
-# Restart NGINX
-systemctl start nginx
-
 # Remove Directory
 rm -rf /opt/video-sharing-platform
 
 # Clone Repository
 git clone https://github.com/developersworkspace/video-sharing-platform.git /opt/repositories/video-sharing-platform
+
+# Copy NGINX Configuration
+cp -r /opt/repositories/video-sharing-platform/nginx/. /etc/nginx/sites-enabled
+
+# Restart NGINX
+systemctl restart nginx
 
 # Install NPM Packages
 npm install -g gulp
