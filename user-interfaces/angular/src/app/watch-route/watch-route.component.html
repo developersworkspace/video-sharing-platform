@@ -22,7 +22,7 @@
               <div class="post-preview">
                 <div *ngIf="video && subscriptionPaid" class="embed-responsive embed-responsive-16by9">
                   <!-- <video style="height: auto; width: 100%" src="{{ apiUri }}/video/stream?id={{ video.id }}&token={{ token }}" controls></video> -->
-                  <video style="height: auto; width: 100%" src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" controls></video>
+                  <video style="height: auto; width: 100%" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" controls></video>
                 </div>
                 <div *ngIf="video && !subscriptionPaid" class="post-preview">
                   <a (click)="onClickSubscribe()">

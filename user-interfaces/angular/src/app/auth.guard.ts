@@ -9,8 +9,6 @@ export class AuthGuard implements CanActivate {
 
   protected host = 'https://developersworkspace.auth0.com';
 
-  protected redirectUri = 'http://localhost:4200/callback';
-
   constructor(
     protected activatedRoute: ActivatedRoute,
   ) {
@@ -27,9 +25,13 @@ export class AuthGuard implements CanActivate {
     }
 
     // tslint:disable-next-line:max-line-length
-    window.location.href = `${this.host}/authorize?response_type=token&client_id=${this.clientId}&redirect_uri=${this.redirectUri}&state=${state.url}`;
+    window.location.href = `${this.host}/authorize?response_type=token&client_id=${this.clientId}&redirect_uri=${this.getRedirectUrl()}&state=${state.url}`;
 
     return false;
+  }
+
+  protected getRedirectUrl(): string {
+    return `${location.protocol}//${location.host}/callback`;
   }
 
 }

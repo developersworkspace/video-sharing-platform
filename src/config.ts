@@ -1,6 +1,6 @@
 export const config = {
     database: {
-        host: 'mongodb://127.0.0.1:27017',
+        host: 'mongodb://127.0.0.1:27017/aaa',
         poolSize: 10,
     },
     oauth2: {
